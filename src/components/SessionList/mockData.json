@@ -1,0 +1,28 @@
+{
+    "sessionList" : [
+        {
+          "date":"12/12/18 16:00",
+          "sessionName":"TRX",
+          "instructor":"Yuval",
+          "location":"Tel Aviv",
+          "players":[{
+            "fName":"Tom",
+            "lName":"Mordehay"
+          },
+          {
+            "fName":"David",
+            "lName":"Cohen"
+          }]
+        },
+        {
+          "date":"12/12/18 18:00",
+          "sessionName":"TRX",
+          "instructor":"Moshe",
+          "location":"Tel Aviv",
+          "players":[{
+            "fName":"Ilya",
+            "lName":"Radu"
+          }]
+        }
+      ]
+}
