@@ -18,6 +18,7 @@ class SessionList extends Component {
       <div >
           <h1>SessionList</h1>
         {sessions}
+        <button>+</button>
       </div>
     );
   }

@@ -11,13 +11,15 @@ const sideDrawer = (props) => {
     if (props.open) {
         attachedClasses = [classes.SideDrawer, classes.open];
     }
+    console.log('sideDrawer',props);
+    
     return (
         <>
             <Backdrop show={props.open} clicked={props.closed}/>
             <div className={attachedClasses.join(" ")}>
                 <Logo height="11%" />
                 <nav>
-                    <NavigationItems />
+                    <NavigationItems closed={props.closed}/>
                 </nav>
             </div>
         </>
