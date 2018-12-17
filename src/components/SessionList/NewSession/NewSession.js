@@ -51,7 +51,10 @@ class NewSession extends React.Component {
           <ModalBody>
           
               <input type='text' onChange={(event)=>{this.setState({title:event.target.value})}} placeholder='Class Title' />
-           
+              <input type='text' onChange={(event)=>{this.setState({instructor:event.target.value})}} placeholder='Instructor' />
+              <input type='text' onChange={(event)=>{this.setState({location:event.target.value})}} placeholder='Location' />           
+              <input type='text' onChange={(event)=>{this.setState({fName:event.target.value})}} placeholder='First Name' />           
+              <input type='text' onChange={(event)=>{this.setState({lName:event.target.value})}} placeholder='Family Name' />           
 
           </ModalBody>
           <ModalFooter>

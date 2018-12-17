@@ -1,0 +1,85 @@
+.SessionView { 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: auto;
+    height: 80px;
+    background-color: #0090c0;
+    margin: 2px;
+}
+
+.Time {
+    flex-grow: 1;
+    width: 55px;
+    height: 55px;
+    font-family: YuGothicUI;
+    font-size: 23px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.04;
+    letter-spacing: normal;
+    text-align: left;
+    color: #060606;
+    padding-left: 10px;
+}
+
+.Content {
+    flex-grow: 2;
+}
+
+.Info {
+    padding-top: 10px;
+}
+
+.SessionName {
+    width: 36px;
+    height: 27px;
+    font-family: YuGothicUI;
+    font-size: 20px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.35;
+    letter-spacing: normal;
+    text-align: left;
+    color: #060606;
+    margin-bottom: 0;
+  }
+
+.Instructor {
+    width: 101px;
+    height: 21px;
+    opacity: 0.58;
+    font-family: YuGothicUI;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.5;
+    letter-spacing: normal;
+    text-align: left;
+    color: #060606;
+    margin-bottom: 0;
+}
+
+.Players {
+    padding-top: 10px;
+}
+
+.Players p {
+    margin-bottom: 0;
+}
+
+.Button {
+    flex-grow: 1;
+}
+.Button button {
+    width: 81px;
+    color: white;
+    height: 32px;
+    border: 0;
+    border-radius: 6px;
+    background-color: #393336;
+    margin-right: 40px;
+}

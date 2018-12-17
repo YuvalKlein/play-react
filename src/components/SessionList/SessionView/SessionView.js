@@ -1,19 +1,23 @@
 import React from 'react';
 
-// import './Session.css';
+import classes from './SessionView.css';
 
 const sessionView = (props) => 
-      < >
-        <div >{props.session.date}</div>
-        <div >
-          <p>Session name: {props.session.sessionName}</p>
-          <p>Instructor: {props.session.instructor}</p>
-          <p>Location: {props.session.location}</p>
-          <div>Players: {props.session.players.map((player,i) => <p key={i}>{player.fName + " " + player.lName}</p>)}</div>
+      <div  className={classes.SessionView}>
+        <div className={classes.Time} >{props.session.date}</div>
+        <div className={classes.Content}>
+          <div className={classes.Info} >
+            <p className={classes.SessionName}>{props.session.sessionName}</p>
+            <p className={classes.Instructor}>{props.session.instructor}</p>
+            <p>{props.session.location}</p>
+          </div>
+          <div >
+            <p className={classes.Players}>Players: {props.session.players.map((player,i) => <p key={i}>{player.fName + " " + player.lName}</p>)}</p>
+          </div>
         </div>
-        <div>
-          <button>BOOK</button>
+        <div className={classes.Button}>
+          <button >BOOK</button>
         </div>
-      </>
+      </div>
 
 export default sessionView;
