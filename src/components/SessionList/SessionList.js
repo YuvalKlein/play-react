@@ -9,10 +9,16 @@ import NewSession from './NewSession/NewSession';
 let mockData = require('./mockData')
 
 class SessionList extends Component {
- 
+  state={
+    count:0
+  };
   componentWillMount(){
     this.props.createSessionList(mockData.sessionList);
   }
+  handleAdd=(session)=>{
+    this.setState({count: this.state.count++});
+    this.props.addNewSession(session)
+  };
   render() {
     let sessionList = this.props.sessionList
     console.log(sessionList)
@@ -28,7 +34,7 @@ class SessionList extends Component {
         <div >
             <h1>SessionList</h1>
           {sessions}
-          <NewSession handleNewSession={this.props.addNewSession} user={this.props.user}/>
+          <NewSession handleNewSession={this.handleAdd } user={this.props.user}/>
         </div>
       );
     }else{
