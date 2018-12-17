@@ -1,28 +1,38 @@
 {
     "sessionList" : [
         {
-          "date":"12/12/18 16:00",
-          "sessionName":"TRX",
-          "instructor":"Yuval Klein",
+          "date":"12/12/18",
+          "time":"16:00  17:00",
+          "title":"TRX",
           "location":"Tel Aviv",
-          "players":[{
-            "fName":"Tom",
-            "lName":"Mordehay"
-          },
-          {
-            "fName":"David",
-            "lName":"Cohen"
-          }]
+          "players":[
+            {
+              "fName":"Tom",
+              "lName":"Mordehay",
+              "avatar":"https://randomuser.me/api/portraits/men/97.jpg"
+            }],
+          "createdBy": {
+              "fName":"Tom",
+              "lName":"Mordehay",
+              "avatar":"https://randomuser.me/api/portraits/men/97.jpg"
+            }
         },
         {
-          "date":"12/12/18 18:00",
-          "sessionName":"TRX",
-          "instructor":"Moshe Tal",
+          "date":"12/01/19",
+          "time":"19:00  20:00",
+          "title":"Pilatis",
           "location":"Tel Aviv",
-          "players":[{
-            "fName":"Ilya",
-            "lName":"Radu"
-          }]
+          "players":[
+            {
+              "fName":"Lior",
+              "lName":"Dan",
+              "avatar":"https://randomuser.me/api/portraits/men/95.jpg"
+            }],
+          "createdBy": {
+              "fName":"Lior",
+              "lName":"Dan",
+              "avatar":"https://randomuser.me/api/portraits/men/95.jpg"
+            }
         }
       ]
 }

@@ -1,8 +1,5 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import * as mainActions from "./../../../actions/mainAction";
 class NewSession extends React.Component {
   constructor(props) {
     super(props);
@@ -11,23 +8,34 @@ class NewSession extends React.Component {
       dateSession:null,
       timeSession:null,
       title:null,
-      instructor:null,
       location:null,
-      players:null
     };
 
     this.toggle = this.toggle.bind(this);
   }
   handleAdd(){
     this.toggle();
-    let newS = {
-      date:this.state.dateSession,
-      sessionName:this.state.title,
-      instructor:this.state.instructor,
-      location:this.state.location,
-      players:[this.state.players]
+    console.log(this.props.user)
+    let newS ={}
+    if(this.props.user){
+      newS = {
+        date:this.state.dateSession,
+        time:this.state.dateSession,
+        title:this.state.title,
+        location:this.state.location,
+        players: [{
+          fName: this.props.user.firstName,
+          lName: this.props.user.lastName,
+          avatar: this.props.user.avatar
+        }],
+        createdBy: {
+          fName: this.props.user.firstName,
+          lName: this.props.user.lastName,
+          avatar: this.props.user.avatar
+        }
+      }
+      this.props.handleNewSession(newS)
     }
-    this.props.addNewSession(newS)
 
   }
   toggle() {
@@ -37,12 +45,11 @@ class NewSession extends React.Component {
   }
 
   titleHandler=(title) => {
-    console.log('title',title.target.value);
     this.setState({title:title.target.value})    
   }
 
   render() {
-    console.log(    this.state.title)
+    let user = this.props.user;
     return (
       <div>
         <Button color="danger" onClick={this.toggle}>+ ADD</Button>
@@ -50,11 +57,10 @@ class NewSession extends React.Component {
           <ModalHeader toggle={this.toggle}>Add new Class</ModalHeader>
           <ModalBody>
           
-              <input type='text' onChange={(event)=>{this.setState({title:event.target.value})}} placeholder='Class Title' />
-              <input type='text' onChange={(event)=>{this.setState({instructor:event.target.value})}} placeholder='Instructor' />
+              <input type='text' onChange={(event)=>{this.setState({title:event.target.value})}} placeholder='Title' />
               <input type='text' onChange={(event)=>{this.setState({location:event.target.value})}} placeholder='Location' />           
-              <input type='text' onChange={(event)=>{this.setState({fName:event.target.value})}} placeholder='First Name' />           
-              <input type='text' onChange={(event)=>{this.setState({lName:event.target.value})}} placeholder='Family Name' />           
+              <input type='time' onChange={(event)=>{this.setState({timeSession:event.target.value})}} placeholder='Location' />           
+              <input type='date' onChange={(event)=>{this.setState({dateSession:event.target.value})}} placeholder='Location' />           
 
           </ModalBody>
           <ModalFooter>
@@ -66,9 +72,6 @@ class NewSession extends React.Component {
     );
   }
 }
-const mapStateToProps = state => ({});
-function mapDispatchToProps(dispatch) {
-  return {...bindActionCreators(mainActions, dispatch)}
-};
 
-export default connect(mapStateToProps,mapDispatchToProps)(NewSession);
+
+export default NewSession;

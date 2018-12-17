@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 // import './SessionList.css';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import { Button } from 'reactstrap';
 
 import * as mainActions from "./../../actions/mainAction";
 import SessionView from './SessionView/SessionView';
@@ -16,6 +15,8 @@ class SessionList extends Component {
   }
   render() {
     let sessionList = this.props.sessionList
+    console.log(sessionList)
+    
     if(sessionList){
       const sessions = sessionList.map((session, index) => {
         return (
@@ -27,7 +28,7 @@ class SessionList extends Component {
         <div >
             <h1>SessionList</h1>
           {sessions}
-          <NewSession/>
+          <NewSession handleNewSession={this.props.addNewSession} user={this.props.user}/>
         </div>
       );
     }else{
@@ -37,8 +38,8 @@ class SessionList extends Component {
   }
 }
 const mapStateToProps = state => ({
-  name: state.mainReducer.name,
-  sessionList: state.mainReducer.sessionList,
+  sessionList: state.sessionReducer.sessionList,
+  user:state.userReducer,
 
 });
 function mapDispatchToProps(dispatch) {

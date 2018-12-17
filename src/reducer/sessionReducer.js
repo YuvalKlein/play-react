@@ -1,10 +1,9 @@
 
 const initialState = {
-    name:"yuval",
     sessionList:[]
 };
   
-const  mainReducer =(state = initialState, action)=> {
+const  sessionReducer =(state = initialState, action)=> {
     switch (action.type) {
         case"CREATE_LIST":
             return {...state,sessionList:action.payload}       
@@ -17,4 +16,4 @@ const  mainReducer =(state = initialState, action)=> {
         default: return state
     }
 };
-export default mainReducer
+export default sessionReducer;
