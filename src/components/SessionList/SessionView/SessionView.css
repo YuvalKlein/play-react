@@ -10,66 +10,49 @@
 
 .Time {
     flex-grow: 1;
-    width: 55px;
-    height: 55px;
+    flex-wrap: wrap;
     font-family: YuGothicUI;
     font-size: 23px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
-    line-height: 1.04;
-    letter-spacing: normal;
-    text-align: left;
     color: #060606;
-    padding-left: 10px;
-}
-
-.Content {
-    flex-grow: 2;
+    text-align: center;
 }
 
 .Info {
-    padding-top: 10px;
+    flex-grow: 8;
+    padding-left: 40px;
 }
 
-.SessionName {
-    width: 36px;
-    height: 27px;
+.Title {
     font-family: YuGothicUI;
     font-size: 20px;
     font-weight: bold;
     font-style: normal;
     font-stretch: normal;
-    line-height: 1.35;
     letter-spacing: normal;
-    text-align: left;
     color: #060606;
     margin-bottom: 0;
   }
 
 .Instructor {
-    width: 101px;
-    height: 21px;
     opacity: 0.58;
     font-family: YuGothicUI;
     font-size: 16px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;
-    line-height: 1.5;
-    letter-spacing: normal;
-    text-align: left;
     color: #060606;
-    margin-bottom: 0;
 }
 
-.Players {
+/* .Players {
     padding-top: 10px;
 }
 
 .Players p {
     margin-bottom: 0;
-}
+} */
 
 .Button {
     flex-grow: 1;
@@ -81,5 +64,4 @@
     border: 0;
     border-radius: 6px;
     background-color: #393336;
-    margin-right: 40px;
 }

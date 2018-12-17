@@ -2,7 +2,8 @@
     "sessionList" : [
         {
           "date":"12/12/18",
-          "time":"16:00  17:00",
+          "time":"16:00",
+          "endTime": "17:00",
           "title":"TRX",
           "location":"Tel Aviv",
           "players":[
@@ -19,7 +20,8 @@
         },
         {
           "date":"12/01/19",
-          "time":"19:00  20:00",
+          "time":"19:00",
+          "endTime": "20:00",
           "title":"Pilatis",
           "location":"Tel Aviv",
           "players":[
