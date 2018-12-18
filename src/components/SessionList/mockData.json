@@ -16,7 +16,9 @@
               "fName":"Tom",
               "lName":"Mordehay",
               "avatar":"https://randomuser.me/api/portraits/men/97.jpg"
-            }
+            },
+          "minPlayers": 3,
+          "maxPlayers": 6
         },
         {
           "date":"12/01/19",
@@ -34,7 +36,9 @@
               "fName":"Lior",
               "lName":"Dan",
               "avatar":"https://randomuser.me/api/portraits/men/95.jpg"
-            }
+            },
+            "minPlayers": 2,
+            "maxPlayers": 8
         }
       ]
 }

@@ -5,10 +5,13 @@ class NewSession extends React.Component {
     super(props);
     this.state = {
       modal: false,
-      dateSession:null,
-      timeSession:null,
+      date:null,
+      time:null,
+      endTime:null,
       title:null,
       location:null,
+      minPlayers:null,
+      maxPlayers:null
     };
 
     this.toggle = this.toggle.bind(this);
@@ -19,8 +22,9 @@ class NewSession extends React.Component {
     let newS ={}
     if(this.props.user){
       newS = {
-        date:this.state.dateSession,
-        time:this.state.dateSession,
+        date:this.state.date,
+        time:this.state.time,
+        endTime:this.state.endTime,
         title:this.state.title,
         location:this.state.location,
         players: [{
@@ -32,7 +36,9 @@ class NewSession extends React.Component {
           fName: this.props.user.firstName,
           lName: this.props.user.lastName,
           avatar: this.props.user.avatar
-        }
+        },
+        minPlayers: this.state.minPlayers,
+        maxPlayers: this.state.maxPlayers
       }
       this.props.handleNewSession(newS)
     }
@@ -59,8 +65,11 @@ class NewSession extends React.Component {
           
               <input type='text' onChange={(event)=>{this.setState({title:event.target.value})}} placeholder='Title' />
               <input type='text' onChange={(event)=>{this.setState({location:event.target.value})}} placeholder='Location' />           
-              <input type='time' onChange={(event)=>{this.setState({timeSession:event.target.value})}} placeholder='Location' />           
-              <input type='date' onChange={(event)=>{this.setState({dateSession:event.target.value})}} placeholder='Location' />           
+              <input type='time' onChange={(event)=>{this.setState({time:event.target.value})}} />           
+              <input type='time' onChange={(event)=>{this.setState({endTime:event.target.value})}} />           
+              <input type='date' onChange={(event)=>{this.setState({date:event.target.value})}} />           
+              <input type='number' onChange={(event)=>{this.setState({minPlayers:event.target.value})}} placeholder='Minimum Players'/>           
+              <input type='number' onChange={(event)=>{this.setState({maxPlayers:event.target.value})}} placeholder='Maximum Players'/>           
 
           </ModalBody>
           <ModalFooter>
