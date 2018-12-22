@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import classes from './NewSession.css';
+
 class NewSession extends React.Component {
   constructor(props) {
     super(props);
@@ -59,9 +61,9 @@ class NewSession extends React.Component {
     return (
       <div>
         <Button color="danger" onClick={this.toggle}>+ ADD</Button>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} >
+        <Modal isOpen={this.state.modal} toggle={this.toggle} className={classes.NewSession} >
           <ModalHeader toggle={this.toggle}>Add new Class</ModalHeader>
-          <ModalBody>
+          <ModalBody className={classes.Content}>
           
               <input type='text' onChange={(event)=>{this.setState({title:event.target.value})}} placeholder='Title' />
               <input type='text' onChange={(event)=>{this.setState({location:event.target.value})}} placeholder='Location' />           

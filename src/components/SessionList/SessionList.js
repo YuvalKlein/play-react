@@ -32,7 +32,7 @@ class SessionList extends Component {
   
       return (
         <div >
-            <h1>SessionList</h1>
+            <h1>Today</h1>
           {sessions}
           <NewSession handleNewSession={this.handleAdd } user={this.props.user}/>
         </div>

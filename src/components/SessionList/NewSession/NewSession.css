@@ -1,0 +1,14 @@
+.NewSession {
+    
+}
+
+.Content {
+    display: flex;
+    flex-direction: column;
+    height: 400px;
+}
+
+.Content input {
+    width: 40%;
+    margin: 10px 40px;
+}
