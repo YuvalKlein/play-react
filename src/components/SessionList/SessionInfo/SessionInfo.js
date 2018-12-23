@@ -1,50 +1,33 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {connect} from 'react-redux';
+import {bindActionCreators} from "redux";
+
+import * as mainActions from "../../../actions/mainAction"; 
 
 import Map from '../../Map/Map';
 import classes from './SessionInfo.css';
 
 class SessionInfo extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: true,
-    //   date:null,
-    //   time:null,
-    //   endTime:null,
-    //   title:null,
-    //   location:null,
-    //   minPlayers:null,
-    //   maxPlayers:null,
-    //   players: [{avatar:null}]
-    };
-
-    this.toggle = this.toggle.bind(this);
-  }
-  
-  toggle() {
-    this.setState({
-      modal: !this.state.modal
-    });
-  }
 
   render() {
       const icons = [];
-      
+      let curentSession=this.props.session.createdBy ?this.props.session :{createdBy:{}, players:[]}
+      console.log('curentSession',curentSession);
     return (
       <div>
-        {/* <Button color="danger" onClick={this.toggle}>+ ADD</Button> */}
-        <Modal isOpen={this.state.modal} toggle={this.toggle} >
-          <ModalHeader toggle={this.toggle}>{this.props.title}</ModalHeader>
+        <Modal isOpen={this.props.toggle}  >
+          <ModalHeader toggle={()=>this.props.toggleInfo({})}>{curentSession.title}</ModalHeader>
           <ModalBody className={classes.SessionInfo}>
-          
-              <p>{this.props.createdBy}</p>
+              <p>{curentSession.createdBy.fName +"  "+ curentSession.createdBy.lName} </p>
+              <img className={classes.FaceImg} src={curentSession.createdBy.avatar}/>
               {/* {avatars}          */}
+              <div className={classes.Players}>{curentSession.players.map((player,i) => <div key={i}><img className={classes.FaceImg} src={player.avatar}/></div>)}</div>
               <Map/>
 
           </ModalBody>
           <ModalFooter>
-            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+            <Button color="secondary" onClick={this.props.toggleInfo}>Cancel</Button>
           </ModalFooter>
         </Modal>
       </div>
@@ -52,4 +35,16 @@ class SessionInfo extends React.Component {
   }
 }
 
-export default SessionInfo;
+const mapStateToProps = state => {
+  return {
+    toggle: state.sessionReducer.sessionInfoToggle,
+    session: state.sessionReducer.session,
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {...bindActionCreators(mainActions, dispatch)}
+};
+
+
+export default connect(mapStateToProps,mapDispatchToProps)(SessionInfo);

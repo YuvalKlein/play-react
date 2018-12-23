@@ -1,6 +1,8 @@
 import React from 'react';
-import {NavLink} from "react-router-dom";
+import {connect} from 'react-redux';
+import {bindActionCreators} from "redux";
 
+import * as mainActions from "../../../actions/mainAction";
 import classes from './SessionView.css';
 
 const sessionView = (props) => 
@@ -9,10 +11,10 @@ const sessionView = (props) =>
           <div>{props.session.time}</div>
           <div>{props.session.endTime}</div>
         </div>
-        <div className={classes.Info}>
-          <NavLink to="/classinfo">
-            <p className={classes.Title}>{props.session.title}</p>
-          </NavLink>
+        <div className={classes.Info} onClick={()=>{console.log(props)}}>
+          {/* <NavLink to="/classinfo"> */}
+            <a className={classes.Title} onClick={()=>props.toggleInfo(props.session)}>{props.session.title}</a>
+          {/* </NavLink> */}
           <p>{props.session.location}</p>
         </div>
         <div className={classes.Players}>
@@ -24,4 +26,13 @@ const sessionView = (props) =>
         </div>
       </div>
 
-export default sessionView;
+      
+const mapStateToProps = state => ({
+  toggle: state.sessionReducer.sessionInfoToggle,
+});
+
+function mapDispatchToProps(dispatch) {
+  return {...bindActionCreators(mainActions, dispatch)}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(sessionView);

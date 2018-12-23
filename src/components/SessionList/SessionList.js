@@ -3,10 +3,11 @@ import React, { Component } from 'react';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import * as mainActions from "./../../actions/mainAction";
+import * as mainActions from "../../actions/mainAction";
 import SessionView from './SessionView/SessionView';
 import NewSession from './NewSession/NewSession';
-let mockData = require('./mockData')
+import SessionInfo from '../SessionList/SessionInfo/SessionInfo';
+let mockData = require('./mockData');
 
 class SessionList extends Component {
   state={
@@ -21,12 +22,11 @@ class SessionList extends Component {
   };
   render() {
     let sessionList = this.props.sessionList
-    console.log(sessionList)
     
     if(sessionList){
       const sessions = sessionList.map((session, index) => {
         return (
-          <SessionView key={index} session={session}/>
+          <SessionView key={index} session={session} />
         );
       });
   
@@ -35,6 +35,7 @@ class SessionList extends Component {
             <h1>Today</h1>
           {sessions}
           <NewSession handleNewSession={this.handleAdd } user={this.props.user}/>
+          <SessionInfo/>
         </div>
       );
     }else{

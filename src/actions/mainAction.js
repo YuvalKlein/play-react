@@ -10,3 +10,11 @@ export const createSessionList = (sessionList) => dispatch => {
         payload: sessionList
     })
 };
+export const toggleInfo = (session) => dispatch => {
+    dispatch({
+        type: 'TOGGLE_INFO',
+        payload:session
+    })
+};
+
+
