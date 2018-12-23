@@ -21,7 +21,7 @@
 }
 
 .Info {
-    flex-grow: 5;
+    flex-grow: 4;
     padding-left: 40px;
 }
 
@@ -47,7 +47,22 @@
 }
 
 .Players {
-    flex-grow: 3;
+    flex-grow: 4;
+}
+
+.Players p {
+    margin: 0;
+}
+
+.Avatars {
+    display: flex;
+    
+}
+
+.FaceImg{
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
 }
 
 .Button {

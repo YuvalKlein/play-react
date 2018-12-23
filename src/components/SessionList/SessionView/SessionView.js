@@ -11,15 +11,15 @@ const sessionView = (props) =>
           <div>{props.session.time}</div>
           <div>{props.session.endTime}</div>
         </div>
-        <div className={classes.Info} onClick={()=>{console.log(props)}}>
+        <div className={classes.Info} onClick={()=>props.toggleInfo(props.session)}>
           {/* <NavLink to="/classinfo"> */}
-            <a className={classes.Title} onClick={()=>props.toggleInfo(props.session)}>{props.session.title}</a>
+            <p className={classes.Title} >{props.session.title}</p>
           {/* </NavLink> */}
           <p>{props.session.location}</p>
         </div>
-        <div className={classes.Players}>
-              {/* <div className={classes.Players}>{props.session.players.map((player,i) => <div key={i}>{player.avatar}</div>)}</div> */}
+        <div className={classes.Players} onClick={()=>props.toggleInfo(props.session)}>
               <p>{props.session.minPlayers}\{props.session.maxPlayers}</p>
+              <div className={classes.Avatars}>{props.session.players.map((player,i) => <div key={i}><img className={classes.FaceImg} src={player.avatar}/></div>)}</div>
         </div>
         <div className={classes.Button}>
           <button >BOOK</button>

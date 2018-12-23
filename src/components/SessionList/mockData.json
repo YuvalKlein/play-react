@@ -12,6 +12,11 @@
               "fName":"Tom",
               "lName":"Mordehay",
               "avatar":"https://randomuser.me/api/portraits/men/97.jpg"
+            },
+            {
+              "fName":"Shay",
+              "lName":"Lachman",
+              "avatar":"https://randomuser.me/api/portraits/men/92.jpg"
             }],
           "createdBy": {
               "fName":"Tom",
