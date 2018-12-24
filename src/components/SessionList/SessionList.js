@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 // import './SessionList.css';
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import axios from '../../axios-sessions';
 
 import * as mainActions from "../../actions/mainAction";
 import SessionView from './SessionView/SessionView';
@@ -52,4 +53,4 @@ const mapStateToProps = state => ({
 function mapDispatchToProps(dispatch) {
   return {...bindActionCreators(mainActions, dispatch)}
 };
-export default connect(mapStateToProps,mapDispatchToProps)(SessionList);
+export default connect(mapStateToProps,mapDispatchToProps)(SessionList, axios);

@@ -24,7 +24,7 @@ class NewSession extends React.Component {
     let newS ={}
     if(this.props.user){
       newS = {
-        id: new Date,
+        id: new Date(),
         date:this.state.date,
         time:this.state.time,
         endTime:this.state.endTime,
