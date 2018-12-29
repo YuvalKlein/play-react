@@ -7,6 +7,8 @@ import ContactUs from '../components/ContactUs/ContactUs';
 import LogIn from '../components/LogIn/LogIn';
 import MyClasses from '../components/Account/MySessions/MySessions';
 import ClassInfo from '../components/SessionList/SessionInfo/SessionInfo';
+import Account from '../components/Account/Account';
+import Logout from '../components/LogIn/Logout';
 
 class App extends Component {
   render() {
@@ -15,6 +17,8 @@ class App extends Component {
         <Layout> 
           <Switch>
             <Route path="/login" exact component={LogIn}/>
+            <Route path="/logout" exact component={Logout}/>
+            <Route path="/account" exact component={Account}/>
             <Route path="/" exact component={SessionList}/>
             <Route path="/myclasses" exact component={MyClasses}/>
             <Route path="/contact" exact component={ContactUs}/>

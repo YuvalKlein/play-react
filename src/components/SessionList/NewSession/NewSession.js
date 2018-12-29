@@ -9,6 +9,7 @@ class NewSession extends React.Component {
       modal: false,
       date:null,
       time:null,
+      details: null,
       endTime:null,
       title:null,
       location:null,
@@ -20,7 +21,7 @@ class NewSession extends React.Component {
   }
   handleAdd(){
     this.toggle();
-    console.log(this.props.user)
+    console.log('user',this.props.user)
     let newS ={}
     if(this.props.user){
       newS = {
@@ -29,13 +30,16 @@ class NewSession extends React.Component {
         time:this.state.time,
         endTime:this.state.endTime,
         title:this.state.title,
+        details:this.state.details,
         location:this.state.location,
         players: [{
+          userId: this.props.user.userId,
           fName: this.props.user.firstName,
           lName: this.props.user.lastName,
           avatar: this.props.user.avatar
         }],
         createdBy: {
+          userId: this.props.user.userId,
           fName: this.props.user.firstName,
           lName: this.props.user.lastName,
           avatar: this.props.user.avatar
@@ -58,7 +62,7 @@ class NewSession extends React.Component {
   }
 
   render() {
-    let user = this.props.user;
+    // let user = this.props.user;
     return (
       <div>
         <Button color="danger" onClick={this.toggle}>+ ADD</Button>
@@ -67,6 +71,7 @@ class NewSession extends React.Component {
           <ModalBody className={classes.Content}>
           
               <input type='text' onChange={(event)=>{this.setState({title:event.target.value})}} placeholder='Title' />
+              <textarea type='text' onChange={(event)=>{this.setState({details:event.target.value})}} placeholder='Detials'/>
               <input type='text' onChange={(event)=>{this.setState({location:event.target.value})}} placeholder='Location' />           
               <input type='time' onChange={(event)=>{this.setState({time:event.target.value})}} />           
               <input type='time' onChange={(event)=>{this.setState({endTime:event.target.value})}} />           

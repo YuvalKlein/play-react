@@ -2,7 +2,8 @@
 const initialState = {
     sessionList:[],
     sessionInfoToggle: false,
-    session: {}
+    session: {},
+    booked: false
 };
   
 const  sessionReducer =(state = initialState, action)=> {
@@ -17,6 +18,8 @@ const  sessionReducer =(state = initialState, action)=> {
             return state;
         case "TOGGLE_INFO":
             return {...state,sessionInfoToggle: !state.sessionInfoToggle,session:action.payload};
+        case "BOOKED":
+            return {...state,booked: !state.booked};
         default: return state
     }
 };

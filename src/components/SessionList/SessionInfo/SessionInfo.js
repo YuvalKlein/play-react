@@ -11,23 +11,24 @@ import classes from './SessionInfo.css';
 class SessionInfo extends React.Component {
 
   render() {
-      const icons = [];
+      // const icons = [];
       let curentSession=this.props.session.createdBy ?this.props.session :{createdBy:{}, players:[]}
-      console.log('curentSession',curentSession);
     return (
       <div>
         <Modal isOpen={this.props.toggle}  >
           <ModalHeader toggle={()=>this.props.toggleInfo({})}>{curentSession.title}</ModalHeader>
           <ModalBody className={classes.SessionInfo}>
-              <p>{curentSession.createdBy.fName +"  "+ curentSession.createdBy.lName} </p>
-              <img className={classes.FaceImg} src={curentSession.createdBy.avatar}/>
-              {/* {avatars}          */}
-              <div className={classes.Players}>{curentSession.players.map((player,i) => <div key={i}><img className={classes.FaceImg} src={player.avatar}/></div>)}</div>
-              <Map/>
+              <p>Craeted By: {curentSession.createdBy.fName +"  "+ curentSession.createdBy.lName} </p>
+              <img alt="" className={classes.FaceImg} src={curentSession.createdBy.avatar}/>
+              <p>{curentSession.details}</p>
+              <div className={classes.Players}>{curentSession.players.map((player,i) => <div key={i}><img alt="" className={classes.FaceImg} src={player.avatar}/></div>)}</div>
+              {/* <Map/> */}
 
           </ModalBody>
           <ModalFooter>
-            <Button color="secondary" onClick={this.props.toggleInfo}>Cancel</Button>
+            <Button color="secondary" onClick={this.props.booked}>BOOK</Button>
+            <Button color="secondary" onClick={this.props.toggleInfo}>EDIT</Button>
+            <Button color="secondary" onClick={this.props.toggleInfo}>CANCEL</Button>
           </ModalFooter>
         </Modal>
       </div>

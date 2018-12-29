@@ -1,5 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Redirect} from 'react-router-dom';
+
 
 import classes from './LogIn.css';
 import Input from '../../components/UI/Input/Input';
@@ -9,6 +11,7 @@ import * as actions from '../../actions/mainAction';
 
 class LogIn extends React.Component {
     state = {
+        alreadyUser: true,
         controls: {
             email: {
                 elementType: 'input',
@@ -34,6 +37,101 @@ class LogIn extends React.Component {
                 validation: {
                     required: true,
                     minLength: 6
+                },
+                valid: false,
+                touched: false
+            },
+            firstName: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'First Name'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
+            },
+            lastName: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'Last Name'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
+            },
+            phone: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'tel',
+                    placeholder: 'Phone'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
+            },
+            avatar: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'file',
+                    placeholder: 'Upload File'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
+            },
+            gender: [{
+                elementType: 'input',
+                elementConfig: {
+                    type: 'radio',
+                    name: "gender",
+                    value: "male",
+                    placeholder: 'gender'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
+            },
+            {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'radio',
+                    name: "gender",
+                    value: "female",
+                    placeholder: 'gender'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
+            }],
+            birthDay: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'date',
+                    placeholder: 'BirthDay'
+                },
+                value: '',
+                validation: {
+                    required: true,
                 },
                 valid: false,
                 touched: false
@@ -84,17 +182,37 @@ class LogIn extends React.Component {
 
     submitHandler = (event) => {
         event.preventDefault();
-        this.props.onAuth(this.state.controls.email.value, this.state.controls.password.value);
-    }
+        let user = {
+            email:this.state.controls.email.value,
+            password: this.state.controls.password.value,
+            returnSecureToken: true
+        }
+        this.props.onAuth(user, this.state.alreadyUser);
+
+    };
+
+    alreadyUserHandler = () => {
+        this.setState({alreadyUser: !this.state.alreadyUser});
+    };
+
 
     render () {
         const formElementsArray = [];
-        for(let key in this.state.controls){
-            formElementsArray.push({
-                id: key,
-                config: this.state.controls[key]
-            });
-        };
+        if (this.props.alreadyUser) {
+            for(let key = 0; key < 2; key++){
+                formElementsArray.push({
+                    id: key,
+                    config: this.state.controls[key]
+                });
+            };
+        } else {
+            for(let key in this.state.controls){
+                formElementsArray.push({
+                    id: key,
+                    config: this.state.controls[key]
+                });
+            };
+        }
 
         let form = formElementsArray.map(formElement => (
             <Input
@@ -120,12 +238,27 @@ class LogIn extends React.Component {
             );
         };
 
+        let authRedirect = null;
+        if (this.props.isAuthenticated) {
+            authRedirect = <Redirect to='/'/>
+        }
+
         return (
             <div className={classes.LogIn}>
+                {authRedirect}
                 {errorMessage}
                 <form onSubmit={this.submitHandler}>
                     {form}
-                    <Button btnType="Success">SUBMIT</Button>
+                    {this.state.alreadyUser ? 
+                        <div>
+                            <Button btnType="Success">Sign in</Button>
+                            <p>New PLAYer? <a onClick={this.alreadyUserHandler}>Join Us</a></p> 
+                        </div>
+                        : <div>
+                            <Button btnType="Success">Sign up</Button>
+                            <p>Already PLAYer? <a onClick={this.alreadyUserHandler}>Sign in</a></p>
+                          </div>}
+                    
                 </form>
             </div>
         );
@@ -135,13 +268,15 @@ class LogIn extends React.Component {
 const mapStateToProps = state =>{
     return {
         loading: state.userReducer.loading,
-        error: state.userReducer.error
+        error: state.userReducer.error,
+        isAuthenticated: state.userReducer.token !== null,
+        alreadyUser: state.userReducer.alreadyUser
     };
 };
 
 const mapDispatchToProps = dispatch =>{
     return {
-        onAuth: (email, password) => dispatch(actions.auth(email, password))
+        onAuth: (user, alreadyUser) => dispatch(actions.auth(user, alreadyUser)),
     };
 };
 

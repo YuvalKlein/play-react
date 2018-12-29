@@ -11,7 +11,8 @@ const initialState = {
     mobile: '123456',
     created: {type: Date, default: Date.now},
     error: null,
-    loading: false
+    loading: false,
+    alreadyUser: false
 };
   
 const  userReducer =(state = initialState, action)=> {
@@ -30,6 +31,8 @@ const  userReducer =(state = initialState, action)=> {
                 token: action.idToken,
                 refreshToken: action.refreshToken,
                 userId: action.userId,
+                email:action.email,
+                password:action.password,
                 error: null, 
                 loading: false
             };
@@ -39,6 +42,13 @@ const  userReducer =(state = initialState, action)=> {
                 error: action.error, 
                 loading: false
             };
+        case "AUTH_LOGOUT":
+            return {
+               ...state,
+               token: null,
+               refreshToken: null,
+               usetId: null 
+            }
         default: return state
     }
 };

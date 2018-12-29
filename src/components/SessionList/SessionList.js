@@ -8,24 +8,32 @@ import * as mainActions from "../../actions/mainAction";
 import SessionView from './SessionView/SessionView';
 import NewSession from './NewSession/NewSession';
 import SessionInfo from '../SessionList/SessionInfo/SessionInfo';
-let mockData = require('./mockData');
+import Spinner from '../UI/Spinner/Spinner';
 
 class SessionList extends Component {
   state={
-    count:0
+    sessionList: []
   };
-  componentWillMount(){
-    this.props.createSessionList(mockData.sessionList);
+  componentDidMount(){
+    axios.get('/sessionList.json')
+      .then(response => {
+
+        this.setState({sessionList: Object.values(response.data)});
+      });
   }
+  
   handleAdd=(session)=>{
-    this.setState({count: this.state.count++});
+     let newSeesionList = this.state.sessionList;
+        newSeesionList.push(session)
+    this.setState({sessionList:newSeesionList});
+    axios.post('/sessionList.json', session)
     this.props.addNewSession(session)
   };
+
   render() {
-    let sessionList = this.props.sessionList
-    
-    if(sessionList){
-      const sessions = sessionList.map((session, index) => {
+    let sessionL =this.state.sessionList
+    if(sessionL){
+      const sessions = Object.values(sessionL).map((session, index) => {
         return (
           <SessionView key={index} session={session} />
         );
@@ -40,7 +48,7 @@ class SessionList extends Component {
         </div>
       );
     }else{
-      return  <h2>Loading...</h2>  
+      return  <Spinner/> 
     }
 
   }

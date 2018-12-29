@@ -18,19 +18,25 @@ export const toggleInfo = (session) => dispatch => {
         payload:session
     })
 };
-
+export const booked = () => dispatch => {
+    dispatch({
+        type: 'BOOKED'
+    })
+};
 export const authStart = () => {
     return {
         type: 'AUTH_START'
     };
 };
 
-export const authSuccess = (token, refreshToken, userId) => {
+export const authSuccess = (email,password,token, refreshToken, userId) => {
     return {
         type: 'AUTH_SUCCESS',
         idToken: token, 
         refreshToken: refreshToken,  
-        userId: userId
+        userId: userId,
+        email,
+        password
     };
 };
 
@@ -41,18 +47,17 @@ export const authFail = (error) => {
     };
 };
 
-export const auth = (email, password) => {
+export const auth = (user, alreadyUser) => {
     return dispatch => {
         dispatch(authStart());
-        const authData = {
-            email: email,
-            password: password,
-            returnSecureToken: true
-        }
-        axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyAfxKPiu1Zf876cexkIUr--iLFtMaJFxnc', authData)
+        let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyAfxKPiu1Zf876cexkIUr--iLFtMaJFxnc';
+        if(alreadyUser) {
+            url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyAfxKPiu1Zf876cexkIUr--iLFtMaJFxnc';
+        };
+        axios.post(url, user)
             .then(response => {
                 console.log(response);
-                dispatch(authSuccess(response.data.idToken, response.data.refreshToken, response.data.localId));
+                dispatch(authSuccess(user.email,user.password,response.data.idToken, response.data.refreshToken, response.data.localId));
             })
             .catch(err => {
                 console.log(err);
@@ -60,4 +65,14 @@ export const auth = (email, password) => {
             });
     };
 };
+
+export const logout = () => {
+    return {
+        type: 'AUTH_LOGOUT',
+        token: null,
+        refreshToken: null,
+        usetId: null 
+    };
+};
+
 

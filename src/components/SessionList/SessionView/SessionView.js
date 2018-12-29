@@ -5,30 +5,41 @@ import {bindActionCreators} from "redux";
 import * as mainActions from "../../../actions/mainAction";
 import classes from './SessionView.css';
 
-const sessionView = (props) => 
+const sessionView = (props) => {
+  let btnBook = false;
+  const book = (user) => {
+    btnBook = !btnBook;
+    console.log("session",user)
+
+  };
+
+  return ( 
       <div  className={classes.SessionView}>
-        <div className={classes.Time} >
-          <div>{props.session.time}</div>
-          <div>{props.session.endTime}</div>
-        </div>
-        <div className={classes.Info} onClick={()=>props.toggleInfo(props.session)}>
-          {/* <NavLink to="/classinfo"> */}
-            <p className={classes.Title} >{props.session.title}</p>
-          {/* </NavLink> */}
-          <p>{props.session.location}</p>
-        </div>
-        <div className={classes.Players} onClick={()=>props.toggleInfo(props.session)}>
-              <p>{props.session.minPlayers}\{props.session.maxPlayers}</p>
-              <div className={classes.Avatars}>{props.session.players.map((player,i) => <div key={i}><img alt="" className={classes.FaceImg} src={player.avatar}/></div>)}</div>
-        </div>
-        <div className={classes.Button}>
-          <button >BOOK</button>
-        </div>
+      <div className={classes.Time} >
+        <div>{props.session.time}</div>
+        <div>{props.session.endTime}</div>
       </div>
+      <div className={classes.Info} onClick={()=>props.toggleInfo(props.session)}>
+          <p className={classes.Title} >{props.session.title}</p>
+        <p>{props.session.location}</p>
+      </div>
+      <div className={classes.Players} onClick={()=>props.toggleInfo(props.session)}>
+            <p>{props.session.minPlayers}\{props.session.maxPlayers}</p>
+            <div className={classes.Avatars}>{props.session.players.map((player,i) => <div key={i}><img alt="" className={classes.FaceImg} src={player.avatar}/></div>)}</div>
+      </div>
+      <div className={classes.Button}>
+        <button onClick={()=>book(props.session)} className={btnBook?classes.Cancel : classes.Book} >{btnBook?"CANCEL":"BOOK"}</button>
+      </div> 
+    </div>
+  );
+};
+   
 
       
 const mapStateToProps = state => ({
   toggle: state.sessionReducer.sessionInfoToggle,
+  btnToggle: state.sessionReducer.booked,
+  isAuth: state.userReducer.token !== null
 });
 
 function mapDispatchToProps(dispatch) {
