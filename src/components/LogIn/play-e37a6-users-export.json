@@ -1,0 +1,51 @@
+{
+  "-LV2f4rvXZawjg5JUHkA" : {
+    "birthDay" : "2013-02-13",
+    "email" : "Yuval@21.com",
+    "firstName" : "ty",
+    "lastName" : "ta",
+    "password" : "1111123",
+    "phone" : "123456",
+    "returnSecureToken" : true,
+    "type" : "player"
+  },
+  "-LV2fry7jQtRrP1XkwsZ" : {
+    "birthDay" : "2015-12-13",
+    "email" : "Yuval@12.ds",
+    "firstName" : "yu",
+    "lastName" : "ut",
+    "password" : "1111321",
+    "phone" : "1345",
+    "returnSecureToken" : true,
+    "type" : "player"
+  },
+  "-LV2iMi_rSow8uQnCSKh" : {
+    "birthDay" : "",
+    "created" : 1546250711039,
+    "email" : "Yuval@asef.cs",
+    "firstName" : "ljk",
+    "lastName" : "khj",
+    "password" : "1111123",
+    "phone" : "13khv",
+    "returnSecureToken" : true,
+    "type" : "player"
+  },
+  "-LV2ipDgTw2RsgyN0eZP" : {
+    "email" : "Yuval@asef.cs",
+    "password" : "1111123",
+    "returnSecureToken" : true
+  },
+  "-LV2kNy04DCz76Zka1T1" : {
+    "birthDay" : "",
+    "created" : 1546251240841,
+    "email" : "Yuv@sdf.com",
+    "firstName" : "iyt",
+    "lastName" : "kjhg",
+    "password" : "11111235",
+    "phone" : "123",
+    "returnSecureToken" : true,
+    "type" : "player",
+    "userId" : "AoMtcHZXpmS6vLt4hhH52RSN3jc2"
+  },
+  "test" : "yes"
+}
