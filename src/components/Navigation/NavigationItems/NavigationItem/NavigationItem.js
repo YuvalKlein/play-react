@@ -8,7 +8,6 @@ const navigationItem = (props) => {
     <li className={classes.NavigationItem}>
         <NavLink to={props.link} 
             className={props.active ? classes.active : null}
-            // how to pass this props so the menu will close on click
             onClick={props.closed}
             >{props.children}</NavLink>
     </li>

@@ -1,4 +1,6 @@
 import axios from 'axios';
+import axiosSessions from '../axios-sessions';
+
 
 export const addNewSession = (component) => dispatch => {
     dispatch({
@@ -12,6 +14,38 @@ export const createSessionList = (sessionList) => dispatch => {
         payload: sessionList
     })
 };
+export const createFBSessionList = (sessionList) => {
+    return (dispatch, getState, {getFirestore}) => {
+      // make async call to database
+      const firestore = getFirestore();
+      firestore.collection('sessionList').add({
+        ...sessionList,
+        authorFirstName: 'Net',
+        authorLastName: 'Ninja',
+        authorId: 12345,
+        createdAt: new Date()
+      }).then(() => {
+        dispatch({ type: 'CREATE_FB_LIST' });
+      }).catch(err => {
+        dispatch({ type: 'CREATE_PROJECT_ERROR' }, err);
+      });
+    }
+  };
+export const addNewSessionToFB = (session) => {
+    return (dispatch, getState, {getFirestore}) => {
+      // make async call to database
+      const firestore = getFirestore();
+      const user = getState().firebaseReducer.profile;
+      const userId = getState().firebaseReducer.auth.uid;
+
+      firestore.collection('sessionList').add(session)
+        .then(() => {
+            dispatch({ type: 'CREATE_FB_LIST' });
+        }).catch(err => {
+            dispatch({ type: 'CREATE_PROJECT_ERROR' }, err);
+        });
+    }
+  };
 export const toggleInfo = (session) => dispatch => {
     dispatch({
         type: 'TOGGLE_INFO',
@@ -29,14 +63,16 @@ export const authStart = () => {
     };
 };
 
-export const authSuccess = (email,password,token, refreshToken, userId) => {
+export const authSuccess = (user, authDetails) => {
+    axiosSessions.post('/users.json', user)
     return {
         type: 'AUTH_SUCCESS',
-        idToken: token, 
-        refreshToken: refreshToken,  
-        userId: userId,
-        email,
-        password
+        idToken: authDetails.idToken, 
+        refreshToken: authDetails.refreshToken,  
+        userId: authDetails.localId,
+        email: user.email,
+        password: user.password,
+        user: user
     };
 };
 
@@ -57,7 +93,8 @@ export const auth = (user, alreadyUser) => {
         axios.post(url, user)
             .then(response => {
                 console.log(response);
-                dispatch(authSuccess(user.email,user.password,response.data.idToken, response.data.refreshToken, response.data.localId));
+                user.userId = response.data.localId
+                dispatch(authSuccess(user, response.data));
             })
             .catch(err => {
                 console.log(err);
@@ -71,7 +108,57 @@ export const logout = () => {
         type: 'AUTH_LOGOUT',
         token: null,
         refreshToken: null,
-        usetId: null 
+        userId: null 
+    };
+};
+
+export const signIn = (credentials) => {
+    return (dispatch, getState, {getFirebase}) => {
+      const firebase = getFirebase();
+      
+      firebase.auth().signInWithEmailAndPassword(
+        credentials.email,
+        credentials.password
+      ).then(() => {
+        dispatch({ type: 'LOGIN_SUCCESS' });
+      }).catch((err) => {
+        dispatch({ type: 'LOGIN_ERROR', err });
+      });
+  
+    }
+  }
+
+  export const signUp = (newUser) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+      const firebase = getFirebase();
+      const firestore = getFirestore();
+      
+      firebase.auth().createUserWithEmailAndPassword(
+        newUser.email,
+        newUser.password
+      ).then((resp) => {
+        return firestore.collection('users').doc(resp.user.uid).set({
+            type: 'player',
+            firstName: newUser.firstName,
+            lastName: newUser.lastName,
+            phone: newUser.phone,
+            birthDay: newUser.birthDay,
+        })
+    }).then(() => {
+        dispatch({ type: 'SIGNUP_SUCCESS' });
+      }).catch((err) => {
+        dispatch({ type: 'SIGNUP_ERROR', err });
+      });
+  
+    }
+  }
+
+  export const logoutFB = () => {
+    return (dispatch, getState, {getFirebase}) => {
+        const firebase = getFirebase();
+        firebase.auth().signOut().then(() => {
+            dispatch({type: 'SIGN_OUT'})
+        })
     };
 };
 

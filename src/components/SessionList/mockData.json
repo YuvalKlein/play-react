@@ -2,7 +2,7 @@
     "sessionList" : [
         {
           "id": "12",
-          "date":"12/12/18",
+          "date":"12/01/19",
           "time":"16:00",
           "endTime": "17:00",
           "title":"TRX",
@@ -28,7 +28,7 @@
         },
         {
           "id": "123",
-          "date":"12/01/19",
+          "date":"14/01/19",
           "time":"19:00",
           "endTime": "20:00",
           "title":"Pilatis",
@@ -38,13 +38,23 @@
               "fName":"Lior",
               "lName":"Dan",
               "avatar":"https://randomuser.me/api/portraits/men/95.jpg"
+            },
+            {
+              "fName":"Gil",
+              "lName":"Dvir",
+              "avatar":"https://randomuser.me/api/portraits/men/85.jpg"
+            },
+            {
+              "fName":"Michal",
+              "lName":"Tal",
+              "avatar":"https://randomuser.me/api/portraits/men/91.jpg"
             }],
           "createdBy": {
               "fName":"Lior",
               "lName":"Dan",
               "avatar":"https://randomuser.me/api/portraits/men/95.jpg"
             },
-            "minPlayers": 1,
+            "minPlayers": 3,
             "maxPlayers": 8
         }
       ]

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import {bindActionCreators, compose } from "redux";
+import { firestoreConnect } from 'react-redux-firebase'
 
 import * as mainActions from "../../../actions/mainAction"; 
 
@@ -11,7 +12,6 @@ import classes from './SessionInfo.css';
 class SessionInfo extends React.Component {
 
   render() {
-      // const icons = [];
       let curentSession=this.props.session.createdBy ?this.props.session :{createdBy:{}, players:[]}
     return (
       <div>
@@ -37,9 +37,10 @@ class SessionInfo extends React.Component {
 }
 
 const mapStateToProps = state => {
+  const sessionList = state.firestoreReducer.data.sessionList
   return {
     toggle: state.sessionReducer.sessionInfoToggle,
-    session: state.sessionReducer.session,
+    session: state.sessionReducer.session
   }
 }
 
@@ -48,4 +49,9 @@ function mapDispatchToProps(dispatch) {
 };
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(SessionInfo);
+export default compose(
+  connect(mapStateToProps,mapDispatchToProps),
+  firestoreConnect([{
+    collection: 'sessionList'
+  }])
+)(SessionInfo);

@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
+import GoogleLogin from 'react-google-login';
 
 
 import classes from './LogIn.css';
@@ -191,20 +192,43 @@ class LogIn extends React.Component {
 
     };
 
+    signUpHandler = (event) => {
+        event.preventDefault();
+        let user = {
+            email:this.state.controls.email.value,
+            password: this.state.controls.password.value,
+            returnSecureToken: true,
+            type: 'player',
+            firstName: this.state.controls.firstName.value,
+            lastName: this.state.controls.lastName.value,
+            userId: null,
+            // avatar: this.state.controls.avatar.value,
+            phone: this.state.controls.phone.value,
+            birthDay: this.state.controls.birthDay.value,
+            // gender: this.state.controls.gender.value,
+            created: Date.now()
+        }
+        this.props.onAuth(user, this.state.alreadyUser);
+
+    };
+
     alreadyUserHandler = () => {
         this.setState({alreadyUser: !this.state.alreadyUser});
     };
 
 
     render () {
-        const formElementsArray = [];
-        if (this.props.alreadyUser) {
-            for(let key = 0; key < 2; key++){
-                formElementsArray.push({
-                    id: key,
-                    config: this.state.controls[key]
-                });
-            };
+        let formElementsArray = [];
+        if (this.state.alreadyUser) {
+            formElementsArray = [
+                {
+                    id: "email",
+                    config: this.state.controls.email
+                },
+                {
+                    id: "password",
+                    config: this.state.controls.password
+                } ];
         } else {
             for(let key in this.state.controls){
                 formElementsArray.push({
@@ -213,6 +237,10 @@ class LogIn extends React.Component {
                 });
             };
         }
+
+        const responseGoogle = (response) => {
+            console.log(response);
+        };
 
         let form = formElementsArray.map(formElement => (
             <Input
@@ -247,7 +275,7 @@ class LogIn extends React.Component {
             <div className={classes.LogIn}>
                 {authRedirect}
                 {errorMessage}
-                <form onSubmit={this.submitHandler}>
+                <form onSubmit={this.state.alreadyUser ? this.submitHandler : this.signUpHandler}>
                     {form}
                     {this.state.alreadyUser ? 
                         <div>
@@ -258,8 +286,13 @@ class LogIn extends React.Component {
                             <Button btnType="Success">Sign up</Button>
                             <p>Already PLAYer? <a onClick={this.alreadyUserHandler}>Sign in</a></p>
                           </div>}
-                    
                 </form>
+                <GoogleLogin
+                    clientId="203139564983-9gd9ebikj3pct8ptmkkt6r2atcf838qu.apps.googleusercontent.com"
+                    buttonText="Login"
+                    onSuccess={responseGoogle}
+                    onFailure={responseGoogle}
+                />
             </div>
         );
     };

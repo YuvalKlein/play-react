@@ -1,15 +1,19 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
+import {Redirect} from 'react-router-dom';
 
 import * as mainActions from "../../../actions/mainAction";
 import classes from './SessionView.css';
 
 const sessionView = (props) => {
   let btnBook = false;
-  const book = (user) => {
-    btnBook = !btnBook;
-    console.log("session",user)
+  const book = (session) => {
+    if(props.isAuth){
+      btnBook = !btnBook;
+    } else {
+      return <Redirect to='/login'/>
+    }
 
   };
 

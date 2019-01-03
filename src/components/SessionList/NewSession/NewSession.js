@@ -22,10 +22,10 @@ class NewSession extends React.Component {
   handleAdd(){
     this.toggle();
     console.log('user',this.props.user)
+    console.log('state',this.state)
     let newS ={}
     if(this.props.user){
       newS = {
-        id: new Date(),
         date:this.state.date,
         time:this.state.time,
         endTime:this.state.endTime,
@@ -33,13 +33,12 @@ class NewSession extends React.Component {
         details:this.state.details,
         location:this.state.location,
         players: [{
-          userId: this.props.user.userId,
           fName: this.props.user.firstName,
           lName: this.props.user.lastName,
           avatar: this.props.user.avatar
         }],
+        created: new Date(),
         createdBy: {
-          userId: this.props.user.userId,
           fName: this.props.user.firstName,
           lName: this.props.user.lastName,
           avatar: this.props.user.avatar
@@ -47,6 +46,7 @@ class NewSession extends React.Component {
         minPlayers: this.state.minPlayers,
         maxPlayers: this.state.maxPlayers
       }
+      console.log('newS',newS)
       this.props.handleNewSession(newS)
     }
 
@@ -89,6 +89,5 @@ class NewSession extends React.Component {
     );
   }
 }
-
 
 export default NewSession;

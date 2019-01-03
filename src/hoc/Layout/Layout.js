@@ -43,7 +43,7 @@ class Layout extends Component  {
 const mapStateTProps = state => {
     return {
         isAuth: state.userReducer.token !== null,
-        name: state.userReducer.firstName
+        name: state.firebaseReducer.profile.firstName
     };
 };
 

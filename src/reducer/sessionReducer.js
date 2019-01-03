@@ -10,6 +10,8 @@ const  sessionReducer =(state = initialState, action)=> {
     switch (action.type) {
         case"CREATE_LIST":
             return {...state,sessionList:action.payload}       
+        case"CREATE_FB_LIST":
+            return {...state,sessionList:action.payload}       
         case "ADD_NEW_SESSION":
             let newSesionList = state.sessionList;
             newSesionList.push(action.payload)

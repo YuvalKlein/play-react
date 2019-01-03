@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 // import './SessionList.css';
 import {connect} from "react-redux";
+import {compose} from "redux";
+import {firestoreConnect} from "react-redux-firebase";
 import {bindActionCreators} from "redux";
 import axios from '../../axios-sessions';
 
@@ -30,12 +32,24 @@ class SessionList extends Component {
     this.props.addNewSession(session)
   };
 
+  handleFBAdd=(session)=>{
+    this.props.addNewSessionToFB(session)
+  };
+
   render() {
-    let sessionL =this.state.sessionList
-    if(sessionL){
-      const sessions = Object.values(sessionL).map((session, index) => {
+    // let sessionL =this.state.sessionList
+    // if(sessionL){
+    //   const sessions = Object.values(sessionL).map((session, index) => {
+    //     console.log("session", session);
+    //     return (
+    //       <SessionView key={index} session={session} />
+    //     );
+    //   });
+    let sessionLFB =this.props.sessionList
+    if(sessionLFB){
+      const sessions = sessionLFB.map((session) => {
         return (
-          <SessionView key={index} session={session} />
+            <SessionView key={session.id} session={session} />
         );
       });
   
@@ -43,7 +57,7 @@ class SessionList extends Component {
         <div >
             <h1>Today</h1>
           {sessions}
-          <NewSession handleNewSession={this.handleAdd } user={this.props.user}/>
+          <NewSession handleNewSession={this.handleFBAdd} user={this.props.user} auth={this.props.auth}/>
           <SessionInfo/>
         </div>
       );
@@ -53,12 +67,18 @@ class SessionList extends Component {
 
   }
 }
-const mapStateToProps = state => ({
-  sessionList: state.sessionReducer.sessionList,
-  user:state.userReducer,
-
-});
+const mapStateToProps = state => {
+  return {
+  sessionList: state.firestoreReducer.ordered.sessionList,
+  user: state.firebaseReducer.profile,
+  auth: state.firebaseReducer.auth
+}};
 function mapDispatchToProps(dispatch) {
   return {...bindActionCreators(mainActions, dispatch)}
 };
-export default connect(mapStateToProps,mapDispatchToProps)(SessionList, axios);
+export default compose(
+  connect(mapStateToProps,mapDispatchToProps),
+  firestoreConnect([
+    { collection: 'sessionList'}
+  ])
+)(SessionList, axios);

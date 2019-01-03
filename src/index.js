@@ -5,8 +5,8 @@ import App from './containers/App';
 import * as serviceWorker from './serviceWorker';
 import "bootstrap/scss/bootstrap.scss"
 import { BrowserRouter } from 'react-router-dom'
-import store from './reducer/index'
-import {Provider} from 'react-redux'
+import store from './reducer/index';
+import {Provider} from 'react-redux';
 
 ReactDOM.render(
     <Provider store={store}>

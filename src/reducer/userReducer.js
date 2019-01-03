@@ -12,7 +12,9 @@ const initialState = {
     created: {type: Date, default: Date.now},
     error: null,
     loading: false,
-    alreadyUser: false
+    alreadyUser: false,
+    authError: null
+
 };
   
 const  userReducer =(state = initialState, action)=> {
@@ -49,6 +51,31 @@ const  userReducer =(state = initialState, action)=> {
                refreshToken: null,
                usetId: null 
             }
+        case 'LOGIN_ERROR':
+            console.log(action.err.message);
+            return {
+              ...state,
+              authError: action.err.message
+            }
+        case 'LOGIN_SUCCESS':
+            console.log('login success');
+            return {
+              authError: null
+            }
+        case 'SIGNUP_ERROR':
+            console.log(action.err.message);
+            return {
+              ...state,
+              authError: action.err.message
+            }
+        case 'SIGNUP_SUCCESS':
+            console.log('login success');
+            return {
+              authError: null
+            }
+        case 'SIGN_OUT':
+        console.log('signout success');
+        return state;
         default: return state
     }
 };
