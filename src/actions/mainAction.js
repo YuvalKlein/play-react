@@ -35,10 +35,27 @@ export const addNewSessionToFB = (session) => {
     return (dispatch, getState, {getFirestore}) => {
       // make async call to database
       const firestore = getFirestore();
-      const user = getState().firebaseReducer.profile;
-      const userId = getState().firebaseReducer.auth.uid;
-
-      firestore.collection('sessionList').add(session)
+      firestore.collection('sessionList').add({
+        date:'this.state.date',
+        time:'20:00',
+        endTime:'21:00',
+        title:'TRX',
+        details:'this.state.details',
+        location:'location',
+        players: [{
+          fName: 'firstName',
+          lName: 'lastName',
+          photoURL: 'https://randomuser.me/api/portraits/men/7.jpg'
+        }],
+        created: new Date(),
+        createdBy: {
+          fName: 'firstName',
+          lName: 'lastName',
+          photoURL: 'https://randomuser.me/api/portraits/men/7.jpg'
+        },
+        minPlayers: '5',
+        maxPlayers: '8'
+        })
         .then(() => {
             dispatch({ type: 'CREATE_FB_LIST' });
         }).catch(err => {
@@ -118,7 +135,7 @@ export const signIn = (credentials) => {
       
       firebase.auth().signInWithEmailAndPassword(
         credentials.email,
-        credentials.password
+        credentials.password,
       ).then(() => {
         dispatch({ type: 'LOGIN_SUCCESS' });
       }).catch((err) => {

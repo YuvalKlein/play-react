@@ -93,6 +93,19 @@ class Register extends React.Component {
                 valid: false,
                 touched: false
             },
+            photoURL: {
+                elementType: 'input',
+                elementConfig: {
+                    type: 'text',
+                    placeholder: 'photoURL'
+                },
+                value: '',
+                validation: {
+                    required: true,
+                },
+                valid: false,
+                touched: false
+            },
             gender: [{
                 elementType: 'input',
                 elementConfig: {
@@ -189,8 +202,7 @@ class Register extends React.Component {
             type: 'player',
             firstName: this.state.controls.firstName.value,
             lastName: this.state.controls.lastName.value,
-            userId: null,
-            avatar: this.state.controls.avatar.value,
+            photoURL: this.state.controls.photoURL.value,
             phone: this.state.controls.phone.value,
             birthDay: this.state.controls.birthDay.value,
             gender: this.state.controls.gender.value,

@@ -22,34 +22,31 @@ class NewSession extends React.Component {
   handleAdd(){
     this.toggle();
     console.log('user',this.props.user)
-    console.log('state',this.state)
+    console.log('state',this.props.auth)
     let newS ={}
-    if(this.props.user){
-      newS = {
-        date:this.state.date,
-        time:this.state.time,
-        endTime:this.state.endTime,
-        title:this.state.title,
-        details:this.state.details,
-        location:this.state.location,
-        players: [{
-          fName: this.props.user.firstName,
-          lName: this.props.user.lastName,
-          avatar: this.props.user.avatar
-        }],
-        created: new Date(),
-        createdBy: {
-          fName: this.props.user.firstName,
-          lName: this.props.user.lastName,
-          avatar: this.props.user.avatar
-        },
-        minPlayers: this.state.minPlayers,
-        maxPlayers: this.state.maxPlayers
-      }
-      console.log('newS',newS)
-      this.props.handleNewSession(newS)
+    newS = {
+      date:this.state.date,
+      time:this.state.time,
+      endTime:this.state.endTime,
+      title:this.state.title,
+      details:this.state.details,
+      location:this.state.location,
+      players: [{
+        fName: this.props.user.firstName,
+        lName: this.props.user.lastName,
+        photoURL: this.props.user.photoURL
+      }],
+      created: new Date(),
+      createdBy: {
+        fName: this.props.user.firstName,
+        lName: this.props.user.lastName,
+        photoURL: this.props.user.photoURL
+      },
+      minPlayers: this.state.minPlayers,
+      maxPlayers: this.state.maxPlayers
     }
-
+    console.log('newS',newS)
+    this.props.handleNewSession(newS)
   }
   toggle() {
     this.setState({
