@@ -12,7 +12,8 @@ import classes from './SessionInfo.css';
 class SessionInfo extends React.Component {
 
   render() {
-      let curentSession=this.props.session.createdBy ?this.props.session :{createdBy:{}, players:[]}
+    console.log(this.props.session);
+    let curentSession=this.props.session.createdBy ?this.props.session :{createdBy:{}, players:[]}
     return (
       <div>
         <Modal isOpen={this.props.toggle}  >

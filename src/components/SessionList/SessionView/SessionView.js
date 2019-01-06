@@ -9,7 +9,10 @@ import classes from './SessionView.css';
 const sessionView = (props) => {
   let btnBook = false;
   const book = (session) => {
-    if(props.isAuth){
+    console.log(session);
+    console.log(btnBook);
+    console.log(props.auth);
+    if(props.auth){
       btnBook = !btnBook;
     } else {
       return <Redirect to='/login'/>
@@ -43,7 +46,7 @@ const sessionView = (props) => {
 const mapStateToProps = state => ({
   toggle: state.sessionReducer.sessionInfoToggle,
   btnToggle: state.sessionReducer.booked,
-  isAuth: state.userReducer.token !== null
+  auth: state.firebaseReducer.auth.uid !== null
 });
 
 function mapDispatchToProps(dispatch) {

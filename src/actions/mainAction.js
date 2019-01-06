@@ -2,6 +2,18 @@ import axios from 'axios';
 import axiosSessions from '../axios-sessions';
 
 
+export const XaddNewSession = (session) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        const firestore = getFirestore();
+        firestore.collection('sessionList').add(session)
+        .then(() => {
+            dispatch({ type: 'XADD_NEW_SESSION', session });
+        }).catch(err => {
+            dispatch({ type: 'CREATE_SESSION_ERROR' }, err);
+        });
+    };
+};
+
 export const addNewSession = (component) => dispatch => {
     dispatch({
         type: 'ADD_NEW_SESSION',
@@ -32,17 +44,18 @@ export const createFBSessionList = (sessionList) => {
     }
   };
 export const addNewSessionToFB = (session) => {
-    return (dispatch, getState, {getFirestore}) => {
+    return (dispatch, getState, {gerfirebase, getFirestore}) => {
       // make async call to database
       const firestore = getFirestore();
       const user = getState().firebaseReducer.profile;
       const userId = getState().firebaseReducer.auth.uid;
+      console.log('session',session);
 
-      firestore.collection('sessionList').add(session)
+      firestore.collection('sessionList').add({a: 'session'})
         .then(() => {
-            dispatch({ type: 'CREATE_FB_LIST' });
+            dispatch({ type: 'ADD_NEW_SESSION',payload:session });
         }).catch(err => {
-            dispatch({ type: 'CREATE_PROJECT_ERROR' }, err);
+            dispatch({ type: 'CREATE_SESSION_ERROR' }, err);
         });
     }
   };

@@ -21,8 +21,6 @@ class NewSession extends React.Component {
   }
   handleAdd(){
     this.toggle();
-    console.log('user',this.props.user)
-    console.log('state',this.state)
     let newS ={}
     if(this.props.user){
       newS = {
@@ -37,7 +35,7 @@ class NewSession extends React.Component {
           lName: this.props.user.lastName,
           avatar: this.props.user.avatar
         }],
-        created: new Date(),
+        created: new Date().toString(),
         createdBy: {
           fName: this.props.user.firstName,
           lName: this.props.user.lastName,
@@ -46,7 +44,6 @@ class NewSession extends React.Component {
         minPlayers: this.state.minPlayers,
         maxPlayers: this.state.maxPlayers
       }
-      console.log('newS',newS)
       this.props.handleNewSession(newS)
     }
 

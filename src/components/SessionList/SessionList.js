@@ -29,14 +29,15 @@ class SessionList extends Component {
         newSeesionList.push(session)
     this.setState({sessionList:newSeesionList});
     axios.post('/sessionList.json', session)
-    this.props.addNewSession(session)
+    this.props.XaddNewSession(session)
   };
 
   handleFBAdd=(session)=>{
-    this.props.addNewSessionToFB(session)
+    this.props.XaddNewSession(session)
   };
 
   render() {
+    console.log("y");
     // let sessionL =this.state.sessionList
     // if(sessionL){
     //   const sessions = Object.values(sessionL).map((session, index) => {
@@ -79,6 +80,6 @@ function mapDispatchToProps(dispatch) {
 export default compose(
   connect(mapStateToProps,mapDispatchToProps),
   firestoreConnect([
-    { collection: 'sessionList'}
+    { collection: 'sessionList', orderBy: ['date', 'desc']}
   ])
 )(SessionList, axios);
