@@ -35,27 +35,28 @@ export const addNewSessionToFB = (session) => {
     return (dispatch, getState, {getFirestore}) => {
       // make async call to database
       const firestore = getFirestore();
+      console.log('session', session.players);
       firestore.collection('sessionList').add({
-        date:'this.state.date',
-        time:'20:00',
-        endTime:'21:00',
-        title:'TRX',
-        details:'this.state.details',
-        location:'location',
+        date: session.date,
+        time: session.time,
+        endTime: session.endTime,
+        title: session.title,
+        details: session.details,
+        location: session.location,
         players: [{
-          fName: 'firstName',
-          lName: 'lastName',
-          photoURL: 'https://randomuser.me/api/portraits/men/7.jpg'
+          fName: 'Mike',
+          lName: 'Tomi',
+          photoURL: 'https://randomuser.me/api/portraits/men/8.jpg'
         }],
         created: new Date(),
         createdBy: {
-          fName: 'firstName',
-          lName: 'lastName',
-          photoURL: 'https://randomuser.me/api/portraits/men/7.jpg'
-        },
-        minPlayers: '5',
-        maxPlayers: '8'
-        })
+          fName: 'Mike',
+          lName: 'Tomi',
+          photoURL: 'https://randomuser.me/api/portraits/men/8.jpg'
+    },
+        minPlayers: session.minPlayers,
+        maxPlayers: session.maxPlayers
+      })
         .then(() => {
             dispatch({ type: 'CREATE_FB_LIST' });
         }).catch(err => {
