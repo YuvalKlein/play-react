@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import FloatButton from '../../UI/FloatButton/FloatButton';
 import classes from './NewSession.css';
 
 class NewSession extends React.Component {
@@ -22,14 +23,13 @@ class NewSession extends React.Component {
   handleAdd(){
     this.toggle();
     let newS ={}
-    if(this.props.user){
-      newS = {
-        date:this.state.date,
-        time:this.state.time,
-        endTime:this.state.endTime,
-        title:this.state.title,
-        details:this.state.details,
-        location:this.state.location,
+    newS = {
+      date:this.state.date,
+      time:this.state.time,
+      endTime:this.state.endTime,
+      title:this.state.title,
+      details:this.state.details,
+      location:this.state.location,
         players: [{
           fName: this.props.user.firstName,
           lName: this.props.user.lastName,
@@ -46,12 +46,11 @@ class NewSession extends React.Component {
       }
       this.props.handleNewSession(newS)
     }
-
-  }
   toggle() {
     this.setState({
       modal: !this.state.modal
     });
+    console.log('from toggle', this.state.modal);
   }
 
   titleHandler=(title) => {
@@ -62,7 +61,8 @@ class NewSession extends React.Component {
     // let user = this.props.user;
     return (
       <div>
-        <Button color="danger" onClick={this.toggle}>+ ADD</Button>
+        {console.log('from render', this.state.modal)}
+        <FloatButton clicked={this.toggle}/>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={classes.NewSession} >
           <ModalHeader toggle={this.toggle}>Add new Class</ModalHeader>
           <ModalBody className={classes.Content}>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { logoutFB } from '../../../actions/mainAction';
+import { logout } from '../../../actions/mainAction';
 import NavigationItem from './NavigationItem/NavigationItem';
 import classes from './NavigationItems.css'
 
@@ -29,7 +29,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      signOut: () => dispatch(logoutFB())
+      signOut: () => dispatch(logout())
     };
   };
   

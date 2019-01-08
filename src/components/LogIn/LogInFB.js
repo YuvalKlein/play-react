@@ -8,137 +8,15 @@ import classes from './LogIn.css';
 import Input from '../UI/Input/Input';
 import Button from '../UI/Button/Button';
 import Spinner from '../UI/Spinner/Spinner';
+import loginForm from './form/form';
 
 class LogIn extends React.Component {
-    state = {
-        alreadyUser: true,
-        controls: {
-            email: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'email',
-                    placeholder: 'Email'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    isEmail: true
-                },
-                valid: false,
-                touched: false
-            },
-            password: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'password',
-                    placeholder: 'Password'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                    minLength: 6
-                },
-                valid: false,
-                touched: false
-            },
-            firstName: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'First Name'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                },
-                valid: false,
-                touched: false
-            },
-            lastName: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'Last Name'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                },
-                valid: false,
-                touched: false
-            },
-            phone: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'tel',
-                    placeholder: 'Phone'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                },
-                valid: false,
-                touched: false
-            },
-            avatar: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'file',
-                    placeholder: 'Upload File'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                },
-                valid: false,
-                touched: false
-            },
-            gender: [{
-                elementType: 'input',
-                elementConfig: {
-                    type: 'radio',
-                    name: "gender",
-                    value: "male",
-                    placeholder: 'gender'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                },
-                valid: false,
-                touched: false
-            },
-            {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'radio',
-                    name: "gender",
-                    value: "female",
-                    placeholder: 'gender'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                },
-                valid: false,
-                touched: false
-            }],
-            birthDay: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'date',
-                    placeholder: 'BirthDay'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                },
-                valid: false,
-                touched: false
-            }
-        }
+    state= {
+        emailValue:'',
+        emailValid:false,
+        passwordValid:false,
+        passwordValue:'',
     }
-
     checkValidity(value, rules) {
         let isValid = true;
         
@@ -168,74 +46,44 @@ class LogIn extends React.Component {
     }
 
     inputChangedHandler = (event, controlName) => {
-        const updatedControls = {
-            ...this.state.controls,
-            [controlName]: {
-                ...this.state.controls[controlName],
-                value: event.target.value,
-                valid: this.checkValidity(event.target.value, this.state.controls[controlName].validation),
-                touched: true
-            }
-        };
-        this.setState({controls: updatedControls});
+        let value =this.checkValidity(event.target.value, loginForm[controlName].validation)
+        console.log('value',value)
+        if(controlName==='email'){
+            this.setState({emailValue: event.target.value,emailValid:value});
+        }else{
+            this.setState({passwordValue: event.target.value,passwordValid:value});
+        }
     };
 
     submitHandler = (event) => {
+        console.log('submitHandler')
         event.preventDefault();
         let creds = {
-            email:this.state.controls.email.value,
-            password: this.state.controls.password.value,
+            email:this.state.emailValue,
+            password: this.state.passwordValue,
             returnSecureToken: true
         }
         this.props.signIn(creds);
 
     };
 
-    signUpHandler = (event) => {
-        event.preventDefault();
-        let user = {
-            email:this.state.controls.email.value,
-            password: this.state.controls.password.value,
-            returnSecureToken: true,
-            type: 'player',
-            firstName: this.state.controls.firstName.value,
-            lastName: this.state.controls.lastName.value,
-            userId: null,
-            // avatar: this.state.controls.avatar.value,
-            phone: this.state.controls.phone.value,
-            birthDay: this.state.controls.birthDay.value,
-            // gender: this.state.controls.gender.value,
-            created: Date.now()
-        }
-        this.props.onAuth(user, this.state.alreadyUser);
-
-    };
-
-    alreadyUserHandler = () => {
-        this.setState({alreadyUser: !this.state.alreadyUser});
-    };
-
-
     render () {
-        let formElementsArray = [];
-        if (this.state.alreadyUser) {
-            formElementsArray = [
-                {
-                    id: "email",
-                    config: this.state.controls.email
-                },
-                {
-                    id: "password",
-                    config: this.state.controls.password
-                } ];
-        } else {
-            for(let key in this.state.controls){
-                formElementsArray.push({
-                    id: key,
-                    config: this.state.controls[key]
-                });
-            };
-        }
+        console.log('loginForm',loginForm)
+
+        let formElementsArray = [
+            {
+                id: "email",
+                config: loginForm.email,
+                valid:this.state.emailValid,
+                value:this.state.emailValue
+            },
+            {
+                id: "password",
+                config: loginForm.password,
+                valid:this.state.passwordValid,
+                value:this.state.passwordValue
+            } ];
+        console.log("isAuthenticated ",this.props.isAuthenticated)
 
         const responseGoogle = (response) => {
             console.log(response);
@@ -246,8 +94,8 @@ class LogIn extends React.Component {
                 key={formElement.id}
                 elementType={formElement.config.elementType} 
                 elementConfig={formElement.config.elementConfig}
-                value={formElement.config.value}
-                invalid={!formElement.config.valid}
+                value={formElement.value}
+                invalid={!formElement.valid}
                 shouldValidate={formElement.config.validation}
                 touched={formElement.config.touched}
                 changed={(event) => this.inputChangedHandler(event, formElement.id)}/>
@@ -257,19 +105,19 @@ class LogIn extends React.Component {
             form = <Spinner />
         };
 
-        let authRedirect = null;
         if (this.props.isAuthenticated) {
-            authRedirect = <Redirect to='/'/>
-        }
+            console.log("HERE")
+            return<Redirect to='/'/>
+        }else{
 
         return (
             <div className={classes.LogIn}>
-                {authRedirect}
                 <p>{this.props.authError}</p>
                 <form onSubmit={this.submitHandler}>
                     {form}
                     <div>
                         <Button btnType="Success">Sign in</Button>
+                       
                         <p>New PLAYer? <NavLink to='/register'>Join Us</NavLink></p> 
                     </div>
                 </form>
@@ -280,7 +128,7 @@ class LogIn extends React.Component {
                     onFailure={responseGoogle}
                 />
             </div>
-        );
+        );}
     };
 };
 
@@ -288,8 +136,8 @@ const mapStateToProps = state =>{
     return {
         loading: state.userReducer.loading,
         error: state.userReducer.error,
-        isAuthenticated: state.userReducer.token !== null,
-        alreadyUser: state.userReducer.alreadyUser,
+        isAuthenticated: state.firebaseReducer.auth.uid !== undefined,
+        // alreadyUser: state.userReducer.alreadyUser,
         authError: state.userReducer.authError
     };
 };

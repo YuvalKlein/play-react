@@ -13,42 +13,16 @@ import SessionInfo from '../SessionList/SessionInfo/SessionInfo';
 import Spinner from '../UI/Spinner/Spinner';
 
 class SessionList extends Component {
-  state={
-    sessionList: []
-  };
-  componentDidMount(){
-    axios.get('/sessionList.json')
-      .then(response => {
 
-        this.setState({sessionList: Object.values(response.data)});
-      });
-  }
-  
   handleAdd=(session)=>{
-     let newSeesionList = this.state.sessionList;
-        newSeesionList.push(session)
-    this.setState({sessionList:newSeesionList});
-    axios.post('/sessionList.json', session)
-    this.props.XaddNewSession(session)
-  };
-
-  handleFBAdd=(session)=>{
-    this.props.XaddNewSession(session)
+    console.log(this.props.auth);
+    this.props.addNewSession(session)
   };
 
   render() {
-    console.log("y");
-    // let sessionL =this.state.sessionList
-    // if(sessionL){
-    //   const sessions = Object.values(sessionL).map((session, index) => {
-    //     console.log("session", session);
-    //     return (
-    //       <SessionView key={index} session={session} />
-    //     );
-    //   });
     let sessionLFB =this.props.sessionList
     if(sessionLFB){
-      const sessions = sessionLFB.map((session) => {
+      const sessions = sessionLFB.map((session,id) => {
         return (
             <SessionView key={session.id} session={session} />
         );
@@ -58,7 +32,7 @@ class SessionList extends Component {
         <div >
             <h1>Today</h1>
           {sessions}
-          <NewSession handleNewSession={this.handleFBAdd} user={this.props.user} auth={this.props.auth}/>
+          <NewSession handleNewSession={this.handleAdd} user={this.props.user} auth={this.props.auth}/>
           <SessionInfo/>
         </div>
       );
@@ -80,6 +54,6 @@ function mapDispatchToProps(dispatch) {
 export default compose(
   connect(mapStateToProps,mapDispatchToProps),
   firestoreConnect([
-    { collection: 'sessionList', orderBy: ['date', 'desc']}
+    { collection: 'sessionList'}
   ])
 )(SessionList, axios);
