@@ -1,41 +1,8 @@
-import axios from 'axios';
-import axiosSessions from '../axios-sessions';
 
-
-export const addNewSession = (component) => dispatch => {
-    dispatch({
-        type: 'ADD_NEW_SESSION',
-        payload: component
-    })
-};
-export const createSessionList = (sessionList) => dispatch => {
-    dispatch({
-        type: 'CREATE_LIST',
-        payload: sessionList
-    })
-};
-export const createFBSessionList = (sessionList) => {
+export const addNewSession = (session) => {
     return (dispatch, getState, {getFirestore}) => {
       // make async call to database
       const firestore = getFirestore();
-      firestore.collection('sessionList').add({
-        ...sessionList,
-        authorFirstName: 'Net',
-        authorLastName: 'Ninja',
-        authorId: 12345,
-        createdAt: new Date()
-      }).then(() => {
-        dispatch({ type: 'CREATE_FB_LIST' });
-      }).catch(err => {
-        dispatch({ type: 'CREATE_PROJECT_ERROR' }, err);
-      });
-    }
-  };
-export const addNewSessionToFB = (session) => {
-    return (dispatch, getState, {getFirestore}) => {
-      // make async call to database
-      const firestore = getFirestore();
-      console.log('session', session.players);
       firestore.collection('sessionList').add({
         date: session.date,
         time: session.time,
@@ -43,14 +10,16 @@ export const addNewSessionToFB = (session) => {
         title: session.title,
         details: session.details,
         location: session.location,
-        players: [{
-          fName: 'Mike',
-          lName: 'Tomi',
-          photoURL: 'https://randomuser.me/api/portraits/men/8.jpg'
-        }],
+        players:{
+            fName: session.players.firstName,
+            uid:session.players.uid,
+            lName: 'Tomi',
+            photoURL: 'https://randomuser.me/api/portraits/men/8.jpg'
+      },
         created: new Date(),
         createdBy: {
           fName: 'Mike',
+          uid:session.players.uid,
           lName: 'Tomi',
           photoURL: 'https://randomuser.me/api/portraits/men/8.jpg'
     },
@@ -58,9 +27,9 @@ export const addNewSessionToFB = (session) => {
         maxPlayers: session.maxPlayers
       })
         .then(() => {
-            dispatch({ type: 'CREATE_FB_LIST' });
+            dispatch({ type: 'ADD_NEW_SESSION' });
         }).catch(err => {
-            dispatch({ type: 'CREATE_PROJECT_ERROR' }, err);
+            dispatch({ type: 'ADD_NEW_SESSION_ERROR' }, err);
         });
     }
   };
@@ -70,65 +39,13 @@ export const toggleInfo = (session) => dispatch => {
         payload:session
     })
 };
-export const booked = () => dispatch => {
+export const booked = (session) => dispatch => {
+  console.log('session',session)
     dispatch({
         type: 'BOOKED'
     })
 };
-export const authStart = () => {
-    return {
-        type: 'AUTH_START'
-    };
-};
 
-export const authSuccess = (user, authDetails) => {
-    axiosSessions.post('/users.json', user)
-    return {
-        type: 'AUTH_SUCCESS',
-        idToken: authDetails.idToken, 
-        refreshToken: authDetails.refreshToken,  
-        userId: authDetails.localId,
-        email: user.email,
-        password: user.password,
-        user: user
-    };
-};
-
-export const authFail = (error) => {
-    return {
-        type: 'AUTH_FAIL',
-        error: error
-    };
-};
-
-export const auth = (user, alreadyUser) => {
-    return dispatch => {
-        dispatch(authStart());
-        let url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyAfxKPiu1Zf876cexkIUr--iLFtMaJFxnc';
-        if(alreadyUser) {
-            url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyAfxKPiu1Zf876cexkIUr--iLFtMaJFxnc';
-        };
-        axios.post(url, user)
-            .then(response => {
-                console.log(response);
-                user.userId = response.data.localId
-                dispatch(authSuccess(user, response.data));
-            })
-            .catch(err => {
-                console.log(err);
-                dispatch(authFail(err.response.data.error));
-            });
-    };
-};
-
-export const logout = () => {
-    return {
-        type: 'AUTH_LOGOUT',
-        token: null,
-        refreshToken: null,
-        userId: null 
-    };
-};
 
 export const signIn = (credentials) => {
     return (dispatch, getState, {getFirebase}) => {
@@ -171,7 +88,7 @@ export const signIn = (credentials) => {
     }
   }
 
-  export const logoutFB = () => {
+  export const logout = () => {
     return (dispatch, getState, {getFirebase}) => {
         const firebase = getFirebase();
         firebase.auth().signOut().then(() => {

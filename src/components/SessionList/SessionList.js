@@ -15,13 +15,14 @@ import Spinner from '../UI/Spinner/Spinner';
 class SessionList extends Component {
 
   handleAdd=(session)=>{
-    this.props.addNewSessionToFB(session)
+    console.log(this.props.auth);
+    this.props.addNewSession(session)
   };
 
   render() {
     let sessionLFB =this.props.sessionList
     if(sessionLFB){
-      const sessions = sessionLFB.map((session) => {
+      const sessions = sessionLFB.map((session,id) => {
         return (
             <SessionView key={session.id} session={session} />
         );

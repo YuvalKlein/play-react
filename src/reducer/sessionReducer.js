@@ -7,15 +7,11 @@ const initialState = {
 };
   
 const  sessionReducer =(state = initialState, action)=> {
-    switch (action.type) {
-        case"CREATE_LIST":
-            return {...state,sessionList:action.payload}       
-        case"CREATE_FB_LIST":
-            return {...state,sessionList:action.payload}       
+    switch (action.type) {     
         case "ADD_NEW_SESSION":
-            let newSesionList = state.sessionList;
-            newSesionList.push(action.payload)
-            return {...state,sessionList: newSesionList};
+            return {...state,sessionList:action.payload};
+        case "ADD_NEW_SESSION_ERROR":
+            return {...state, err: action.err}       
         case "DELETE":
             return state;
         case "TOGGLE_INFO":

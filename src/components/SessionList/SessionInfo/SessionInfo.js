@@ -13,7 +13,6 @@ class SessionInfo extends React.Component {
 
   render() {
       let curentSession=this.props.session.createdBy ?this.props.session :{createdBy:{}, players:[]}
-      console.log(curentSession);
     return (
       <div>
         <Modal isOpen={this.props.toggle}  >

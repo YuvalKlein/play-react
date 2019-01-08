@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import FloatButton from '../../UI/FloatButton/FloatButton';
 import classes from './NewSession.css';
 
 class NewSession extends React.Component {
@@ -21,8 +22,6 @@ class NewSession extends React.Component {
   }
   handleAdd(){
     this.toggle();
-    console.log('user',this.props.user)
-    console.log('state',this.props.auth)
     let newS ={}
     newS = {
       date:this.state.date,
@@ -33,19 +32,18 @@ class NewSession extends React.Component {
       location:this.state.location,
       players: [{
         fName: this.props.user.firstName,
-        lName: this.props.user.lastName,
-        photoURL: this.props.user.photoURL
+        uid: this.props.user.uid,
+        lName: this.props.user.lName,
+        photoURL: this.props.user.photoURL,
       }],
       created: new Date(),
       createdBy: {
         fName: this.props.user.firstName,
-        lName: this.props.user.lastName,
-        photoURL: this.props.user.photoURL
-      },
-      minPlayers: this.state.minPlayers,
-      maxPlayers: this.state.maxPlayers
+        uid: this.props.user.uid,
+        lName: this.props.user.lName,
+        photoURL: this.props.user.photoURL,
+      }
     }
-    console.log('newS',newS)
     this.props.handleNewSession(newS)
   }
   toggle() {
@@ -62,7 +60,7 @@ class NewSession extends React.Component {
     // let user = this.props.user;
     return (
       <div>
-        <Button color="danger" onClick={this.toggle}>+ ADD</Button>
+        <FloatButton clicked={this.toggle}/>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={classes.NewSession} >
           <ModalHeader toggle={this.toggle}>Add new Class</ModalHeader>
           <ModalBody className={classes.Content}>
