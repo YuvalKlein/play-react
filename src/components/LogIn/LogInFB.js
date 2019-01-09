@@ -97,7 +97,7 @@ class LogIn extends React.Component {
                 value={formElement.value}
                 invalid={!formElement.valid}
                 shouldValidate={formElement.config.validation}
-                touched={formElement.config.touched}
+                touched={formElement.value.length>1}
                 changed={(event) => this.inputChangedHandler(event, formElement.id)}/>
         ));
 
