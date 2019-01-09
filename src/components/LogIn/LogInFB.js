@@ -68,8 +68,6 @@ class LogIn extends React.Component {
     };
 
     render () {
-        console.log('loginForm',this.state)
-
         let formElementsArray = [
             {
                 id: "email",
@@ -92,12 +90,12 @@ class LogIn extends React.Component {
         let form = formElementsArray.map(formElement => (
             <Input
                 key={formElement.id}
-                elementType={formElement.config.elementType} 
+                elementType={formElement.config.elementType}
                 elementConfig={formElement.config.elementConfig}
                 value={formElement.value}
                 invalid={!formElement.valid}
                 shouldValidate={formElement.config.validation}
-                touched={formElement.value.length>1}
+                touched={formElement.value.length>0}
                 changed={(event) => this.inputChangedHandler(event, formElement.id)}/>
         ));
 
