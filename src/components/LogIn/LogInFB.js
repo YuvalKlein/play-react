@@ -90,7 +90,7 @@ class LogIn extends React.Component {
         let form = formElementsArray.map(formElement => (
             <Input
                 key={formElement.id}
-                elementType={formElement.config.elementType} 
+                elementType={formElement.config.elementType}
                 elementConfig={formElement.config.elementConfig}
                 value={formElement.value}
                 invalid={!formElement.valid}
