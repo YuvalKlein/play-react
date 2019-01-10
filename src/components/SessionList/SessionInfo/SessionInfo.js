@@ -10,6 +10,11 @@ import * as mainActions from "../../../actions/mainAction";
 import classes from './SessionInfo.css';
 
 class SessionInfo extends React.Component {
+  handelRemoveSession = (session) => {
+    console.log(session);
+    this.props.toggleInfo();
+    this.props.removeSession(session);
+  }
 
   render() {
       let curentSession=this.props.session.createdBy ?this.props.session :{createdBy:{}, players:[]}
@@ -29,7 +34,7 @@ class SessionInfo extends React.Component {
           <ModalFooter>
             <Button color="secondary" onClick={this.props.booked}>BOOK</Button>
             <Button color="secondary" onClick={this.props.toggleInfo}>EDIT</Button>
-            <Button color="secondary" onClick={this.props.toggleInfo}>CANCEL</Button>
+            <Button color="secondary" onClick={() => this.handelRemoveSession(this.props.session)}>DELETE</Button>
           </ModalFooter>
         </Modal>
       </div>

@@ -9,12 +9,16 @@ import classes from './SessionView.css';
 
 const sessionView = (props) => {
   let btnBook = false;
-  props.session.players.map(player =>{
-    console.log('userName',props.userName)
+  console.log('userName',props.userName)
+  props.session.players.map(player => {
     if(props.userName===player.fName){
       btnBook= true
     }else btnBook= false
-  })
+  });
+
+  const handleShareDialog = (session) => {
+    props.toggleDialogShare(session);
+  };
 
 
   const book = (session) => {
@@ -51,6 +55,7 @@ const sessionView = (props) => {
       
 const mapStateToProps = state => ({
   toggle: state.sessionReducer.sessionInfoToggle,
+  shareDialogOpen: state.sessionReducer.shareDialogOpen,
   btnToggle: state.sessionReducer.booked,
   isAuth: state.firebaseReducer.auth,
   userName: state.firebaseReducer.profile.firstName

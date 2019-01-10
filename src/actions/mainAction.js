@@ -32,14 +32,35 @@ export const addNewSession = (session) => {
             dispatch({ type: 'ADD_NEW_SESSION_ERROR' }, err);
         });
     }
-  };
+};
+export const removeSession = (session) => {
+  return (dispatch, getState, {getFirestore}) => {
+    // make async call to database
+    const firestore = getFirestore();
+    firestore.collection('sessionList').doc(session.id).delete()
+      .then(() => {
+          console.log("Document successfully deleted!");
+          dispatch({ type: 'DELETE' });
+      })
+      .catch(function(error) {
+        console.error("Error removing document: ", error);
+    });
+  }
+};
 export const toggleInfo = (session) => dispatch => {
     dispatch({
         type: 'TOGGLE_INFO',
         payload:session
     })
 };
+export const toggleDialogShare = (session) => dispatch => {
+    dispatch({
+        type: 'DIALOG_OPEN',
+        payload:session
+    })
+};
 export const booked = (session) => dispatch => {
+  toggleDialogShare(session);
   console.log('session',session)
     dispatch({
         type: 'BOOKED'
