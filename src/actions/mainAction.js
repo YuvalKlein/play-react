@@ -3,29 +3,31 @@ export const addNewSession = (session) => {
     return (dispatch, getState, {getFirestore}) => {
       // make async call to database
       const firestore = getFirestore();
-      firestore.collection('sessionList').add({
+      let newSession = {
         date: session.date,
         time: session.time,
         endTime: session.endTime,
         title: session.title,
         details: session.details,
         location: session.location,
-        players:{
-            fName: session.players.firstName,
-            uid:session.players.uid,
-            lName: 'Tomi',
-            photoURL: 'https://randomuser.me/api/portraits/men/8.jpg'
-      },
-        created: new Date(),
-        createdBy: {
+        players:JSON.stringify([{
+          fName: session.players.firstName,
+          uid:session.players.uid,
+          lName: 'Tomi',
+          photoURL: 'https://randomuser.me/api/portraits/men/8.jpg'
+        }]),
+        created: "Thu Jan 10 2019 09:42:19 GMT+0200",
+        createdBy: JSON.stringify({
           fName: 'Mike',
           uid:session.players.uid,
           lName: 'Tomi',
           photoURL: 'https://randomuser.me/api/portraits/men/8.jpg'
-    },
-        minPlayers: session.minPlayers,
-        maxPlayers: session.maxPlayers
-      })
+        }),
+        minPlayers: 1, //TODO    minPlayers: session.minPlayers,
+        maxPlayers: 2  //TODO    maxPlayers: session.maxPlayers
+      };
+      console.log('newSession',newSession);
+      firestore.collection('sessionList').add(newSession)
         .then(() => {
             dispatch({ type: 'ADD_NEW_SESSION' });
         }).catch(err => {

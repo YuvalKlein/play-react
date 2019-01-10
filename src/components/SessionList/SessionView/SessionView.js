@@ -9,13 +9,24 @@ import classes from './SessionView.css';
 
 const sessionView = (props) => {
   let btnBook = false;
-  props.session.players.map(player =>{
-    console.log('userName',props.userName)
-    if(props.userName===player.fName){
-      btnBook= true
-    }else btnBook= false
-  })
-
+  let players = props.session.players;
+  if(typeof players==="string"){
+    players = JSON.parse(players)
+    players.map(player =>{
+      console.log('userName',props.userName)
+      if(props.userName===player.fName){
+        btnBook= true
+      }else btnBook= false
+    })
+  }
+  else {
+    players.map(player =>{
+      console.log('userName',props.userName)
+      if(props.userName===player.fName){
+        btnBook= true
+      }else btnBook= false
+    })
+  }
 
   const book = (session) => {
     if(props.isAuth.uid){
@@ -38,7 +49,7 @@ const sessionView = (props) => {
       </div>
       <div className={classes.Players} onClick={()=>props.toggleInfo(props.session)}>
             <p>{props.session.minPlayers}\{props.session.maxPlayers}</p>
-            <div className={classes.Avatars}>{props.session.players.map((player,i) => <div key={i}><img alt="" className={classes.FaceImg} src={player.photoURL}/></div>)}</div>
+            <div className={classes.Avatars}>{players.map((player,i) => <div key={i}><img alt="" className={classes.FaceImg} src={player.photoURL}/></div>)}</div>
       </div>
       <div className={classes.Button}>
         <button onClick={()=>props.booked(props.session)} className={btnBook?classes.Cancel : classes.Book} >{btnBook?"CANCEL":"BOOK"}</button>
