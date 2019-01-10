@@ -1,11 +1,14 @@
-in session info- from where the props.session
-can't add new session
+in session info line 42
+can't make photoURL- tried to add in in register page and line 157 in main action
+can't log in when trying to log in after log out
+
+
+
 leacture 27 from the net ninja- route Guarding (can't we make middleware?)
 leacture 26 didnt work 
 why do I need to set the auth state in each component and can't call as Props
 why I cant see the auth when I console log auth (it's a fuction)
 book button component
-add current numper of sign in and compare it to minimum in server to get notify well the class happen
 avatar component
 create user when register
 delete session

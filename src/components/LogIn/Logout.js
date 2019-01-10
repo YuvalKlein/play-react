@@ -7,7 +7,7 @@ import * as mainActions from "../../actions/mainAction";
 
 class Logout extends Component {
     componentDidMount () {
-        this.props.logoutFB();
+        this.props.logout();
     }
     render () {
         return <Redirect to="/"/>;

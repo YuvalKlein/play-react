@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import FloatButton from '../../UI/FloatButton/FloatButton';
 import classes from './NewSession.css';
 
 class NewSession extends React.Component {
@@ -22,31 +23,28 @@ class NewSession extends React.Component {
   handleAdd(){
     this.toggle();
     let newS ={}
-    if(this.props.user){
-      newS = {
-        date:this.state.date,
-        time:this.state.time,
-        endTime:this.state.endTime,
-        title:this.state.title,
-        details:this.state.details,
-        location:this.state.location,
-        players: [{
-          fName: this.props.user.firstName,
-          lName: this.props.user.lastName,
-          avatar: this.props.user.avatar
-        }],
-        created: new Date().toString(),
-        createdBy: {
-          fName: this.props.user.firstName,
-          lName: this.props.user.lastName,
-          avatar: this.props.user.avatar
-        },
-        minPlayers: this.state.minPlayers,
-        maxPlayers: this.state.maxPlayers
+    newS = {
+      date:this.state.date,
+      time:this.state.time,
+      endTime:this.state.endTime,
+      title:this.state.title,
+      details:this.state.details,
+      location:this.state.location,
+      players: [{
+        fName: this.props.user.firstName,
+        uid: this.props.user.uid,
+        lName: this.props.user.lName,
+        photoURL: this.props.user.photoURL,
+      }],
+      created: new Date(),
+      createdBy: {
+        fName: this.props.user.firstName,
+        uid: this.props.user.uid,
+        lName: this.props.user.lName,
+        photoURL: this.props.user.photoURL,
       }
-      this.props.handleNewSession(newS)
     }
-
+    this.props.handleNewSession(newS)
   }
   toggle() {
     this.setState({
@@ -62,7 +60,7 @@ class NewSession extends React.Component {
     // let user = this.props.user;
     return (
       <div>
-        <Button color="danger" onClick={this.toggle}>+ ADD</Button>
+        <FloatButton clicked={this.toggle}/>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={classes.NewSession} >
           <ModalHeader toggle={this.toggle}>Add new Class</ModalHeader>
           <ModalBody className={classes.Content}>

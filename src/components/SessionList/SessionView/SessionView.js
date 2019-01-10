@@ -1,18 +1,35 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators} from "redux";
+import {bindActionCreators, compose} from "redux";
 import {Redirect} from 'react-router-dom';
+import {firestoreConnect} from "react-redux-firebase";
 
 import * as mainActions from "../../../actions/mainAction";
 import classes from './SessionView.css';
 
 const sessionView = (props) => {
   let btnBook = false;
+  let players = props.session.players;
+  if(typeof players==="string"){
+    players = JSON.parse(players)
+    players.map(player =>{
+      console.log('userName',props.userName)
+      if(props.userName===player.fName){
+        btnBook= true
+      }else btnBook= false
+    })
+  }
+  else {
+    players.map(player =>{
+      console.log('userName',props.userName)
+      if(props.userName===player.fName){
+        btnBook= true
+      }else btnBook= false
+    })
+  }
+
   const book = (session) => {
-    console.log(session);
-    console.log(btnBook);
-    console.log(props.auth);
-    if(props.auth){
+    if(props.isAuth.uid){
       btnBook = !btnBook;
     } else {
       return <Redirect to='/login'/>
@@ -32,10 +49,10 @@ const sessionView = (props) => {
       </div>
       <div className={classes.Players} onClick={()=>props.toggleInfo(props.session)}>
             <p>{props.session.minPlayers}\{props.session.maxPlayers}</p>
-            <div className={classes.Avatars}>{props.session.players.map((player,i) => <div key={i}><img alt="" className={classes.FaceImg} src={player.avatar}/></div>)}</div>
+            <div className={classes.Avatars}>{players.map((player,i) => <div key={i}><img alt="" className={classes.FaceImg} src={player.photoURL}/></div>)}</div>
       </div>
       <div className={classes.Button}>
-        <button onClick={()=>book(props.session)} className={btnBook?classes.Cancel : classes.Book} >{btnBook?"CANCEL":"BOOK"}</button>
+        <button onClick={()=>props.booked(props.session)} className={btnBook?classes.Cancel : classes.Book} >{btnBook?"CANCEL":"BOOK"}</button>
       </div> 
     </div>
   );
@@ -46,11 +63,17 @@ const sessionView = (props) => {
 const mapStateToProps = state => ({
   toggle: state.sessionReducer.sessionInfoToggle,
   btnToggle: state.sessionReducer.booked,
-  auth: state.firebaseReducer.auth.uid !== null
+  isAuth: state.firebaseReducer.auth,
+  userName: state.firebaseReducer.profile.firstName
 });
 
 function mapDispatchToProps(dispatch) {
   return {...bindActionCreators(mainActions, dispatch)}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(sessionView);
+export default compose(
+  connect(mapStateToProps,mapDispatchToProps),
+  firestoreConnect([
+    { collection: 'sessionList'}
+  ])
+)(sessionView);
