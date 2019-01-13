@@ -11,23 +11,22 @@ import classes from './SessionInfo.css';
 
 class SessionInfo extends React.Component {
   handelRemoveSession = (session) => {
-    console.log(session);
-    this.props.toggleInfo();
+    this.props.toggleSessiomInfo();
     this.props.removeSession(session);
   }
 
   render() {
-      let curentSession=this.props.session.createdBy ?this.props.session :{createdBy:{}, players:[]}
+      let curentSession= this.props.session;
     return (
       <div>
         <Modal isOpen={this.props.toggle}  >
-          <ModalHeader toggle={()=>this.props.toggleInfo({})}>{curentSession.title}</ModalHeader>
+          <ModalHeader toggle={()=>this.props.toggleSessiomInfo({})}>{curentSession.title}</ModalHeader>
           <ModalBody className={classes.SessionInfo}>
-              <p>Craeted By: {curentSession.createdBy.fName +"  "+ curentSession.createdBy.lName} </p>
+              <p>Craeted By: {curentSession.createdBy.firstName +"  "+ curentSession.createdBy.lastName} </p>
               <p>on {}</p>
               <img alt="" className={classes.FaceImg} src={curentSession.createdBy.photoURL}/>
               <p>{curentSession.details}</p>
-              <div className={classes.Players}>{curentSession.players.map((player,i) => <div key={i}><img alt="" className={classes.FaceImg} src={player.photoURL}/></div>)}</div>
+              {/* <div className={classes.Players}>{curentSession.players.map((player,i) => <div key={i}><img alt="" className={classes.FaceImg} src={player.photoURL}/></div>)}</div> */}
               {/* <Map/> */}
 
           </ModalBody>

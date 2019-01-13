@@ -3,31 +3,7 @@ export const addNewSession = (session) => {
     return (dispatch, getState, {getFirestore}) => {
       // make async call to database
       const firestore = getFirestore();
-      let newSession = {
-        date: session.date,
-        time: session.time,
-        endTime: session.endTime,
-        title: session.title,
-        details: session.details,
-        location: session.location,
-        players:JSON.stringify([{
-          fName: session.players.firstName,
-          uid:session.players.uid,
-          lName: 'Tomi',
-          photoURL: 'https://randomuser.me/api/portraits/men/8.jpg'
-        }]),
-        created: "Thu Jan 10 2019 09:42:19 GMT+0200",
-        createdBy: JSON.stringify({
-          fName: 'Mike',
-          uid:session.players.uid,
-          lName: 'Tomi',
-          photoURL: 'https://randomuser.me/api/portraits/men/8.jpg'
-        }),
-        minPlayers: 1, //TODO    minPlayers: session.minPlayers,
-        maxPlayers: 2  //TODO    maxPlayers: session.maxPlayers
-      };
-      console.log('newSession',newSession);
-      firestore.collection('sessionList').add(newSession)
+      firestore.collection('sessionList').add(session)
         .then(() => {
             dispatch({ type: 'ADD_NEW_SESSION' });
         }).catch(err => {
@@ -49,7 +25,21 @@ export const removeSession = (session) => {
     });
   }
 };
-export const toggleInfo = (session) => dispatch => {
+export const signToSession = (session) => {
+  return (dispatch, getState, {getFirestore}) => {
+    // make async call to database
+    const firestore = getFirestore();
+    firestore.collection('sessionList').doc(session.id).set(session)
+      .then(() => {
+          console.log("Document successfully deleted!");
+          dispatch({ type: 'UPDATE_PLAYERS_IN_SESSION' });
+      })
+      .catch(function(error) {
+        console.error("Error removing document: ", error);
+    });
+  }
+};
+export const toggleSessiomInfo = (session) => dispatch => {
     dispatch({
         type: 'TOGGLE_INFO',
         payload:session
@@ -62,13 +52,12 @@ export const toggleDialogShare = (session) => dispatch => {
     })
 };
 export const booked = (session) => dispatch => {
-  toggleDialogShare(session);
-  console.log('session',session)
-    dispatch({
-        type: 'BOOKED'
-    })
+  // console.log("session" ,session);
+  // toggleDialogShare(session);
+  dispatch({
+    type: 'BOOKED'
+  })
 };
-
 
 export const signIn = (credentials) => {
     return (dispatch, getState, {getFirebase}) => {
@@ -101,6 +90,7 @@ export const signIn = (credentials) => {
             lastName: newUser.lastName,
             phone: newUser.phone,
             birthDay: newUser.birthDay,
+            photoURL: newUser.photoURL
         })
     }).then(() => {
         dispatch({ type: 'SIGNUP_SUCCESS' });

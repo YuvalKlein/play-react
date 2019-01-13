@@ -31,18 +31,20 @@ class NewSession extends React.Component {
       details:this.state.details,
       location:this.state.location,
       players: [{
-        fName: this.props.user.firstName,
-        uid: this.props.user.uid,
-        lName: this.props.user.lName,
+        firstName: this.props.user.firstName,
+        uid: this.props.auth.uid,
+        lastName: this.props.user.lastName,
         photoURL: this.props.user.photoURL,
       }],
       created: new Date(),
       createdBy: {
-        fName: this.props.user.firstName,
-        uid: this.props.user.uid,
-        lName: this.props.user.lName,
+        firstName: this.props.user.firstName,
+        uid: this.props.auth.uid,
+        lastName: this.props.user.lastName,
         photoURL: this.props.user.photoURL,
-      }
+      },
+      minPlayers: this.state.minPlayers,
+      maxPlayers: this.state.maxPlayers
     }
     this.props.handleNewSession(newS)
   }

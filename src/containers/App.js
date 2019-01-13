@@ -4,7 +4,7 @@ import SessionList from '../components/SessionList/SessionList';
 import {Switch,Route} from 'react-router-dom'
 import Layout from '../hoc/Layout/Layout';
 import ContactUs from '../components/ContactUs/ContactUs';
-import LogIn from '../components/LogIn/LogInFB';
+import LogIn from '../components/LogIn/LogIn';
 import Register from '../components/Register/Register';
 import ClassInfo from '../components/SessionList/SessionInfo/SessionInfo';
 import Account from '../components/Account/Account';

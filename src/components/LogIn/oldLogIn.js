@@ -1,15 +1,16 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Redirect, NavLink} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
 
-import {signUp} from '../../actions/mainAction';
-import classes from './Register.css';
-import Input from '../UI/Input/Input';
-import Button from '../UI/Button/Button';
-import Spinner from '../UI/Spinner/Spinner';
 
-class Register extends React.Component {
+import classes from './LogIn.css';
+import Input from '../../components/UI/Input/Input';
+import Button from '../../components/UI/Button/Button';
+import Spinner from '../../components/UI/Spinner/Spinner';
+import * as actions from '../../actions/mainAction';
+
+class LogIn extends React.Component {
     state = {
         alreadyUser: true,
         controls: {
@@ -85,19 +86,6 @@ class Register extends React.Component {
                 elementConfig: {
                     type: 'file',
                     placeholder: 'Upload File'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                },
-                valid: false,
-                touched: false
-            },
-            photoURL: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'photoURL'
                 },
                 value: '',
                 validation: {
@@ -193,6 +181,17 @@ class Register extends React.Component {
         this.setState({controls: updatedControls});
     };
 
+    submitHandler = (event) => {
+        event.preventDefault();
+        let user = {
+            email:this.state.controls.email.value,
+            password: this.state.controls.password.value,
+            returnSecureToken: true
+        }
+        this.props.onAuth(user, this.state.alreadyUser);
+
+    };
+
     signUpHandler = (event) => {
         event.preventDefault();
         let user = {
@@ -202,13 +201,14 @@ class Register extends React.Component {
             type: 'player',
             firstName: this.state.controls.firstName.value,
             lastName: this.state.controls.lastName.value,
-            photoURL: this.state.controls.photoURL.value ? this.state.controls.photoURL.value : 'https://firebasestorage.googleapis.com/v0/b/play-e37a6.appspot.com/o/profile%20pictures%2FNerd_with_Glasses_Emoji.png?alt=media&token=788fc5d7-e587-4f1d-8eea-a3d2b0c4605a',
+            userId: null,
+            // avatar: this.state.controls.avatar.value,
             phone: this.state.controls.phone.value,
             birthDay: this.state.controls.birthDay.value,
-            gender: this.state.controls.gender.value,
-            created: new Date(),
+            // gender: this.state.controls.gender.value,
+            created: Date.now()
         }
-        this.props.signUp(user);
+        this.props.onAuth(user, this.state.alreadyUser);
 
     };
 
@@ -219,13 +219,24 @@ class Register extends React.Component {
 
     render () {
         let formElementsArray = [];
-        for(let key in this.state.controls){
-            formElementsArray.push({
-                id: key,
-                config: this.state.controls[key]
-            });
-        };
-
+        if (this.state.alreadyUser) {
+            formElementsArray = [
+                {
+                    id: "email",
+                    config: this.state.controls.email
+                },
+                {
+                    id: "password",
+                    config: this.state.controls.password
+                } ];
+        } else {
+            for(let key in this.state.controls){
+                formElementsArray.push({
+                    id: key,
+                    config: this.state.controls[key]
+                });
+            };
+        }
 
         const responseGoogle = (response) => {
             console.log(response);
@@ -247,6 +258,14 @@ class Register extends React.Component {
             form = <Spinner />
         };
 
+        let errorMessage = null;
+
+        if (this.props.error) {
+            errorMessage = (
+                <p>{this.props.error.message}</p>
+            );
+        };
+
         let authRedirect = null;
         if (this.props.isAuthenticated) {
             authRedirect = <Redirect to='/'/>
@@ -255,13 +274,18 @@ class Register extends React.Component {
         return (
             <div className={classes.LogIn}>
                 {authRedirect}
-                <p>{this.props.authError}</p>
-                <form onSubmit={this.signUpHandler}>
+                {errorMessage}
+                <form onSubmit={this.state.alreadyUser ? this.submitHandler : this.signUpHandler}>
                     {form}
-                         <div>
+                    {this.state.alreadyUser ? 
+                        <div>
+                            <Button btnType="Success">Sign in</Button>
+                            <p>New PLAYer? <a onClick={this.alreadyUserHandler}>Join Us</a></p> 
+                        </div>
+                        : <div>
                             <Button btnType="Success">Sign up</Button>
-                            <p>Already PLAYer? <NavLink to='/login'>Sign in</NavLink></p>
-                          </div>
+                            <p>Already PLAYer? <a onClick={this.alreadyUserHandler}>Sign in</a></p>
+                          </div>}
                 </form>
                 <GoogleLogin
                     clientId="203139564983-9gd9ebikj3pct8ptmkkt6r2atcf838qu.apps.googleusercontent.com"
@@ -279,15 +303,14 @@ const mapStateToProps = state =>{
         loading: state.userReducer.loading,
         error: state.userReducer.error,
         isAuthenticated: state.userReducer.token !== null,
-        alreadyUser: state.userReducer.alreadyUser,
-        authError: state.userReducer.authError
+        alreadyUser: state.userReducer.alreadyUser
     };
 };
 
 const mapDispatchToProps = dispatch =>{
     return {
-        signUp: (newUser) => dispatch(signUp(newUser)),
+        onAuth: (user, alreadyUser) => dispatch(actions.auth(user, alreadyUser)),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
