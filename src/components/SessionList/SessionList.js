@@ -11,6 +11,7 @@ import SessionView from './SessionView/SessionView';
 import NewSession from './NewSession/NewSession';
 import SessionInfo from '../SessionList/SessionInfo/SessionInfo';
 import Spinner from '../UI/Spinner/Spinner';
+import SignOutDialog from '../Dialogs/signOutDialog/signOutDialog';
 
 class SessionList extends Component {
 
@@ -20,6 +21,7 @@ class SessionList extends Component {
   };
 
   render() {
+    console.log("now");
     let sessionLFB =this.props.sessionList
     if(sessionLFB){
       const sessions = sessionLFB.map((session,id) => {
@@ -32,6 +34,7 @@ class SessionList extends Component {
         <div >
             <h1>Today</h1>
           {sessions}
+          <SignOutDialog/>
           <NewSession handleNewSession={this.handleAdd} user={this.props.user} auth={this.props.auth}/>
           <SessionInfo/>
         </div>

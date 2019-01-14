@@ -17,22 +17,19 @@ const sessionView = (props) => {
     
   };
   const signToSessionHandler=()=>{
-    let newPlayers= props.session.players;
-    console.log('players',props.session.players)
-    let countPlaers =newPlayers.length;
-    console.log(countPlaers)
-    newPlayers.push({
-      countPlaers:{
-        firstName: props.userName.firstName,
-        lastName: props.userName.lastName,
-        photoURL: props.userName.photoURL,
+    let players= props.session.players;
+    let newPlayerArray = players.concat([{
+        firstName: props.user.firstName,
+        lastName: props.user.lastName,
+        photoURL: props.user.photoURL,
         uid: props.auth.uid
-      }}
-      );
-      console.log('newPlayers',newPlayers)
-    let updateSession = props.session;
-    updateSession.players=newPlayers
-    props.signToSession(updateSession)
+    }]);
+    props.signToSession(props.session, newPlayerArray);
+  };
+  const removeFromSessionHandler=()=>{
+    const players = props.session.players.filter(player => player.uid !== props.auth.uid);
+    console.log('playerToDelete', players);
+    props.removeFromSession(props.session, players);
   };
 
   let players = props.session.players;
@@ -40,7 +37,7 @@ const sessionView = (props) => {
   players.map(player => {
     if(props.auth.uid === player.uid){
   
-      btnBook= <BookButton clicked={bookHandler} classN={classes.Cancel} title="CANCEL"/>
+      btnBook= <BookButton clicked={() => props.toggleSignOutDialog(props)} classN={classes.Cancel} title="CANCEL"/>
     }else btnBook=<BookButton clicked={signToSessionHandler} classN={classes.Book} title="BOOK"/>
     });
     if(!props.auth.uid){
@@ -92,7 +89,7 @@ const mapStateToProps = state => ({
   shareDialogOpen: state.sessionReducer.shareDialogOpen,
   btnToggle: state.sessionReducer.booked,
   auth: state.firebaseReducer.auth,
-  userName: state.firebaseReducer.profile
+  user: state.firebaseReducer.profile
 });
 
 function mapDispatchToProps(dispatch) {

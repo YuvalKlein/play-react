@@ -25,17 +25,31 @@ export const removeSession = (session) => {
     });
   }
 };
-export const signToSession = (session) => {
+export const signToSession = (session, players) => {
   return (dispatch, getState, {getFirestore}) => {
     // make async call to database
     const firestore = getFirestore();
-    firestore.collection('sessionList').doc(session.id).set(session)
+    firestore.collection('sessionList').doc(session.id).set({...session,players: players})
       .then(() => {
-          console.log("Document successfully deleted!");
+          console.log("Player successfully sign to class!");
           dispatch({ type: 'UPDATE_PLAYERS_IN_SESSION' });
       })
       .catch(function(error) {
-        console.error("Error removing document: ", error);
+        console.error("Error signning to class: ", error);
+    });
+  }
+};
+export const removeFromSession = (session, players) => {
+  return (dispatch, getState, {getFirestore}) => {
+    // make async call to database
+    const firestore = getFirestore();
+    firestore.collection('sessionList').doc(session.id).set({...session,players: players})
+      .then(() => {
+          console.log("Player successfully removed from class!");
+          dispatch({ type: 'REMOVE_PLAYER_FROM_SESSION' }, session);
+      })
+      .catch(function(error) {
+        console.error("Error removing from class: ", error);
     });
   }
 };
@@ -47,8 +61,14 @@ export const toggleSessiomInfo = (session) => dispatch => {
 };
 export const toggleDialogShare = (session) => dispatch => {
     dispatch({
-        type: 'DIALOG_OPEN',
+        type: 'SHARE_DIALOG_OPEN',
         payload:session
+    })
+};
+export const toggleSignOutDialog = (props) => dispatch => {
+    dispatch({
+        type: 'SIGN_OUT_DIALOG_OPEN',
+        session: props.session
     })
 };
 export const booked = (session) => dispatch => {
