@@ -11,7 +11,6 @@ import SessionView from './SessionView/SessionView';
 import NewSession from './NewSession/NewSession';
 import SessionInfo from '../SessionList/SessionInfo/SessionInfo';
 import Spinner from '../UI/Spinner/Spinner';
-import BookButton from '../UI/Button/bookButton';
 
 class SessionList extends Component {
 

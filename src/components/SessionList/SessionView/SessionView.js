@@ -73,7 +73,7 @@ const sessionView = (props) => {
         <p>{props.session.location}</p>
       </div>
       <div className={classes.Players} onClick={()=>props.toggleSessiomInfo(props.session)}>
-            <p>{props.session.minPlayers}\{props.session.maxPlayers}</p>
+            <p>{props.session.players.length}\{props.session.maxPlayers}</p>
             <div className={classes.Avatars}>{players.map((player,i) => <div key={i}><img alt="" className={classes.FaceImg} src={player.photoURL}/></div>)}</div>
       </div>
       <div className={classes.Button}>

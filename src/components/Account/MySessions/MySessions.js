@@ -9,33 +9,33 @@ import Spinner from '../../UI/Spinner/Spinner';
 
 
 const mySessions = (props) => {
-    // let AllList =props.sessionList
-    // console.log('props', props);
-    // console.log('sessionList', props.sessionList);
-    // if(AllList){
-    //     console.log('AllList', AllList);
-    //     const sessions = AllList.map(session => {
-    //         console.log('sessions', sessions);
-    //         console.log('session', session);
-    //         session.players.filter(player => {
-    //             console.log('player', player);
-    //             if (player.fName === props.user.firstName) { 
-    //                 return (
-    //                     <SessionView key={session.id} session={session} />
-    //                 )
-    //             } else {
-    //                 return <p>No Classes</p>
-    //             }
-    //         })
-    //     });
+    const sessions =props.sessionList
+    console.log('props', props);
+    console.log('sessionList', props.sessionList);
+    if(sessions){
+        console.log('sessions', sessions);
+        const mySessions = sessions.map(session => {
+            console.log('mySessions', mySessions);
+            console.log('session', session);
+            session.players.filter(player => {
+                console.log('player', player);
+                if (player.uid === props.auth.uid) { 
+                    return (
+                        <SessionView session={session} />
+                    )
+                } else {
+                    return <p>No Classes</p>
+                }
+            })
+        });
         
-    //     return(
-    //         {sessions}
-    //     );
-    // } else {
+        return(
+            {sessions}
+        );
+    } else {
         return  <Spinner/> 
     };
-// };
+};
 
 const mapStateToProps = state => ({
     auth: state.firebaseReducer.auth,
