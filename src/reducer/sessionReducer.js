@@ -11,7 +11,7 @@ const initialState = {
 const  sessionReducer =(state = initialState, action)=> {
     switch (action.type) {     
         case "ADD_NEW_SESSION":
-            return {...state,sessionList:action.payload};
+            return {...state, toggleDialogShare: !state.toggleDialogShare, sessionList:action.payload};
         case "ADD_NEW_SESSION_ERROR":
             return {...state, err: action.err}       
         case "UPDATE_PLAYERS_IN_SESSION":
@@ -25,7 +25,7 @@ const  sessionReducer =(state = initialState, action)=> {
         case "SHARE_DIALOG_OPEN":
             return {...state,shareDialogOpen: !state.shareDialogOpen,session:action.payload};
         case "SIGN_OUT_DIALOG_OPEN":
-            return {...state,signOutDialogOpen: !state.signOutDialogOpen,session:action.session};
+            return {...state,signOutDialogOpen: !state.signOutDialogOpen,session:action.payload};
         case "BOOKED":
             return {...state,inClass: !state.inClass};
         default: return state

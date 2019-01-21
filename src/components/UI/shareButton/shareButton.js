@@ -4,14 +4,15 @@ import {bindActionCreators, compose} from "redux";
 import {firestoreConnect} from "react-redux-firebase";
 
 import * as mainActions from "../../../actions/mainAction";
-import {FacebookShareButton, WhatsappShareButton} from 'react-share';
+import {FacebookShareButton, WhatsappShareButton, WhatsappIcon, FacebookIcon} from 'react-share';
 
 const shareButton = (props) => {
     
     return (
         <>
-            <FacebookShareButton/>
-            <WhatsappShareButton/>
+          <WhatsappShareButton title='try' url={props.urll}>
+            <WhatsappIcon round={true}/>
+          </WhatsappShareButton>
         </>
     );
 };

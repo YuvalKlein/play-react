@@ -11,13 +11,19 @@ import {bindActionCreators} from "redux";
 import * as mainActions from "../../../actions/mainAction";
 
 class AlertDialog extends React.Component {
-  state = {
+    state = {
     open: false,
   };
 
   handleClickYes = (props) => {
-      this.removeFromSessionHandler(props);
-      this.props.toggleSignOutDialog();
+      console.log('handleClickYes',this.props.session)
+      if(this.props.session.players.length === 1) {
+        this.props.removeSession(this.props.session);
+        this.props.toggleSignOutDialog(this.props.session);
+      } else {
+        this.removeFromSessionHandler();
+        this.props.toggleSignOutDialog(this.props.session);
+      }
   };
 
   handleClickOpen = () => {
@@ -36,22 +42,24 @@ class AlertDialog extends React.Component {
   };
 
   render() {
+    // let message = '';
+    // this.props.session.players.length === 1 ? message = 'This will remove the class, are you sure?' : message = "Are you sure you want to signout?";
     return (
       <div>
         <Dialog
           open={this.props.signOutDialogOpen}
-          onClose={this.props.toggleSignOutDialog}
+          onClose={()=>this.props.toggleSignOutDialog(this.props.session)}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Are you sure you want to signout?"}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{'message'}</DialogTitle>
           <DialogContent>
             {/* <DialogContentText id="alert-dialog-description">
               
             </DialogContentText> */}
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.toggleSignOutDialog} color="primary">
+            <Button onClick={()=>this.props.toggleSignOutDialog({session:{}})} color="primary">
               NO
             </Button>
             <Button onClick={this.handleClickYes} color="primary" autoFocus>

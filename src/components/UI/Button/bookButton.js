@@ -7,7 +7,7 @@ import * as mainActions from '../../../actions/mainAction';
 
 const bookButton = (props) => {
     return(
-        <button onClick={props.clicked} className={props.classN} >{props.title}</button>
+        <button onClick={()=>props.clicked(props.clickedSession)} className={props.classN} >{props.title}</button>
         // <button onClick={()=>props.booked(props.session)} className={btnBook?classes.Cancel : classes.Book} >{btnBook?"CANCEL":"BOOK"}</button>
 )};
 

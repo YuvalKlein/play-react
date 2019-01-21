@@ -16,7 +16,7 @@ class SessionInfo extends React.Component {
   }
 
   render() {
-      let curentSession=this.props.session.createdBy ?this.props.session :{createdBy:{}, players:[]};
+    let curentSession=this.props.session.createdBy ?this.props.session :{createdBy:{}, players:[]};
     return (
       <div>
         <Modal isOpen={this.props.toggle}  >
@@ -26,13 +26,13 @@ class SessionInfo extends React.Component {
               <p>on {}</p>
               <img alt="" className={classes.FaceImg} src={curentSession.createdBy.photoURL}/>
               <p>{curentSession.details}</p>
-              {/* <div className={classes.Players}>{curentSession.players.map((player,i) => <div key={i}><img alt="" className={classes.FaceImg} src={player.photoURL}/></div>)}</div> */}
+              <div className={classes.Players}>{curentSession.players.map((player,i) => <div key={i}><img alt="" className={classes.FaceImg} src={player.photoURL}/></div>)}</div>
               {/* <Map/> */}
 
           </ModalBody>
           <ModalFooter>
-            <Button color="secondary" onClick={this.props.booked}>BOOK</Button>
-            <Button color="secondary" onClick={this.props.toggleInfo}>EDIT</Button>
+            <Button color="secondary" onClick={()=>this.props.booked}>BOOK</Button>
+            <Button color="secondary" onClick={()=>this.props.toggleSessiomInfo(this.props.session)}>EDIT</Button>
             <Button color="secondary" onClick={() => this.handelRemoveSession(this.props.session)}>DELETE</Button>
           </ModalFooter>
         </Modal>

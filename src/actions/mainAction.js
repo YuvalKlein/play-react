@@ -40,17 +40,16 @@ export const signToSession = (session, players) => {
   }
 };
 export const removeFromSession = (session, players) => {
-  return (dispatch, getState, {getFirestore}) => {
+  return async (dispatch, getState, {getFirestore}) => {
     // make async call to database
-    const firestore = getFirestore();
-    firestore.collection('sessionList').doc(session.id).set({...session,players: players})
-      .then(() => {
-          console.log("Player successfully removed from class!");
-          dispatch({ type: 'REMOVE_PLAYER_FROM_SESSION' }, session);
-      })
-      .catch(function(error) {
-        console.error("Error removing from class: ", error);
-    });
+    try {
+      const firestore = getFirestore();
+      await firestore.collection('sessionList').doc(session.id).update({players: players});
+      console.log("Player successfully removed from class!");
+      dispatch({ type: 'REMOVE_PLAYER_FROM_SESSION', session:session});
+    } catch(err) {
+      console.error("Error removing from class: ", err);
+    }
   }
 };
 export const toggleSessiomInfo = (session) => dispatch => {
@@ -65,11 +64,13 @@ export const toggleDialogShare = (session) => dispatch => {
         payload:session
     })
 };
-export const toggleSignOutDialog = (props) => dispatch => {
+export const toggleSignOutDialog = (session) => {
+  console.log('toggleSignOutDialog',session)
+  return dispatch => {
     dispatch({
         type: 'SIGN_OUT_DIALOG_OPEN',
-        session: props.session
-    })
+        payload:session
+    })}
 };
 export const booked = (session) => dispatch => {
   // console.log("session" ,session);

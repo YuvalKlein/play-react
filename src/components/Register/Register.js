@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {Redirect, NavLink} from 'react-router-dom';
 import GoogleLogin from 'react-google-login';
 
+import {storage} from '../../config/fbConfig';
 import {signUp} from '../../actions/mainAction';
 import classes from './Register.css';
 import Input from '../UI/Input/Input';
@@ -12,6 +13,7 @@ import Spinner from '../UI/Spinner/Spinner';
 class Register extends React.Component {
     state = {
         alreadyUser: true,
+        selectedFile: null,
         controls: {
             email: {
                 elementType: 'input',
@@ -80,36 +82,10 @@ class Register extends React.Component {
                 valid: false,
                 touched: false
             },
-            avatar: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'file',
-                    placeholder: 'Upload File'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                },
-                valid: false,
-                touched: false
-            },
-            photoURL: {
-                elementType: 'input',
-                elementConfig: {
-                    type: 'text',
-                    placeholder: 'photoURL'
-                },
-                value: '',
-                validation: {
-                    required: true,
-                },
-                valid: false,
-                touched: false
-            },
             gender: [{
                 elementType: 'input',
                 elementConfig: {
-                    type: 'radio',
+                    type: 'checkbox',
                     name: "gender",
                     value: "male",
                     placeholder: 'gender'
@@ -124,7 +100,7 @@ class Register extends React.Component {
             {
                 elementType: 'input',
                 elementConfig: {
-                    type: 'radio',
+                    type: 'checkbox',
                     name: "gender",
                     value: "female",
                     placeholder: 'gender'
@@ -151,6 +127,27 @@ class Register extends React.Component {
             }
         }
     }
+
+    fileSelecteHandler = event => {
+        console.log(event.target.files[0]);
+        const image = event.target.files[0];
+        console.log(image);
+        const upload = storage.ref(`profile/${image.name}`).put(image);
+        upload.on('state_changed', 
+        (snapshot) => {
+            
+        }, 
+        (error) => {
+            console.log(error)
+        }, 
+        () => {
+            storage.ref('profile').child(image.name).getDownloadURL().then(url => {
+                console.log(url);
+                this.setState({selectedFile: url})
+                console.log(this.state.selectedFile);
+            });
+        });
+    };
 
     checkValidity(value, rules) {
         let isValid = true;
@@ -195,6 +192,7 @@ class Register extends React.Component {
 
     signUpHandler = (event) => {
         event.preventDefault();
+
         let user = {
             email:this.state.controls.email.value,
             password: this.state.controls.password.value,
@@ -202,13 +200,14 @@ class Register extends React.Component {
             type: 'player',
             firstName: this.state.controls.firstName.value,
             lastName: this.state.controls.lastName.value,
-            photoURL: this.state.controls.photoURL.value ? this.state.controls.photoURL.value : 'https://firebasestorage.googleapis.com/v0/b/play-e37a6.appspot.com/o/profile%20pictures%2FNerd_with_Glasses_Emoji.png?alt=media&token=788fc5d7-e587-4f1d-8eea-a3d2b0c4605a',
+            photoURL: this.state.selectedFile ? this.state.selectedFile : 'https://firebasestorage.googleapis.com/v0/b/play-e37a6.appspot.com/o/profile%20pictures%2FNerd_with_Glasses_Emoji.png?alt=media&token=788fc5d7-e587-4f1d-8eea-a3d2b0c4605a',
             phone: this.state.controls.phone.value,
             birthDay: this.state.controls.birthDay.value,
             gender: this.state.controls.gender.value,
             created: new Date(),
         }
         this.props.signUp(user);
+
 
     };
 
@@ -256,6 +255,7 @@ class Register extends React.Component {
             <div className={classes.LogIn}>
                 {authRedirect}
                 <p>{this.props.authError}</p>
+                <input type="file" onChange={this.fileSelecteHandler} />
                 <form onSubmit={this.signUpHandler}>
                     {form}
                          <div>

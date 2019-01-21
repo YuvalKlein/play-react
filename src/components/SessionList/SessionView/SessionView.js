@@ -1,8 +1,8 @@
 import React from 'react';
+import {firestoreConnect} from "react-redux-firebase";
 import {connect} from 'react-redux';
 import {bindActionCreators, compose} from "redux";
 import {NavLink} from 'react-router-dom';
-import {firestoreConnect} from "react-redux-firebase";
 
 import * as mainActions from "../../../actions/mainAction";
 import classes from './SessionView.css';
@@ -34,14 +34,18 @@ const sessionView = (props) => {
 
   let players = props.session.players;
 
+
   players.map(player => {
-    if(props.auth.uid === player.uid){
-  
-      btnBook= <BookButton clicked={() => props.toggleSignOutDialog(props)} classN={classes.Cancel} title="CANCEL"/>
-    }else btnBook=<BookButton clicked={signToSessionHandler} classN={classes.Book} title="BOOK"/>
-    });
+    if (props.auth.uid === player.uid){
+      btnBook= <BookButton clicked={props.toggleSignOutDialog} classN={classes.Cancel} title="CANCEL" clickedSession={props.session}/>
+    } else if(players.length >= props.session.maxPlayers){
+      btnBook= <BookButton clicked={()=>null} classN={classes.Cancel} title="FULL" disabled/>
+    } else {
+      btnBook=<BookButton clicked={signToSessionHandler} classN={classes.Book} title="BOOK"/>
+    }
+    }  );
     if(!props.auth.uid){
-      btnBook=<NavLink to='/login' ><BookButton classN={classes.Book} title="BOOK"/></NavLink>
+      btnBook=<NavLink to='/login' ><BookButton classN={classes.Book} clicked={()=>null}  title="BOOK"/></NavLink>
     }
 
   const handleShareDialog = (session) => {
@@ -56,8 +60,6 @@ const sessionView = (props) => {
   //   }
 
   // };
-
-
 
   return ( 
       <div  className={classes.SessionView}>

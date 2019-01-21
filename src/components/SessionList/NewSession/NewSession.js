@@ -14,8 +14,8 @@ class NewSession extends React.Component {
       endTime:null,
       title:null,
       location:null,
-      minPlayers:null,
-      maxPlayers:null
+      minPlayers:1,
+      maxPlayers:1
     };
 
     this.toggle = this.toggle.bind(this);
@@ -46,7 +46,7 @@ class NewSession extends React.Component {
       minPlayers: this.state.minPlayers,
       maxPlayers: this.state.maxPlayers
     }
-    this.props.handleNewSession(newS)
+    this.props.handleNewSession(newS);
   }
   toggle() {
     this.setState({
@@ -58,23 +58,28 @@ class NewSession extends React.Component {
     this.setState({title:title.target.value})    
   }
 
+  
+
   render() {
-    // let user = this.props.user;
+    let addButton = null;
+    this.props.auth.uid ? addButton = <FloatButton clicked={this.toggle}/> : addButton=<NavLink to='/login' ><FloatButton /></NavLink> 
+
     return (
       <div>
-        <FloatButton clicked={this.toggle}/>
+        {addButton}
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={classes.NewSession} >
+       
           <ModalHeader toggle={this.toggle}>Add new Class</ModalHeader>
           <ModalBody className={classes.Content}>
           
-              <input type='text' onChange={(event)=>{this.setState({title:event.target.value})}} placeholder='Title' />
-              <textarea type='text' onChange={(event)=>{this.setState({details:event.target.value})}} placeholder='Detials'/>
-              <input type='text' onChange={(event)=>{this.setState({location:event.target.value})}} placeholder='Location' />           
-              <input type='time' onChange={(event)=>{this.setState({time:event.target.value})}} />           
-              <input type='time' onChange={(event)=>{this.setState({endTime:event.target.value})}} />           
-              <input type='date' onChange={(event)=>{this.setState({date:event.target.value})}} />           
-              <input type='number' onChange={(event)=>{this.setState({minPlayers:event.target.value})}} placeholder='Minimum Players'/>           
-              <input type='number' onChange={(event)=>{this.setState({maxPlayers:event.target.value})}} placeholder='Maximum Players'/>           
+              <input type='text' onChange={(event)=>{event.target.value.length>0?this.errorTitle=null && this.setState({title:event.target.value}):this.errorTitle= <p>Error</p>}} placeholder='Title' required />{this.errorTitle}
+              <textarea type='text' onChange={(event)=>{this.setState({details:event.target.value})}} placeholder='Detials' required/>
+              <input type='text' onChange={(event)=>{this.setState({location:event.target.value})}} placeholder='Location' required />           
+              <input type='time' onChange={(event)=>{this.setState({time:event.target.value})}} required/>           
+              <input type='time' onChange={(event)=>{this.setState({endTime:event.target.value})}}  required/>           
+              <input type='date' onChange={(event)=>{this.setState({date:event.target.value})}} required />           
+              <input type='number' value={this.state.minPlayers} onChange={(event)=>{this.setState({minPlayers:event.target.value})}} placeholder='Minimum Players' required/>           
+              <input type='number' value={this.state.maxPlayers} onChange={(event)=>{this.setState({maxPlayers:event.target.value})}} placeholder='Maximum Players' required/>           
 
           </ModalBody>
           <ModalFooter>
