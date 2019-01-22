@@ -39,7 +39,7 @@ class AlertDialog extends React.Component {
 					<DialogContent>
 						<DialogContentText id="alert-dialog-description">
 							<ShareButton
-								urll={'http://localhost:3000/' + this.props.session.id}
+								urll={'https://play-e37a6.firebaseapp.com/' + this.props.session.id}
 								name={this.props.session.title}
 								childre={
 									this.props.user ? (
