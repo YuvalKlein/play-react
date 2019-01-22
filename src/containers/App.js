@@ -7,6 +7,7 @@ import ContactUs from '../components/ContactUs/ContactUs';
 import LogIn from '../components/LogIn/LogIn';
 import Register from '../components/Register/Register';
 import ClassInfo from '../components/SessionList/SessionInfo/SessionInfo';
+import fullClassInfo from '../components/SessionList/SessionInfo/fullSessionInfo';
 import Account from '../components/Account/Account';
 import Logout from '../components/LogIn/Logout';
 
@@ -24,6 +25,7 @@ class App extends Component {
             {/* <Route path="/myclasses" exact component={MyClasses}/> */}
             <Route path="/contact" exact component={ContactUs}/>
             <Route path="/classinfo" exact component={ClassInfo}/>
+            <Route path="/:id" exact component={fullClassInfo}/>
           </Switch>
           {/* <AddButton/> */}
         </Layout> 
