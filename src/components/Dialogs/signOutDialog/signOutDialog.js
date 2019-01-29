@@ -51,7 +51,7 @@ class AlertDialog extends React.Component {
 					aria-labelledby="alert-dialog-title"
 					aria-describedby="alert-dialog-description"
 				>
-					<DialogTitle id="alert-dialog-title">{'message'}</DialogTitle>
+					<DialogTitle id="alert-dialog-title">Are you really want to cancel?</DialogTitle>
 					<DialogContent>
 						{/* <DialogContentText id="alert-dialog-description">
               

@@ -24,14 +24,14 @@ class SessionList extends Component {
 	};
 
 	render() {
-		let sessionLFB = this.props.sessionList;
+		const sessionLFB = this.props.sessionList;
 
 		if (sessionLFB) {
 			sessionLFB.sort((a, b) => {
 				return new Date(a.date) - new Date(b.date);
 			});
 
-			const sessions = sessionLFB.map((session, id) => {
+			const sessions = sessionLFB.map((session) => {
 				return <SessionView key={session.id} session={session} />;
 			});
 

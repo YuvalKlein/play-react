@@ -133,8 +133,6 @@ class NewSession extends React.Component {
 		if (rules.maxLength) {
 			isValid = value.length <= rules.maxLength && isValid;
 		}
-		console.log('length', value.length);
-		console.log('isValid', isValid);
 		return isValid;
 
 		// if (rules.isEmail) {
@@ -169,7 +167,6 @@ class NewSession extends React.Component {
 	};
 
 	handleAdd() {
-		console.log('fields', this.state.fields);
 		if (
 			this.state.fields.title.value.length > 1 &&
 			this.state.fields.date.value.length > 1 &&
@@ -249,8 +246,6 @@ class NewSession extends React.Component {
 						<FloatButton />
 					</NavLink>
 				));
-
-		console.log('formisvalid', this.state.formIsValid);
 
 		return (
 			<div>
