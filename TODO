@@ -1,45 +1,11 @@
-in session info line 42
-can't make photoURL- tried to add in in register page and line 157 in main action
 can't log in when trying to log in after log out
 
 
-
-leacture 27 from the net ninja- route Guarding (can't we make middleware?)
 leacture 26 didnt work 
 why do I need to set the auth state in each component and can't call as Props
-why I cant see the auth when I console log auth (it's a fuction)
-book button component
-avatar component
-create user when register
-delete session
-when not auth- book and add lead to sign in
-order list by date
-remove sessions in the past
 upload photos with crop
-move the form in Login to form (in Login folder)
-connect to FB
 connect to google
-add current players in session and replace it with minimum in sessionView
-pass token when add session to get access from firebase 
-refactor {
-    in Login, change mapDispatchToProps to bind..
-    fix states- more in redux
-} 
-map{
-    in sessionInfo- the pin where the input address
-    map section with all the pins- access to sessionInfo when click
-}
-account{
-    my sessions- history and in the future
-    change pic
-}
-style {
-    newSession form
-    Login
-    sessionInfo
-    sessionList- save the divs in the same place withpur matter the context
-}
-add edit sessionInfo
-make the add button float one
+ 
+
 chat in sessionInfo
 notification

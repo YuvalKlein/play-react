@@ -26,7 +26,6 @@ class AlertDialog extends React.Component {
 
 	render() {
 		console.log(this.props);
-		console.log(this.state);
 		return (
 			<div>
 				<Dialog
@@ -37,17 +36,15 @@ class AlertDialog extends React.Component {
 				>
 					<DialogTitle id="alert-dialog-title">{'Invite friends to play with you'}</DialogTitle>
 					<DialogContent>
-						<DialogContentText id="alert-dialog-description">
-							<ShareButton
-								urll={'https://play-e37a6.firebaseapp.com/' + this.props.session.id}
-								name={this.props.session.title}
-								childre={
-									this.props.user ? (
-										this.props.user.firstName + 'invite you to play him' + this.props.session.title
-									) : null
-								}
-							/>
-						</DialogContentText>
+						<ShareButton
+							urll={'https:/playsport.co.il/' + this.props.session.id}
+							name={
+								this.props.user ? (
+									this.props.user.firstName + ' invite you to play ' + this.props.session.title
+								) : null
+							}
+							clicked={this.props.toggleDialogShare}
+						/>
 					</DialogContent>
 					<DialogActions>
 						<Button onClick={this.props.toggleDialogShare} color="primary">
@@ -62,7 +59,7 @@ class AlertDialog extends React.Component {
 
 const mapStateToProps = (state) => ({
 	shareDialogOpen: state.sessionReducer.shareDialogOpen,
-	auth: state.firebaseReducer.auth,
+	user: state.firebaseReducer.profile,
 	session: state.sessionReducer.session
 });
 

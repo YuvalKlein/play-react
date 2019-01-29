@@ -129,9 +129,7 @@ class Register extends React.Component {
     }
 
     fileSelecteHandler = event => {
-        console.log(event.target.files[0]);
         const image = event.target.files[0];
-        console.log(image);
         const upload = storage.ref(`profile/${image.name}`).put(image);
         upload.on('state_changed', 
         (snapshot) => {
@@ -142,9 +140,7 @@ class Register extends React.Component {
         }, 
         () => {
             storage.ref('profile').child(image.name).getDownloadURL().then(url => {
-                console.log(url);
                 this.setState({selectedFile: url})
-                console.log(this.state.selectedFile);
             });
         });
     };

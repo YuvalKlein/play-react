@@ -6,7 +6,7 @@ export const addNewSession = (session) => {
 			.collection('sessionList')
 			.add(session)
 			.then(() => {
-				dispatch({ type: 'ADD_NEW_SESSION' });
+				dispatch({ type: 'ADD_NEW_SESSION', session });
 			})
 			.catch((err) => {
 				dispatch({ type: 'ADD_NEW_SESSION_ERROR' }, err);
@@ -73,7 +73,6 @@ export const toggleDialogShare = (session) => (dispatch) => {
 	});
 };
 export const toggleSignOutDialog = (session) => {
-	console.log('toggleSignOutDialog', session);
 	return (dispatch) => {
 		dispatch({
 			type: 'SIGN_OUT_DIALOG_OPEN',
@@ -112,7 +111,7 @@ export const signUp = (newUser) => {
 
 		firebase
 			.auth()
-			.createUserWithEmailAndPassword(newUser.email, newUser.password)
+			.createUserWithEmailAndPassword(newUser.email, newUser.password, newUser.displayName, newUser.photoURL)
 			.then((resp) => {
 				return firestore.collection('users').doc(resp.user.uid).set({
 					type: 'player',

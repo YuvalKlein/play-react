@@ -8,11 +8,9 @@ import { WhatsappShareButton, WhatsappIcon } from 'react-share';
 
 const shareButton = (props) => {
 	return (
-		<div>
-			<WhatsappShareButton title={props.name} url={props.urll} children={props.childre}>
-				<WhatsappIcon round={true} />
-			</WhatsappShareButton>
-		</div>
+		<WhatsappShareButton title={props.name} url={props.urll}>
+			<WhatsappIcon round={true} />
+		</WhatsappShareButton>
 	);
 };
 

@@ -11,10 +11,6 @@ import BookButton from '../../UI/Button/bookButton';
 const sessionView = (props) => {
 	let btnBook = false;
 
-	const bookHandler = (props) => {
-		// authChecker();
-		// handleShareDialog();
-	};
 	const signToSessionHandler = () => {
 		let players = props.session.players;
 		let newPlayerArray = players.concat([
@@ -27,11 +23,6 @@ const sessionView = (props) => {
 		]);
 		props.signToSession(props.session, newPlayerArray);
 		props.toggleDialogShare(props.session, props.user);
-	};
-	const removeFromSessionHandler = () => {
-		const players = props.session.players.filter((player) => player.uid !== props.auth.uid);
-		console.log('playerToDelete', players);
-		props.removeFromSession(props.session, players);
 	};
 
 	let players = props.session.players;
@@ -51,7 +42,9 @@ const sessionView = (props) => {
 		} else {
 			btnBook = <BookButton clicked={signToSessionHandler} classN={classes.Book} title="BOOK" />;
 		}
+		return btnBook;
 	});
+
 	if (!props.auth.uid) {
 		btnBook = (
 			<NavLink to="/login">
@@ -59,19 +52,6 @@ const sessionView = (props) => {
 			</NavLink>
 		);
 	}
-
-	const handleShareDialog = (session) => {
-		props.toggleDialogShare(session);
-	};
-
-	// const book = (session) => {
-	//   if(props.isAuth.uid){
-	//     btnBook = !btnBook;
-	//   } else {
-	//     return <Redirect to='/login'/>
-	//   }
-
-	// };
 
 	return (
 		<div className={classes.SessionView}>
@@ -95,11 +75,7 @@ const sessionView = (props) => {
 					))}
 				</div>
 			</div>
-			<div className={classes.Button}>
-				{/* <button onClick={()=>props.booked(props.session)} className={btnBook?classes.Cancel : classes.Book} >{btnBook?"CANCEL":"BOOK"}</button> */}
-				{/* <BookButton clicked={() => bookHandler()} /> */}
-				{btnBook}
-			</div>
+			<div className={classes.Button}>{btnBook}</div>
 		</div>
 	);
 };
