@@ -14,6 +14,8 @@ import SessionInfo from '../SessionList/SessionInfo/SessionInfo';
 import Spinner from '../UI/Spinner/Spinner';
 import SignOutDialog from '../Dialogs/signOutDialog/signOutDialog';
 import ShareButton from '../Dialogs/ShareDialog/ShareDialog';
+import BookButton from '../UI/Button/bookButton';
+import { NavLink } from 'react-router-dom';
 
 class SessionList extends Component {
 	state = {
@@ -22,7 +24,19 @@ class SessionList extends Component {
 	handleAdd = (session) => {
 		this.props.addNewSession(session);
 	};
-
+	signToSessionHandler = (session) => {
+		let players = session.players;
+		let newPlayerArray = players.concat([
+			{
+				firstName: this.props.user.firstName,
+				lastName: this.props.user.lastName,
+				photoURL: this.props.user.photoURL,
+				uid: this.props.auth.uid
+			}
+		]);
+		this.props.signToSession(session, newPlayerArray);
+		this.props.toggleDialogShare(session, this.props.user);
+	};
 	render() {
 		const sessionLFB = this.props.sessionList;
 
@@ -32,7 +46,44 @@ class SessionList extends Component {
 			});
 
 			const sessions = sessionLFB.map((session) => {
-				return <SessionView key={session.id} session={session} />;
+				// console.log('session', session.date);
+				let players = session.players;
+				let btnBook = false;
+
+				players.map((player) => {
+					if (this.props.auth.uid === player.uid) {
+						btnBook = (
+							<BookButton
+								clicked={this.props.toggleSignOutDialog}
+								classN="Cancel"
+								title="CANCEL"
+								clickedSession={session}
+							/>
+						);
+					} else if (players.length >= session.maxPlayers) {
+						btnBook = <BookButton clicked={() => null} classN="Cancel" title="FULL" disabled />;
+					} else {
+						btnBook = (
+							<BookButton clicked={() => this.signToSessionHandler(session)} classN="Book" title="BOOK" />
+						);
+					}
+					return btnBook;
+				});
+
+				if (!this.props.auth.uid) {
+					btnBook = (
+						<NavLink to="/login">
+							<BookButton classN="Book" clicked={() => null} title="BOOK" />
+						</NavLink>
+					);
+				}
+				console.log('SESSIONV', session);
+				return (
+					<div key={session.id}>
+						<SessionView session={session} btnBook={btnBook} />
+						<SessionInfo btnBook={btnBook} />
+					</div>
+				);
 			});
 
 			return (
@@ -42,7 +93,6 @@ class SessionList extends Component {
 					<ShareButton />
 					<NewSession handleNewSession={this.handleAdd} user={this.props.user} auth={this.props.auth} />
 					{/* <NewSessions handleNewSession={this.handleAdd} user={this.props.user} auth={this.props.auth} /> */}
-					<SessionInfo />
 					<SignOutDialog />
 				</div>
 			);

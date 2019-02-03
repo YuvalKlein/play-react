@@ -94,9 +94,10 @@ class SessionInfo extends React.Component {
 						</div>
 					</ModalBody>
 					<ModalFooter>
-						<Button color="secondary" onClick={() => this.signToSessionHandler(this.props.session)}>
+						{/* <Button color="secondary" onClick={() => this.signToSessionHandler(this.props.session)}>
 							BOOK
-						</Button>
+						</Button> */}
+						{this.props.btnBook}
 						{/* {btnBook} */}
 						{/* {!this.props.auth && this.props.session ? null : this.props.auth.uid ===
 						this.props.session.createdBy.uid ? (

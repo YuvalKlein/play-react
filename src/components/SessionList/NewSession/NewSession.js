@@ -5,108 +5,9 @@ import classes from './NewSession.css';
 import Input from '../../UI/Input/Input';
 import { NavLink } from 'react-router-dom';
 
-const myFields = {
-	title: {
-		elementType: 'input',
-		elementConfig: {
-			type: 'text',
-			placeholder: 'Title'
-		},
-		value: '',
-		validation: {
-			required: true,
-			minLength: 2
-		},
-		valid: false,
-		touched: false
-	},
-	date: {
-		elementType: 'input',
-		elementConfig: {
-			type: 'date',
-			placeholder: 'Date'
-		},
-		value: '',
-		validation: {
-			required: true
-		},
-		valid: false,
-		touched: false
-	},
-	time: {
-		elementType: 'input',
-		elementConfig: {
-			type: 'time',
-			placeholder: 'start time'
-		},
-		value: '',
-		validation: {
-			required: true
-		},
-		valid: false,
-		touched: false
-	},
-	endTime: {
-		elementType: 'input',
-		elementConfig: {
-			type: 'time',
-			placeholder: 'end time'
-		},
-		value: '',
-		validation: {
-			required: true
-		},
-		valid: false,
-		touched: false
-	},
-	details: {
-		elementType: 'textarea',
-		elementConfig: {
-			type: 'textarea',
-			placeholder: 'Details'
-		},
-		value: '',
-		validation: {
-			required: true
-		},
-		valid: false,
-		touched: false
-	},
-	location: {
-		elementType: 'input',
-		elementConfig: {
-			type: 'text',
-			placeholder: 'Location'
-		},
-		value: '',
-		validation: {
-			required: true,
-			minLength: 2
-		},
-		valid: false,
-		touched: false
-	},
-	minPlayers: {
-		elementType: 'input',
-		elementConfig: {
-			type: 'number',
-			placeholder: 'minimun players'
-		},
-		value: 2,
-		validation: {},
-		valid: true
-	},
-	maxPlayers: {
-		elementType: 'input',
-		elementConfig: {
-			type: 'number',
-			placeholder: 'maximun players'
-		},
-		value: 2,
-		validation: {},
-		valid: true
-	}
-};
+import { checkValidity } from '../../LogIn/form/validation';
+import { myFields } from './formFields';
+
 class NewSession extends React.Component {
 	constructor(props) {
 		super(props);
@@ -119,33 +20,6 @@ class NewSession extends React.Component {
 		this.toggle = this.toggle.bind(this);
 	}
 
-	checkValidity(value, rules) {
-		let isValid = true;
-
-		if (rules.required) {
-			isValid = value.trim() !== '' && isValid;
-		}
-
-		if (rules.minLength) {
-			isValid = value.length >= rules.minLength && isValid;
-		}
-
-		if (rules.maxLength) {
-			isValid = value.length <= rules.maxLength && isValid;
-		}
-		return isValid;
-
-		// if (rules.isEmail) {
-		// 	const pattern = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-		// 	isValid = pattern.test(value) && isValid;
-		// }
-
-		// if (rules.isNumeric) {
-		// 	const pattern = /^\d+$/;
-		// 	isValid = pattern.test(value) && isValid;
-		// }
-	}
-
 	inputChangedHandler = (event, inputIdentifier) => {
 		const updatedFields = {
 			...this.state.fields
@@ -154,7 +28,7 @@ class NewSession extends React.Component {
 			...updatedFields[inputIdentifier]
 		};
 		updatedFormElement.value = event.target.value;
-		updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation);
+		updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
 		updatedFormElement.touched = true;
 		updatedFields[inputIdentifier] = updatedFormElement;
 

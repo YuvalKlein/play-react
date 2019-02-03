@@ -1,4 +1,5 @@
 import React from 'react';
+import 'date-fns';
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import FloatButton from '../../UI/FloatButton/FloatButton';
 import classescss from './NewSession.css';
@@ -34,7 +35,7 @@ class NewSession extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			modal: false,
+			modalSession: false,
 			selectedDate: new Date('2014-08-18T21:11:54'),
 			minPlayers: 1,
 			maxPlayers: 1,
@@ -81,7 +82,7 @@ class NewSession extends React.Component {
 	}
 	toggle() {
 		this.setState({
-			modal: !this.state.modal
+			modalSession: !this.state.modalSession
 		});
 	}
 
@@ -110,7 +111,7 @@ class NewSession extends React.Component {
 		return (
 			<div>
 				{addButton}
-				<Modal isOpen={this.state.modal} toggle={this.toggle} className={classescss.NewSession}>
+				<Modal isOpen={this.state.modalSession} toggle={this.toggle} className={classescss.NewSession}>
 					<ModalHeader toggle={this.toggle}>Add new Class</ModalHeader>
 					<ModalBody className={classescss.Content}>
 						<form
@@ -137,18 +138,21 @@ class NewSession extends React.Component {
 								className={classes.textField}
 								margin="normal"
 							/>
-							<TextField
-								required
-								id="date"
-								label="Date"
-								type="date"
-								className={classes.textField}
-								InputLabelProps={{
-									shrink: true
-								}}
-							/>
+
 							<MuiPickersUtilsProvider utils={DateFnsUtils}>
 								<Grid container className={classes.grid} justify="space-around">
+									<DatePicker
+										margin="normal"
+										id="date"
+										label="Time picker"
+										type="date"
+										value={this.state.selectedDate}
+										className={classes.textField}
+										// InputLabelProps={{
+										// 	shrink: true
+										// }}
+										onChange={this.handleChange('date')}
+									/>
 									<TimePicker
 										required
 										margin="normal"
