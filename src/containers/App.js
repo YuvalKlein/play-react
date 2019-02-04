@@ -10,6 +10,7 @@ import ClassInfo from '../components/SessionList/SessionInfo/SessionInfo';
 import fullClassInfo from '../components/SessionList/SessionInfo/fullSessionInfo';
 import Account from '../components/Account/Account';
 import Logout from '../components/LogIn/Logout';
+import "react-datepicker/src/stylesheets/datepicker.scss";
 
 class App extends Component {
   render() {

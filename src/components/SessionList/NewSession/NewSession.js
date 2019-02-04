@@ -7,6 +7,7 @@ import { NavLink } from 'react-router-dom';
 
 import { checkValidity } from '../../LogIn/form/validation';
 import { myFields } from './formFields';
+import DatePicker from "react-datepicker";
 
 class NewSession extends React.Component {
 	constructor(props) {
@@ -14,8 +15,11 @@ class NewSession extends React.Component {
 		this.state = {
 			modal: false,
 			fields: myFields,
-			formIsValid: false
-		};
+			formIsValid: false,
+      startDate: new Date(),
+      startTime:new Date(),
+			endTime:null
+    };
 
 		this.toggle = this.toggle.bind(this);
 	}
@@ -82,7 +86,21 @@ class NewSession extends React.Component {
 			fields: myFields
 		});
 	}
-
+  handleChange=(date)=> {
+    this.setState({
+      startDate: date
+    });
+  };
+  handleChangeStartTime=(date)=> {
+    this.setState({
+      startTime: date
+    });
+  };
+  handleChangeEndTime=(date)=> {
+    this.setState({
+      endTime: date
+    });
+  };
 	titleHandler = (title) => {
 		this.setState({ title: title.target.value });
 	};
@@ -129,6 +147,29 @@ class NewSession extends React.Component {
 					<ModalBody className={classes.Content}>
 						<form>
 							{form}
+              Date:<DatePicker
+                selected={this.state.startDate}
+                onChange={this.handleChange}
+                minDate={new Date()}
+              />
+              Start time:<DatePicker
+                selected={this.state.startTime}
+                onChange={this.handleChangeStartTime}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={120}
+                dateFormat="h:mm aa"
+                timeCaption="Time"
+              />
+              End time:<DatePicker
+              selected={this.state.endTime}
+              onChange={this.handleChangeEndTime}
+              showTimeSelect
+              showTimeSelectOnly
+              timeIntervals={120}
+              dateFormat="h:mm aa"
+              timeCaption="Time"
+            />
 							<div className={classes.Buttons}>
 								<Button
 									className={classes.SubmitButton}
