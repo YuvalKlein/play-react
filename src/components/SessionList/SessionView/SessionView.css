@@ -1,82 +1,81 @@
-.SessionView { 
-    display: flex;
-    font-family: 'Roboto', sans-serif;
-    justify-content: space-between;
-    align-items: center;
-    width: auto;
-    height: 80px;
-    background-color: #0090c0;
-    margin: 2px;
+.SessionView {
+	display: flex;
+	font-family: 'Roboto', sans-serif;
+	justify-content: space-between;
+	align-items: center;
+	width: auto;
+	height: 80px;
+	background-color: #0090c0;
+	margin: 2px;
 }
 
 .Time {
-    flex-grow: 1;
-    flex-wrap: wrap;
-    font-size: 23px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    color: #060606;
-    text-align: center;
+	flex-grow: 1;
+	flex-wrap: wrap;
+	font-size: 23px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	color: #060606;
+	text-align: center;
 }
 
 .Info {
-    flex-grow: 4;
-    padding-left: 40px;
+	flex-grow: 4;
 }
 
 .Title {
-    font-size: 20px;
-    font-weight: bold;
-    font-style: normal;
-    font-stretch: normal;
-    letter-spacing: normal;
-    color: #060606;
-    margin-bottom: 0;
-    cursor: pointer;
-  }
+	font-size: 20px;
+	font-weight: bold;
+	font-style: normal;
+	font-stretch: normal;
+	letter-spacing: normal;
+	color: #060606;
+	margin-bottom: 0;
+	cursor: pointer;
+}
 
 .Instructor {
-    opacity: 0.58;
-    font-family: YuGothicUI;
-    font-size: 16px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    color: #060606;
+	opacity: 0.58;
+	font-family: YuGothicUI;
+	font-size: 16px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	color: #060606;
 }
 
 .Players {
-    flex-grow: 4;
+	flex-grow: 4;
 }
 
 .Players p {
-    margin: 0;
+	margin: 0;
 }
 
 .Avatars {
-    display: flex;
-    
+	display: flex;
 }
 
-.FaceImg{
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
+.FaceImg {
+	border-radius: 50%;
+	width: 40px;
+	height: 40px;
 }
 
 .Button {
-    flex-grow: 1;
+	flex-grow: 1;
 }
-.Book,.Cancel {
-    width: 81px;
-    color: white;
-    height: 32px;
-    border: 0;
-    border-radius: 6px;
-    background-color: #393336;
+.Book,
+.Cancel {
+	width: 81px;
+	color: white;
+	height: 32px;
+	border: 0;
+	border-radius: 6px;
+	background-color: #393336;
 }
 
 .Cancel {
-    background-color: #cc2a37;
+	background-color: #cc2a37;
 }
