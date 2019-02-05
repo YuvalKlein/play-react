@@ -151,6 +151,7 @@ class NewSession extends React.Component {
                 selected={this.state.startDate}
                 onChange={this.handleChange}
                 minDate={new Date()}
+                showDisabledMonthNavigation
               />
               Start time:<DatePicker
                 selected={this.state.startTime}
