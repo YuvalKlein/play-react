@@ -62,45 +62,47 @@ class SessionInfo extends React.Component {
 		// 		</NavLink>
 		// 	);
 		// }
-
-		let curentSession = this.props.session.createdBy ? this.props.session : { createdBy: {}, players: [] };
-		return (
-			<div>
-				<Modal isOpen={this.props.toggle}>
-					<ModalHeader toggle={() => this.props.toggleSessiomInfo({})}>{curentSession.title}</ModalHeader>
-					<ModalBody className={classes.SessionInfo}>
-						<p>
-							{curentSession.date} from {curentSession.time} until {curentSession.endTime} at{' '}
-							{curentSession.location}
-						</p>
-						{/* <div className={classes.Map}>
+    let session =this.props.session;
+		// let curentSession = this.props.session.createdBy ? this.props.session : { createdBy: {}, players: [] };
+    console.log('session',this.props.session);
+    if(this.props.openInfo){
+      return (
+        <div>
+          <Modal isOpen={this.props.openInfo}  toggle={()=>this.props.toggle()}>
+            <ModalHeader toggle={()=>this.props.toggle()}>{session.title}</ModalHeader>
+            <ModalBody className={classes.SessionInfo}>
+              <p>
+                {session.date} from {session.time} until {session.endTime} at{' '}
+                {session.location}
+              </p>
+              {/* <div className={classes.Map}>
 							<Map />
 						</div> */}
-						<p>Details: {curentSession.details}</p>
-						<p>Players:</p>
-						<div className={classes.Players}>
-							{curentSession.players.map((player, i) => (
-								<div key={i}>
-									<Avatar name={player.firstName} avatar={player.photoURL} />
-								</div>
-							))}
-						</div>
-						<div>
-							Craeted By:{' '}
-							<Avatar
-								name={curentSession.createdBy.firstName}
-								avatar={curentSession.createdBy.photoURL}
-							/>
-						</div>
-					</ModalBody>
-					<ModalFooter>
-            {this.props.children}
-						{/* <Button color="secondary" onClick={() => this.signToSessionHandler(this.props.session)}>
+              <p>Details: {session.details}</p>
+              <p>Players:</p>
+              <div className={classes.Players}>
+                {session.players.map((player, i) => (
+                  <div key={i}>
+                    <Avatar name={player.firstName} avatar={player.photoURL} />
+                  </div>
+                ))}
+              </div>
+              <div>
+                Craeted By:{' '}
+                <Avatar
+                  name={session.createdBy.firstName}
+                  avatar={session.createdBy.photoURL}
+                />
+              </div>
+            </ModalBody>
+            <ModalFooter>
+              {this.props.btnBook}
+              {/* <Button color="secondary" onClick={() => this.signToSessionHandler(this.props.session)}>
 							BOOK
 						</Button> */}
-						{/*{this.props.btnBook}*/}
-						{/* {btnBook} */}
-						{/* {!this.props.auth && this.props.session ? null : this.props.auth.uid ===
+              {/*{this.props.btnBook}*/}
+              {/* {btnBook} */}
+              {/* {!this.props.auth && this.props.session ? null : this.props.auth.uid ===
 						this.props.session.createdBy.uid ? (
 							<Button color="secondary" onClick={() => this.props.toggleSessiomInfo(this.props.session)}>
 								EDIT
@@ -109,10 +111,12 @@ class SessionInfo extends React.Component {
 						<Button color="secondary" onClick={() => this.handelRemoveSession(this.props.session)}>
 							DELETE
 						</Button> */}
-					</ModalFooter>
-				</Modal>
-			</div>
-		);
+            </ModalFooter>
+          </Modal>
+        </div>
+      );
+    }else return null
+
 	}
 }
 
@@ -121,8 +125,8 @@ const mapStateToProps = (state, ownProps) => {
 	// const id = ownProps.match.params.id;
 	// why I don't have params like in leacture 20 04:40
 	return {
-		toggle: state.sessionReducer.sessionInfoToggle,
-		session: state.sessionReducer.session,
+		// toggle: state.sessionReducer.sessionInfoToggle,
+		// session: state.sessionReducer.session,
 		auth: state.firebaseReducer.auth,
 		user: state.firebaseReducer.profile
 

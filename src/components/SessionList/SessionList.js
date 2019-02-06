@@ -81,7 +81,7 @@ class SessionList extends Component {
 				return (
 					<div key={session.id}>
 						<SessionView session={session} btnBook={btnBook} />
-            <SessionInfo  >{btnBook}</SessionInfo>
+            <SessionInfo btnBook={btnBook} />
 					</div>
 				);
 			});
