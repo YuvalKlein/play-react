@@ -60,12 +60,7 @@ export const removeFromSession = (session, players) => {
 		}
 	};
 };
-export const toggleSessiomInfo = (session) => (dispatch) => {
-	dispatch({
-		type: 'TOGGLE_INFO',
-		payload: session
-	});
-};
+
 export const toggleDialogShare = (session) => (dispatch) => {
 	dispatch({
 		type: 'SHARE_DIALOG_OPEN',

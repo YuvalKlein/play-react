@@ -1,6 +1,5 @@
 const initialState = {
 	sessionList: [],
-	sessionInfoToggle: false,
 	session: {},
 	inClass: false,
 	shareDialogOpen: false,
@@ -19,8 +18,6 @@ const sessionReducer = (state = initialState, action) => {
 			return { ...state, session: action.session };
 		case 'DELETE':
 			return state;
-		case 'TOGGLE_INFO':
-			return { ...state, sessionInfoToggle: !state.sessionInfoToggle, session: action.payload };
 		case 'SHARE_DIALOG_OPEN':
 			return { ...state, shareDialogOpen: !state.shareDialogOpen, session: action.payload };
 		case 'SIGN_OUT_DIALOG_OPEN':
