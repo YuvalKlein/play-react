@@ -1,14 +1,22 @@
 .NewSession {
-    
+	height: auto;
 }
 
 .Content {
-    display: flex;
-    flex-direction: column;
-    height: 400px;
+	display: flex;
+	flex-direction: column;
+	height: auto;
 }
 
 .Content input {
-    width: 40%;
-    margin: 10px 40px;
+}
+
+.Buttons {
+	display: flex;
+	justify-content: center;
+	padding: 20px;
+}
+
+.SubmitButton {
+	margin: 10px;
 }

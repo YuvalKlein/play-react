@@ -1,68 +1,96 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators, compose} from "redux";
-import {Redirect} from 'react-router-dom';
-import {firestoreConnect} from "react-redux-firebase";
+import { firestoreConnect } from 'react-redux-firebase';
+import { connect } from 'react-redux';
+import { bindActionCreators, compose } from 'redux';
+import { NavLink } from 'react-router-dom';
 
-import * as mainActions from "../../../actions/mainAction";
+import * as mainActions from '../../../actions/mainAction';
 import classes from './SessionView.css';
+import BookButton from '../../UI/Button/bookButton';
+import SessionInfo from "../SessionInfo/SessionInfo";
 
-const sessionView = (props) => {
-  let btnBook = false;
-  props.session.players.map(player =>{
-    console.log('userName',props.userName)
-    if(props.userName===player.fName){
-      btnBook= true
-    }else btnBook= false
-  })
+class sessionView extends React.Component {
+	state={
+		toggleInfo:false
+	};
+	toggle=()=>{
+		this.setState({toggleInfo:!this.state.toggleInfo})
+	};
+	render(){
+    let btnBook = false;
 
+    // let players = this.props.session.players;
 
-  const book = (session) => {
-    if(props.isAuth.uid){
-      btnBook = !btnBook;
-    } else {
-      return <Redirect to='/login'/>
-    }
+    // players.map((player) => {
+    // 	if (this.props.auth.uid === player.uid) {
+    // 		btnBook = (
+    // 			<BookButton
+    // 				clicked={this.props.toggleSignOutDialog}
+    // 				classN={classes.Cancel}
+    // 				title="CANCEL"
+    // 				clickedSession={this.props.session}
+    // 			/>
+    // 		);
+    // 	} else if (players.length >= this.props.session.maxPlayers) {
+    // 		btnBook = <BookButton clicked={() => null} classN={classes.Cancel} title="FULL" disabled />;
+    // 	} else {
+    // 		btnBook = <BookButton clicked={signToSessionHandler} classN={classes.Book} title="BOOK" />;
+    // 	}
+    // 	return btnBook;
+    // });
 
-  };
-
-  return ( 
-      <div  className={classes.SessionView}>
-      <div className={classes.Time} >
-        <div>{props.session.time}</div>
-        <div>{props.session.endTime}</div>
+    // if (!this.props.auth.uid) {
+    // 	btnBook = (
+    // 		<NavLink to="/login">
+    // 			<BookButton classN={classes.Book} clicked={() => null} title="BOOK" />
+    // 		</NavLink>
+    // 	);
+    // }
+    // console.log('SESSIONV', this.props.session);
+    console.log('toggleInfo',this.state.toggleInfo);
+    return (
+      <div className={classes.SessionView}>
+        <div className={classes.Time}>
+          {/* <div>{this.props.session.time.seconds}</div>
+				<div>{this.props.session.endTime.seconds}</div> */}
+        </div>
+        <div className={classes.Info} onClick={ this.toggle}>
+          <p className={classes.Title}>{this.props.session.title}</p>
+          <p>{this.props.session.location}</p>
+        </div>
+        <div className={classes.Players} onClick={() => this.props.toggleSessiomInfo(this.props.session)}>
+          <p>
+            {this.props.session.players.length}\{this.props.session.maxPlayers}
+          </p>
+          <div className={classes.Avatars}>
+            {this.props.session.players.map((player, i) => (
+              <div key={i}>
+                <img alt="" className={classes.FaceImg} src={player.photoURL} />
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className={classes.Button}>{this.props.btnBook}</div>
+				<SessionInfo session={this.props.session} btnBook={this.props.btnBook} toggle={this.toggle} openInfo={this.state.toggleInfo}/>
       </div>
-      <div className={classes.Info} onClick={()=>props.toggleInfo(props.session)}>
-          <p className={classes.Title} >{props.session.title}</p>
-        <p>{props.session.location}</p>
-      </div>
-      <div className={classes.Players} onClick={()=>props.toggleInfo(props.session)}>
-            <p>{props.session.minPlayers}\{props.session.maxPlayers}</p>
-            <div className={classes.Avatars}>{props.session.players.map((player,i) => <div key={i}><img alt="" className={classes.FaceImg} src={player.photoURL}/></div>)}</div>
-      </div>
-      <div className={classes.Button}>
-        <button onClick={()=>props.booked(props.session)} className={btnBook?classes.Cancel : classes.Book} >{btnBook?"CANCEL":"BOOK"}</button>
-      </div> 
-    </div>
-  );
+    );
+	}
+	
 };
-   
 
-      
-const mapStateToProps = state => ({
-  toggle: state.sessionReducer.sessionInfoToggle,
-  btnToggle: state.sessionReducer.booked,
-  isAuth: state.firebaseReducer.auth,
-  userName: state.firebaseReducer.profile.firstName
+const mapStateToProps = (state) => ({
+	toggle: state.sessionReducer.sessionInfoToggle,
+	shareDialogOpen: state.sessionReducer.shareDialogOpen,
+	btnToggle: state.sessionReducer.booked,
+	auth: state.firebaseReducer.auth,
+	user: state.firebaseReducer.profile
 });
 
 function mapDispatchToProps(dispatch) {
-  return {...bindActionCreators(mainActions, dispatch)}
-};
+	return { ...bindActionCreators(mainActions, dispatch) };
+}
 
 export default compose(
-  connect(mapStateToProps,mapDispatchToProps),
-  firestoreConnect([
-    { collection: 'sessionList'}
-  ])
+	connect(mapStateToProps, mapDispatchToProps),
+	firestoreConnect([ { collection: 'sessionList' } ])
 )(sessionView);

@@ -13,7 +13,7 @@ const navigationItems = (props) => {
             ? <NavigationItem link="/account" closed={props.closed}>Welcome {props.name}!</NavigationItem>
             : <NavigationItem link="/login" closed={props.closed}>Log In</NavigationItem>}
         <NavigationItem link="/" closed={props.closed}>Schedule</NavigationItem>
-        <NavigationItem link="/MyClasses" closed={props.closed}>My Classes</NavigationItem>
+        {/* <NavigationItem link="/MyClasses" closed={props.closed}>My Classes</NavigationItem> */}
         <NavigationItem link="/contact" closed={props.closed}>Contact Us</NavigationItem>
         {auth.uid
             ? <NavigationItem link="/logout" closed={props.closed}>Loguot</NavigationItem>
