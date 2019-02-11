@@ -17,8 +17,8 @@ class sessionView extends React.Component {
 		return (
 			<div className={classes.SessionView}>
 				<div className={classes.Time}>
-					{/* <div>{this.props.session.time.seconds}</div>
-				<div>{this.props.session.endTime.seconds}</div> */}
+					<div>{this.props.session.time}</div>
+					<div>{this.props.session.endTime}</div>
 				</div>
 				<div className={classes.Info} onClick={this.toggle}>
 					<p className={classes.Title}>{this.props.session.title}</p>
@@ -42,6 +42,7 @@ class sessionView extends React.Component {
 					btnBook={this.props.btnBook}
 					toggle={this.toggle}
 					openInfo={this.state.toggleInfo}
+					userID={this.props.auth.uid}
 				/>
 			</div>
 		);

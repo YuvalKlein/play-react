@@ -2,7 +2,7 @@ import React from 'react';
 import 'date-fns';
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import FloatButton from '../../UI/FloatButton/FloatButton';
-import classescss from './NewSession.css';
+import classescss from './EditSession.css';
 import { NavLink } from 'react-router-dom';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
@@ -13,25 +13,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
 import Grid from '@material-ui/core/Grid';
 
-const styles = (theme) => ({
-	container: {
-		display: 'flex',
-		flexWrap: 'wrap'
-	},
-	textField: {
-		marginLeft: theme.spacing.unit,
-		marginRight: theme.spacing.unit,
-		width: 200
-	},
-	dense: {
-		marginTop: 19
-	},
-	menu: {
-		width: 200
-	}
-});
-
-class NewSession extends React.Component {
+class EditSession extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -50,7 +32,7 @@ class NewSession extends React.Component {
 		this.toggle = this.toggle.bind(this);
 	}
 
-	handleAdd() {
+	handleDone() {
 		let newS = {};
 		newS = {
 			date: this.state.date,
@@ -97,23 +79,13 @@ class NewSession extends React.Component {
 	};
 
 	render() {
-		let addButton = null;
-		this.props.auth.uid
-			? (addButton = <FloatButton clicked={this.toggle} />)
-			: (addButton = (
-					<NavLink to="/login">
-						<FloatButton />
-					</NavLink>
-				));
-
 		const { classes } = this.props;
 
 		return (
 			<div>
-				{addButton}
 				<Modal isOpen={this.state.modalSession} toggle={this.toggle} className={classescss.NewSession}>
 					<ModalHeader toggle={this.toggle}>Add new Class</ModalHeader>
-					<ModalBody className={classescss.Content}>
+					<ModalBody className={classes.Content}>
 						<form
 							onSubmit={this.handleAdd.bind(this)}
 							className={classes.container}
@@ -224,4 +196,4 @@ class NewSession extends React.Component {
 	}
 }
 
-export default withStyles(styles)(NewSession);
+export default EditSession;

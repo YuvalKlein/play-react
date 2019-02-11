@@ -25,7 +25,6 @@ class AlertDialog extends React.Component {
 	};
 
 	render() {
-		console.log(this.props);
 		return (
 			<div>
 				<Dialog
@@ -37,17 +36,24 @@ class AlertDialog extends React.Component {
 					<DialogTitle id="alert-dialog-title">{'Invite friends to play with you'}</DialogTitle>
 					<DialogContent>
 						<ShareButton
-							urll={'https:/playsport.co.il/' + this.props.session.id}
+							urll={
+								this.props.session.id ? (
+									'https:/playsport.co.il/' + this.props.session.id
+								) : (
+									'https:/playsport.co.il/' + this.props.sessionID
+								)
+							}
 							name={
 								this.props.user ? (
 									this.props.user.firstName + ' invite you to play ' + this.props.session.title
 								) : null
 							}
+							session={this.props.session}
 							clicked={this.props.toggleDialogShare}
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={this.props.toggleDialogShare} color="primary">
+						<Button onClick={() => this.props.toggleDialogShare(this.props.session)} color="primary">
 							Next time
 						</Button>
 					</DialogActions>
@@ -60,7 +66,8 @@ class AlertDialog extends React.Component {
 const mapStateToProps = (state) => ({
 	shareDialogOpen: state.sessionReducer.shareDialogOpen,
 	user: state.firebaseReducer.profile,
-	session: state.sessionReducer.session
+	session: state.sessionReducer.session,
+	sessionID: state.sessionReducer.sessionID
 });
 
 function mapDispatchToProps(dispatch) {

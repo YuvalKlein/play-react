@@ -5,8 +5,9 @@ export const addNewSession = (session) => {
 		firestore
 			.collection('sessionList')
 			.add(session)
-			.then(() => {
-				dispatch({ type: 'ADD_NEW_SESSION', session });
+			.then((res) => {
+				console.log('RESS', res);
+				dispatch({ type: 'ADD_NEW_SESSION', payload: res.id });
 			})
 			.catch((err) => {
 				dispatch({ type: 'ADD_NEW_SESSION_ERROR' }, err);

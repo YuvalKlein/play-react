@@ -14,3 +14,15 @@
 .Map {
 	height: 50px;
 }
+
+.Button {
+	flex-grow: 1;
+}
+.EditButton {
+	width: 81px;
+	color: white;
+	height: 32px;
+	border: 0;
+	border-radius: 6px;
+	background-color: #393336;
+}

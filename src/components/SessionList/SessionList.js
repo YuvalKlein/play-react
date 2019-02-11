@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import axios from '../../axios-sessions';
 
 import * as mainActions from '../../actions/mainAction';
+import Classes from './SessionList.css';
 import SessionView from './SessionView/SessionView';
 import NewSession from './NewSession/NewSession';
 import NewSessions from './NewSession/NewSessions';
@@ -35,7 +36,7 @@ class SessionList extends Component {
 			}
 		]);
 		this.props.signToSession(session, newPlayerArray);
-		this.props.toggleDialogShare(session, this.props.user);
+		this.props.toggleDialogShare(session);
 	};
 	render() {
 		const sessionLFB = this.props.sessionList;
@@ -50,25 +51,29 @@ class SessionList extends Component {
 				let players = session.players;
 				let btnBook = false;
 
-				players.map((player) => {
-					if (this.props.auth.uid === player.uid) {
+				for (let player in players) {
+					if (this.props.auth.uid === players[player].uid) {
 						btnBook = (
 							<BookButton
 								clicked={this.props.toggleSignOutDialog}
-								classN="Cancel"
+								classN={Classes.Cancel}
 								title="CANCEL"
 								clickedSession={session}
 							/>
 						);
+						break;
 					} else if (players.length >= session.maxPlayers) {
-						btnBook = <BookButton clicked={() => null} classN="Cancel" title="FULL" disabled />;
+						btnBook = <BookButton clicked={() => null} classN={Classes.Cancel} title="FULL" disabled />;
 					} else {
 						btnBook = (
-							<BookButton clicked={() => this.signToSessionHandler(session)} classN="Book" title="BOOK" />
+							<BookButton
+								clicked={() => this.signToSessionHandler(session)}
+								classN={Classes.Book}
+								title="BOOK"
+							/>
 						);
 					}
-					return btnBook;
-				});
+				}
 
 				if (!this.props.auth.uid) {
 					btnBook = (
@@ -77,11 +82,10 @@ class SessionList extends Component {
 						</NavLink>
 					);
 				}
-				console.log('SESSIONV', session);
 				return (
 					<div key={session.id}>
 						<SessionView session={session} btnBook={btnBook} />
-            <SessionInfo btnBook={btnBook} />
+						<SessionInfo btnBook={btnBook} />
 					</div>
 				);
 			});

@@ -1,6 +1,7 @@
 const initialState = {
 	sessionList: [],
 	session: {},
+	sessionID: null,
 	inClass: false,
 	shareDialogOpen: false,
 	signOutDialogOpen: false
@@ -9,7 +10,8 @@ const initialState = {
 const sessionReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case 'ADD_NEW_SESSION':
-			return { ...state, shareDialogOpen: !state.shareDialogOpen, sessionList: action.payload };
+			console.log('ADD_NEW_SESSION', action.payload);
+			return { ...state, shareDialogOpen: !state.shareDialogOpen, sessionID: action.payload.sessionID };
 		case 'ADD_NEW_SESSION_ERROR':
 			return { ...state, err: action.err };
 		case 'UPDATE_PLAYERS_IN_SESSION':

@@ -7,6 +7,21 @@ import Avatar from '../../UI/Avatar/avatat';
 
 const SessionInfo = (props) => {
 	let session = props.session;
+	let editButton = null;
+
+	const editHandler = (session) => {
+		props.toggle();
+	};
+	if (session) {
+		if (session.createdBy.uid === props.userID) {
+			editButton = (
+				<button className={classes.EditButton} onClick={editHandler}>
+					EDIT
+				</button>
+			);
+		}
+	}
+
 	if (props.openInfo) {
 		return (
 			<div>
@@ -33,7 +48,10 @@ const SessionInfo = (props) => {
 							<Avatar name={session.createdBy.firstName} avatar={session.createdBy.photoURL} />
 						</div>
 					</ModalBody>
-					<ModalFooter>{props.btnBook}</ModalFooter>
+					<ModalFooter>
+						{editButton}
+						{props.btnBook}
+					</ModalFooter>
 				</Modal>
 			</div>
 		);

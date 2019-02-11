@@ -1,0 +1,13 @@
+.Img {
+	text-align: center;
+}
+
+.FaceImg {
+	border-radius: 50%;
+	width: 150px;
+	height: 150px;
+}
+
+.Name {
+	text-align: center;
+}
