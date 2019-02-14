@@ -22,7 +22,7 @@ class NewSession extends React.Component {
 			detailsTouch: false,
 			location: '',
 			locationTouch: false,
-			formIsValid: true,
+			formIsValid: false,
 			date: new Date(),
 			startTime: new Date(),
 			endTime: new Date(),
@@ -33,35 +33,15 @@ class NewSession extends React.Component {
 		this.toggle = this.toggle.bind(this);
 	}
 
-	inputChangedHandler = (event, inputIdentifier) => {
-		const updatedFields = {
-			...this.state.fields
-		};
-		const updatedFormElement = {
-			...updatedFields[inputIdentifier]
-		};
-		updatedFormElement.value = event.target.value;
-		updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation);
-		updatedFormElement.touched = true;
-		updatedFields[inputIdentifier] = updatedFormElement;
-
-		let formIsValid = true;
-		for (let inputIdentifier in updatedFields) {
-			formIsValid = updatedFields[inputIdentifier].valid && formIsValid;
-		}
-
-		this.setState({ fields: updatedFields, formIsValid: formIsValid });
-	};
-
 	handleAdd() {
 		let newS = {};
 		newS = {
-			date: this.state.date.value,
-			time: this.state.startTime.value,
-			endTime: this.state.endTime.value,
-			title: this.state.title.value,
-			details: this.state.details.value,
-			location: this.state.location.value,
+			date: this.state.date,
+			time: this.state.startTime,
+			endTime: this.state.endTime,
+			title: this.state.title,
+			details: this.state.details,
+			location: this.state.location,
 			players: [
 				{
 					firstName: this.props.user.firstName,
@@ -77,10 +57,19 @@ class NewSession extends React.Component {
 				lastName: this.props.user.lastName,
 				photoURL: this.props.user.photoURL
 			},
-			minPlayers: this.state.minPlayers.value,
-			maxPlayers: this.state.maxPlayers.value
+			minPlayers: this.state.minPlayers,
+			maxPlayers: this.state.maxPlayers
 		};
+		console.log('NESS', newS);
 		this.props.handleNewSession(newS);
+		this.setState({
+			title: '',
+			titleTouch: false,
+			details: '',
+			detailsTouch: false,
+			location: '',
+			locationTouch: false
+		});
 		this.toggle();
 	}
 	toggle() {
@@ -90,14 +79,33 @@ class NewSession extends React.Component {
 		});
 	}
 
-
 	handleChange = (name, event) => {
-		console.log('name:::', name, event);
+		console.log('name:::', name, event.target.value);
 		let newName = name + 'Touch';
-
+		let newValid = name + 'Valid';
+		let nameValid = checkValidity(event.target.value, {
+			required: true,
+			minLength: 2
+		});
+		let valid = false;
+		if (
+			[ newValid ] &&
+			this.state.titleValid &&
+			this.state.detailsValid &&
+			this.state.locationValid &&
+			this.state.dateValid
+		) {
+			valid = true;
+		} else {
+			valid = false;
+		}
+		console.log('valid', valid);
+		console.log('nameValid', newValid, nameValid);
 		this.setState({
 			[name]: event.target.value,
-			[newName]: true
+			[newName]: true,
+			[newValid]: nameValid,
+			formIsValid: valid
 		});
 	};
 	titleHandler = (title) => {
@@ -112,26 +120,6 @@ class NewSession extends React.Component {
 				config: this.state.fields[key]
 			});
 		}
-
-		// let form = formElementsArray.map((formElement) => (
-		// 	<Input
-		// 		className={classes.NewSession}
-		// 		key={formElement.id}
-		// 		elementType={formElement.config.elementType}
-		// 		elementConfig={formElement.config.elementConfig}
-		// 		value={formElement.config.value}
-		// 		invalid={checkValidity(this.state.title, {
-		// 			rules: {
-		// 				required: true,
-		// 				minLength: 2
-		// 			}
-		// 		})}
-		// 		touched={this.state.titleTouch}
-		// 		changed={this.handleChange('title')}
-		// 		placeholder={formElement.config.elementConfig.placeholder}
-		// 		valueType={formElement.config.elementConfig.type}
-		// 	/>
-		// ));
 
 		let addButton = null;
 		this.props.auth.uid
@@ -162,7 +150,6 @@ class NewSession extends React.Component {
 								placeholder="Title"
 							/>
 							<Input
-								className={classes.NewSession}
 								value={this.state.details}
 								valid={checkValidity(this.state.details, {
 									required: true,
@@ -174,7 +161,6 @@ class NewSession extends React.Component {
 								placeholder="Details"
 							/>
 							<Input
-								className={classes.NewSession}
 								value={this.state.location}
 								valid={checkValidity(this.state.location, {
 									required: true,
@@ -189,7 +175,7 @@ class NewSession extends React.Component {
 								placeholder="Date"
 								type="date"
 								// defaultValue={this.state.date}
-								className={classes.textField}
+								// className={classes.textField}
 								changed={(e) => this.handleChange('date', e)}
 								InputLabelProps={{
 									shrink: true
@@ -197,7 +183,22 @@ class NewSession extends React.Component {
 							/>
 							<TextField
 								id="time"
+								onChange={(e) => this.handleChange('startTime', e)}
 								label="Start at"
+								type="time"
+								// defaultValue={this.state.startTime}
+								className={classes.textField}
+								InputLabelProps={{
+									shrink: true
+								}}
+								inputProps={{
+									step: 300 // 5 min
+								}}
+							/>
+							<TextField
+								id="time2"
+								onChange={(e) => this.handleChange('endTime', e)}
+								label="End at"
 								type="time"
 								// defaultValue={this.state.startTime}
 								className={classes.textField}
@@ -236,7 +237,7 @@ class NewSession extends React.Component {
 								id="standard-number"
 								label="Minimum Players"
 								value={this.state.minPlayers}
-								changed={(e) => this.handleChange('minPlayers', e)}
+								changed={(e) => this.setState({ minPlayers: e.target.value })}
 								type="number"
 								className={classes.textField}
 								InputLabelProps={{
@@ -248,7 +249,7 @@ class NewSession extends React.Component {
 								id="standard-number"
 								label="Maximum Players"
 								value={this.state.maxPlayers}
-								changed={(e) => this.handleChange('maxPlayers', e)}
+								changed={(e) => this.setState({ maxPlayers: e.target.value })}
 								type="number"
 								className={classes.textField}
 								InputLabelProps={{

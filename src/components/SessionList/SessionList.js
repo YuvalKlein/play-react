@@ -42,12 +42,26 @@ class SessionList extends Component {
 		const sessionLFB = this.props.sessionList;
 
 		if (sessionLFB) {
-			sessionLFB.sort((a, b) => {
+			let sessionFiltred = sessionLFB.filter((session) => new Date(session.date) > new Date());
+			console.log('sessionFiltred', sessionFiltred);
+			sessionFiltred.sort((a, b) => {
 				return new Date(a.date) - new Date(b.date);
 			});
 
-			const sessions = sessionLFB.map((session) => {
-				// console.log('session', session.date);
+			const sessions = sessionFiltred.map((session, i) => {
+				console.log('session', session.date);
+				let devider = null;
+				let nextDay = new Date(session.date).getDate();
+				if (i) {
+					let prevStep = sessionFiltred[i - 1];
+
+					console.log(new Date(prevStep.date).getDate());
+					if (new Date(prevStep.date).getDate() < nextDay) {
+						devider = <div>{session.date}</div>;
+					}
+				}
+
+				console.log('nextDay', nextDay);
 				let players = session.players;
 				let btnBook = false;
 
@@ -84,6 +98,7 @@ class SessionList extends Component {
 				}
 				return (
 					<div key={session.id}>
+						{devider}
 						<SessionView session={session} btnBook={btnBook} />
 						<SessionInfo btnBook={btnBook} />
 					</div>
@@ -92,7 +107,8 @@ class SessionList extends Component {
 
 			return (
 				<div>
-					<h1>Today</h1>
+					<h1>Today {sessionFiltred[0].date}</h1>
+
 					{sessions}
 					<ShareButton />
 					<NewSession handleNewSession={this.handleAdd} user={this.props.user} auth={this.props.auth} />
