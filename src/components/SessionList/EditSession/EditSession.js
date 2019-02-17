@@ -1,190 +1,201 @@
 import React from 'react';
-import 'date-fns';
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
-import FloatButton from '../../UI/FloatButton/FloatButton';
-import classescss from './EditSession.css';
-import { NavLink } from 'react-router-dom';
-import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
+import classes from './EditSession.css';
+import Input from '../../UI/Input/Input';
 import TextField from '@material-ui/core/TextField';
-import 'date-fns';
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider, TimePicker, DatePicker } from 'material-ui-pickers';
-import Grid from '@material-ui/core/Grid';
+
+import Spinner from '../../UI/Spinner/Spinner';
+import { checkValidity } from '../../LogIn/form/validation';
 
 class EditSession extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			modalSession: false,
-			selectedDate: new Date('2014-08-18T21:11:54'),
-			minPlayers: 1,
-			maxPlayers: 1,
-			location: 'Where will you play?',
-			date: null,
-			time: new Date('2014-08-18T21:11:54'),
-			endTime: new Date('2014-08-18T22:11:54'),
-			title: '',
-			details: ''
+			title: this.props.session.title,
+			details: this.props.session.details,
+			location: this.props.session.location,
+			date: this.props.session.date,
+			startTime: this.props.session.startTime,
+			endTime: this.props.session.endTime,
+			minPlayers: this.props.session.minPlayers,
+			maxPlayers: this.props.session.maxPlayers
 		};
-
-		this.toggle = this.toggle.bind(this);
 	}
 
-	handleDone() {
-		let newS = {};
-		newS = {
+	handleEdit = () => {
+		let editedSession = {};
+		editedSession = {
 			date: this.state.date,
-			time: this.state.time,
+			time: this.state.startTime,
 			endTime: this.state.endTime,
 			title: this.state.title,
 			details: this.state.details,
 			location: this.state.location,
-			players: [
-				{
-					firstName: this.props.user.firstName,
-					uid: this.props.auth.uid,
-					lastName: this.props.user.lastName,
-					photoURL: this.props.user.photoURL
-				}
-			],
-			created: new Date(),
-			createdBy: {
-				firstName: this.props.user.firstName,
-				uid: this.props.auth.uid,
-				lastName: this.props.user.lastName,
-				photoURL: this.props.user.photoURL
-			},
 			minPlayers: this.state.minPlayers,
-			maxPlayers: this.state.maxPlayers
+			maxPlayers: this.state.maxPlayers,
+			id: this.props.session.id
 		};
-		this.props.handleNewSession(newS);
-		this.toggle();
-	}
-	toggle() {
-		this.setState({
-			modalSession: !this.state.modalSession
-		});
-	}
-
-	handleDateChange = (date) => {
-		this.setState({ selectedDate: date });
+		console.log('NESS', editedSession);
+		this.props.editSessionHandle(editedSession);
+		this.props.toggle('toggleEdit');
+		this.props.toggleDialogShare(editedSession);
 	};
 
-	handleChange = (name) => (event) => {
+	handleChange = (name, event) => {
 		this.setState({
 			[name]: event.target.value
 		});
 	};
+	titleHandler = (title) => {
+		this.setState({ title: title.target.value });
+	};
 
 	render() {
-		const { classes } = this.props;
-
+		if (!this.props.session) {
+			return <Spinner />;
+		}
 		return (
 			<div>
-				<Modal isOpen={this.state.modalSession} toggle={this.toggle} className={classescss.NewSession}>
-					<ModalHeader toggle={this.toggle}>Add new Class</ModalHeader>
+				<Modal
+					isOpen={this.props.editOpen}
+					toggle={() => this.props.toggle('toggleEdit')}
+					className={classes.NewSession}
+				>
+					<ModalHeader toggle={() => this.props.toggle('toggleEdit')}>
+						Edit {this.props.session.title}
+					</ModalHeader>
 					<ModalBody className={classes.Content}>
-						<form
-							onSubmit={this.handleAdd.bind(this)}
-							className={classes.container}
-							style={{ display: 'inline' }}
-							autoComplete="on"
-						>
-							<TextField
-								required
-								id="standard-name"
-								label="Title"
-								className={classes.textField}
-								onChange={this.handleChange('title')}
-								margin="normal"
+						<form>
+							{/* {form} */}
+							<Input
+								className={classes.NewSession}
+								value={this.state.title}
+								valid={checkValidity(this.state.title, {
+									required: true,
+									minLength: 2
+								})}
+								touched={this.state.titleTouch}
+								changed={(e) => this.handleChange('title', e)}
+								placeholder="Title"
 							/>
-							<TextField
-								required
-								id="standard-multiline-static"
-								label="Details"
-								multiline
-								rows="3"
-								onChange={this.handleChange('details')}
-								className={classes.textField}
-								margin="normal"
+							<Input
+								value={this.state.details}
+								valid={checkValidity(this.state.details, {
+									required: true,
+									minLength: 2
+								})}
+								multiline={true}
+								touched={this.state.detailsTouch}
+								changed={(e) => this.handleChange('details', e)}
+								placeholder="Details"
 							/>
-
-							<MuiPickersUtilsProvider utils={DateFnsUtils}>
-								<Grid container className={classes.grid} justify="space-around">
-									<DatePicker
-										margin="normal"
-										label="Time picker"
-										id="standard-name"
-										type="date"
-										value={this.state.selectedDate}
-										className={classes.textField}
-										// InputLabelProps={{
-										// 	shrink: true
-										// }}
-										onChange={this.handleChange('date')}
-									/>
-									<TimePicker
-										required
-										margin="normal"
-										label="Start Time"
-										onChange={this.handleChange('time')}
-									/>
-									<TimePicker
-										required
-										margin="normal"
-										label="End Time"
-										onChange={this.handleChange('endTime')}
-									/>
-								</Grid>
-							</MuiPickersUtilsProvider>
-							<TextField
-								required
-								id="standard-name"
-								label="Location"
-								className={classes.textField}
-								onChange={this.handleChange('location')}
-								margin="normal"
+							<Input
+								value={this.state.location}
+								valid={checkValidity(this.state.location, {
+									required: true,
+									minLength: 2
+								})}
+								touched={this.state.locationTouch}
+								changed={(e) => this.handleChange('location', e)}
+								placeholder="Location"
 							/>
-
-							<Grid container className={classes.grid} justify="space-around">
+							<Input
+								id="date"
+								placeholder="Date"
+								type="date"
+								defaultValue={this.state.date}
+								// className={classes.textField}
+								changed={(e) => this.handleChange('date', e)}
+								InputLabelProps={{
+									shrink: true
+								}}
+							/>
+							<div style={{ textAlign: 'center' }}>
 								<TextField
-									required
-									id="standard-number"
-									label="Minimum Players"
-									value={this.state.minPlayers}
-									onChange={this.handleChange('minPlayers')}
-									type="number"
-									className={classes.textField}
+									id="time"
+									onChange={(e) => this.handleChange('startTime', e)}
+									label="Start at"
+									type="time"
+									defaultValue={this.state.startTime}
+									style={{ margin: '10px' }}
 									InputLabelProps={{
 										shrink: true
 									}}
-									margin="normal"
+									inputProps={{
+										step: 300 // 5 min
+									}}
 								/>
 								<TextField
-									required
-									id="standard-number"
-									label="Maximum Players"
-									value={this.state.maxPlayers}
-									onChange={this.handleChange('maxPlayers')}
-									type="number"
-									className={classes.textField}
+									id="time2"
+									onChange={(e) => this.handleChange('endTime', e)}
+									label="End at"
+									type="time"
+									defaultValue={this.state.startTime}
+									style={{ margin: '10px' }}
 									InputLabelProps={{
 										shrink: true
 									}}
-									margin="normal"
+									inputProps={{
+										step: 300 // 5 min
+									}}
 								/>
-							</Grid>
-							<div className={classescss.Buttons}>
+							</div>
+							<p
+								style={{
+									textAlign: 'center',
+									marginBottom: '0px',
+									marginTop: '10px',
+									color: 'rgb(169, 169, 169)'
+								}}
+							>
+								Minimum Players
+							</p>
+							<Input
+								id="standard-number"
+								// label="Minimum Players"
+								value={this.state.minPlayers}
+								changed={(e) => this.setState({ minPlayers: e.target.value })}
+								type="number"
+								style={{ textAlign: 'center', marginTop: '0' }}
+								InputLabelProps={{
+									shrink: true
+								}}
+								margin="normal"
+							/>
+							<p
+								style={{
+									textAlign: 'center',
+									marginBottom: '0px',
+									marginTop: '10px',
+									color: 'rgb(169, 169, 169)'
+								}}
+							>
+								Maximum Players
+							</p>
+							<Input
+								id="standard-number"
+								value={this.state.maxPlayers}
+								changed={(e) => this.setState({ maxPlayers: e.target.value })}
+								type="number"
+								style={{ textAlign: 'center', marginTop: '0' }}
+								InputLabelProps={{
+									shrink: true
+								}}
+								margin="normal"
+							/>
+							<div className={classes.Buttons}>
 								<Button
-									className={classescss.SubmitButton}
+									className={classes.SubmitButton}
 									color="primary"
-									onClick={this.handleAdd.bind(this)}
+									onClick={() => this.handleEdit()}
 								>
-									ADD
+									EDIT
 								</Button>
-								<Button className={classescss.SubmitButton} color="secondary" onClick={this.toggle}>
+								<Button
+									className={classes.SubmitButton}
+									color="secondary"
+									onClick={() => this.props.toggle('toggleEdit')}
+								>
 									Cancel
 								</Button>
 							</div>

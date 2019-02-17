@@ -7,15 +7,12 @@ import { NavLink } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 
 import { checkValidity } from '../../LogIn/form/validation';
-import { myFields } from './formFields';
-import DatePicker from 'react-datepicker';
 
 class NewSession extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			modal: false,
-			fields: myFields,
 			title: '',
 			titleTouch: false,
 			details: '',
@@ -74,13 +71,11 @@ class NewSession extends React.Component {
 	}
 	toggle() {
 		this.setState({
-			modal: !this.state.modal,
-			fields: myFields
+			modal: !this.state.modal
 		});
 	}
 
 	handleChange = (name, event) => {
-		console.log('name:::', name, event.target.value);
 		let newName = name + 'Touch';
 		let newValid = name + 'Valid';
 		let nameValid = checkValidity(event.target.value, {
@@ -99,8 +94,6 @@ class NewSession extends React.Component {
 		} else {
 			valid = false;
 		}
-		console.log('valid', valid);
-		console.log('nameValid', newValid, nameValid);
 		this.setState({
 			[name]: event.target.value,
 			[newName]: true,
@@ -113,14 +106,6 @@ class NewSession extends React.Component {
 	};
 
 	render() {
-		let formElementsArray = [];
-		for (let key in this.state.fields) {
-			formElementsArray.push({
-				id: key,
-				config: this.state.fields[key]
-			});
-		}
-
 		let addButton = null;
 		this.props.auth.uid
 			? (addButton = <FloatButton clicked={this.toggle} />)
@@ -181,77 +166,74 @@ class NewSession extends React.Component {
 									shrink: true
 								}}
 							/>
-							<TextField
-								id="time"
-								onChange={(e) => this.handleChange('startTime', e)}
-								label="Start at"
-								type="time"
-								// defaultValue={this.state.startTime}
-								className={classes.textField}
-								InputLabelProps={{
-									shrink: true
+							<div style={{ textAlign: 'center' }}>
+								<TextField
+									id="time"
+									onChange={(e) => this.handleChange('startTime', e)}
+									label="Start at"
+									type="time"
+									// defaultValue={this.state.startTime}
+									style={{ margin: '10px' }}
+									InputLabelProps={{
+										shrink: true
+									}}
+									inputProps={{
+										step: 300 // 5 min
+									}}
+								/>
+								<TextField
+									id="time2"
+									onChange={(e) => this.handleChange('endTime', e)}
+									label="End at"
+									type="time"
+									// defaultValue={this.state.startTime}
+									style={{ margin: '10px' }}
+									InputLabelProps={{
+										shrink: true
+									}}
+									inputProps={{
+										step: 300 // 5 min
+									}}
+								/>
+							</div>
+							<p
+								style={{
+									textAlign: 'center',
+									marginBottom: '0px',
+									marginTop: '10px',
+									color: 'rgb(169, 169, 169)'
 								}}
-								inputProps={{
-									step: 300 // 5 min
-								}}
-							/>
-							<TextField
-								id="time2"
-								onChange={(e) => this.handleChange('endTime', e)}
-								label="End at"
-								type="time"
-								// defaultValue={this.state.startTime}
-								className={classes.textField}
-								InputLabelProps={{
-									shrink: true
-								}}
-								inputProps={{
-									step: 300 // 5 min
-								}}
-							/>
-							{/* Date:<DatePicker
-								selected={this.state.date}
-								onChange={(e) => this.handleChange(e)}
-								minDate={new Date()}
-								showDisabledMonthNavigation
-							/> */}
-							{/* Start time:<DatePicker
-								selected={this.state.startTime}
-								onChange={this.handleChangeStartTime}
-								showTimeSelect
-								showTimeSelectOnly
-								timeIntervals={120}
-								dateFormat="h:mm aa"
-								timeCaption="Time"
-							/>
-							End time:<DatePicker
-								selected={this.state.endTime}
-								onChange={this.handleChangeEndTime}
-								showTimeSelect
-								showTimeSelectOnly
-								timeIntervals={120}
-								dateFormat="h:mm aa"
-								timeCaption="Time"
-							/> */}
+							>
+								Minimum Players
+							</p>
 							<Input
 								id="standard-number"
-								label="Minimum Players"
+								// label="Minimum Players"
 								value={this.state.minPlayers}
 								changed={(e) => this.setState({ minPlayers: e.target.value })}
 								type="number"
-								className={classes.textField}
+								style={{ textAlign: 'center', marginTop: '0' }}
 								InputLabelProps={{
 									shrink: true
 								}}
 								margin="normal"
 							/>
+							<p
+								style={{
+									textAlign: 'center',
+									marginBottom: '0px',
+									marginTop: '10px',
+									color: 'rgb(169, 169, 169)'
+								}}
+							>
+								Maximum Players
+							</p>
 							<Input
 								id="standard-number"
-								label="Maximum Players"
 								value={this.state.maxPlayers}
 								changed={(e) => this.setState({ maxPlayers: e.target.value })}
 								type="number"
-								className={classes.textField}
+								style={{ textAlign: 'center', marginTop: '0' }}
 								InputLabelProps={{
 									shrink: true
 								}}

@@ -3,7 +3,6 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -36,16 +35,10 @@ class AlertDialog extends React.Component {
 					<DialogTitle id="alert-dialog-title">{'Invite friends to play with you'}</DialogTitle>
 					<DialogContent>
 						<ShareButton
-							urll={
-								this.props.session.id ? (
-									'https:/playsport.co.il/' + this.props.session.id
-								) : (
-									'https:/playsport.co.il/' + this.props.sessionID
-								)
-							}
+							urll={'https:/playsport.co.il/' + this.props.sessionID}
 							name={
 								this.props.user ? (
-									this.props.user.firstName + ' invite you to play ' + this.props.session.title
+									this.props.user.firstName + ' invite you to play ' + this.props.sessionTitle
 								) : null
 							}
 							session={this.props.session}
@@ -67,7 +60,8 @@ const mapStateToProps = (state) => ({
 	shareDialogOpen: state.sessionReducer.shareDialogOpen,
 	user: state.firebaseReducer.profile,
 	session: state.sessionReducer.session,
-	sessionID: state.sessionReducer.sessionID
+	sessionID: state.sessionReducer.sessionID,
+	sessionTitle: state.sessionReducer.sessionTitle
 });
 
 function mapDispatchToProps(dispatch) {

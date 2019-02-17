@@ -7,7 +7,7 @@ export const addNewSession = (session) => {
 			.add(session)
 			.then((res) => {
 				console.log('RESS', res);
-				dispatch({ type: 'ADD_NEW_SESSION', payload: res.id });
+				dispatch({ type: 'ADD_NEW_SESSION', payload: { id: res.id, sessionTitle: session.title } });
 			})
 			.catch((err) => {
 				dispatch({ type: 'ADD_NEW_SESSION_ERROR' }, err);
@@ -62,9 +62,29 @@ export const removeFromSession = (session, players) => {
 	};
 };
 
+export const editSession = (session) => {
+	return async (dispatch, getState, { getFirestore }) => {
+		// make async call to database
+		try {
+			const firestore = getFirestore();
+			await firestore.collection('sessionList').doc(session.id).update(session);
+			console.log('Session successfully edited!');
+			dispatch({ type: 'EDIT_SESSION', session: session });
+		} catch (err) {
+			console.error('Error edit session: ', err);
+		}
+	};
+};
+
 export const toggleDialogShare = (session) => (dispatch) => {
 	dispatch({
 		type: 'SHARE_DIALOG_OPEN',
+		payload: session
+	});
+};
+export const toggleEditSession = (session) => (dispatch) => {
+	dispatch({
+		type: 'TOGGLE_EDIT',
 		payload: session
 	});
 };

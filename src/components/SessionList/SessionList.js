@@ -5,23 +5,20 @@ import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { bindActionCreators } from 'redux';
 import axios from '../../axios-sessions';
+import { format, formatDistance, formatRelative, subDays } from 'date-fns';
 
 import * as mainActions from '../../actions/mainAction';
 import Classes from './SessionList.css';
 import SessionView from './SessionView/SessionView';
 import NewSession from './NewSession/NewSession';
-import NewSessions from './NewSession/NewSessions';
 import SessionInfo from '../SessionList/SessionInfo/SessionInfo';
 import Spinner from '../UI/Spinner/Spinner';
 import SignOutDialog from '../Dialogs/signOutDialog/signOutDialog';
-import ShareButton from '../Dialogs/ShareDialog/ShareDialog';
+import ShareDialog from '../Dialogs/ShareDialog/ShareDialog';
 import BookButton from '../UI/Button/bookButton';
 import { NavLink } from 'react-router-dom';
 
 class SessionList extends Component {
-	state = {
-		session: {}
-	};
 	handleAdd = (session) => {
 		this.props.addNewSession(session);
 	};
@@ -42,26 +39,26 @@ class SessionList extends Component {
 		const sessionLFB = this.props.sessionList;
 
 		if (sessionLFB) {
-			let sessionFiltred = sessionLFB.filter((session) => new Date(session.date) > new Date());
-			console.log('sessionFiltred', sessionFiltred);
+			let sessionFiltred = sessionLFB.filter((session) => new Date(session.date) > new Date() - 86400000);
 			sessionFiltred.sort((a, b) => {
 				return new Date(a.date) - new Date(b.date);
 			});
 
 			const sessions = sessionFiltred.map((session, i) => {
-				console.log('session', session.date);
 				let devider = null;
 				let nextDay = new Date(session.date).getDate();
 				if (i) {
 					let prevStep = sessionFiltred[i - 1];
 
-					console.log(new Date(prevStep.date).getDate());
 					if (new Date(prevStep.date).getDate() < nextDay) {
-						devider = <div>{session.date}</div>;
+						devider = (
+							<h4 style={{ paddingLeft: '20px' }}>
+								{format(session.date, 'iiii')} {format(session.date, 'dd/MM/yyyy')}
+							</h4>
+						);
 					}
 				}
 
-				console.log('nextDay', nextDay);
 				let players = session.players;
 				let btnBook = false;
 
@@ -107,10 +104,12 @@ class SessionList extends Component {
 
 			return (
 				<div>
-					<h1>Today {sessionFiltred[0].date}</h1>
+					<h4 style={{ paddingLeft: '20px' }}>
+						{format(sessionFiltred[0].date, 'iiii')} {format(sessionFiltred[0].date, 'dd/MM/yyyy')}
+					</h4>
 
 					{sessions}
-					<ShareButton />
+					<ShareDialog />
 					<NewSession handleNewSession={this.handleAdd} user={this.props.user} auth={this.props.auth} />
 					{/* <NewSessions handleNewSession={this.handleAdd} user={this.props.user} auth={this.props.auth} /> */}
 					<SignOutDialog />
@@ -128,7 +127,8 @@ const mapStateToProps = (state) => {
 	return {
 		sessionList: state.firestoreReducer.ordered.sessionList,
 		user: state.firebaseReducer.profile,
-		auth: state.firebaseReducer.auth
+		auth: state.firebaseReducer.auth,
+		toggleEdit: state.sessionReducer.toggleEdit
 	};
 };
 function mapDispatchToProps(dispatch) {
