@@ -90,17 +90,17 @@ class Register extends React.Component {
 		};
 		let form = formElementsArray.map(
 			(formElement) => (
-				console.log('elementConfig', formElement.config.elementConfig),
+				console.log('elementConfig', formElement.config),
 				(
 					<Input
 						key={formElement.id}
-						elementType={formElement.config.elementType}
+						type={formElement.config.elementConfig.type}
 						elementConfig={formElement.config.elementConfig}
 						value={formElement.config.value}
 						invalid={!formElement.config.valid}
 						shouldValidate={formElement.config.validation}
 						touched={formElement.config.touched}
-						label={formElement.config.elementConfig.label}
+						label={formElement.config.elementConfig.placeholder}
 						changed={(event) => this.inputChangedHandler(event, formElement.id)}
 					/>
 				)
@@ -117,7 +117,7 @@ class Register extends React.Component {
 		}
 
 		return (
-			<div className={classes.LogIn}>
+			<div className={classes.Login}>
 				{authRedirect}
 				<p>{this.props.authError}</p>
 				<input type="file" onChange={this.fileSelecteHandler} />
@@ -147,7 +147,7 @@ class Register extends React.Component {
 				</form>
 				<GoogleLogin
 					clientId="203139564983-9gd9ebikj3pct8ptmkkt6r2atcf838qu.apps.googleusercontent.com"
-					buttonText="Login"
+					buttonText="Register"
 					onSuccess={responseGoogle}
 					onFailure={responseGoogle}
 				/>

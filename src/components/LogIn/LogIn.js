@@ -94,6 +94,7 @@ class LogIn extends React.Component {
 				shouldValidate={formElement.config.validation}
 				touched={formElement.value.length > 0}
 				changed={(event) => this.inputChangedHandler(event, formElement.id)}
+				placeholder={formElement.config.elementConfig.placeholder}
 			/>
 		));
 
@@ -105,7 +106,7 @@ class LogIn extends React.Component {
 			return <Redirect to="/" />;
 		} else {
 			return (
-				<div className={classes.LogIn}>
+				<div className={classes.Login}>
 					<p>{this.props.authError}</p>
 					<form onSubmit={this.submitHandler}>
 						{form}

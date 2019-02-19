@@ -89,7 +89,7 @@ class SessionList extends Component {
 				if (!this.props.auth.uid) {
 					btnBook = (
 						<NavLink to="/login">
-							<BookButton classN="Book" clicked={() => null} title="BOOK" />
+							<BookButton classN={Classes.Book} clicked={() => null} title="BOOK" />
 						</NavLink>
 					);
 				}

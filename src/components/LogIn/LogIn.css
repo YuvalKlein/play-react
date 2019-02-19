@@ -1,3 +1,10 @@
-.Loginn form button {
-    margin: 30px;
+.Login {
+	max-width: 300px;
+	background-color: transparent;
+	height: 100%;
+	margin: 0 auto;
+	position: relative;
+	z-index: 2;
+	overflow: hidden;
+	text-align: center;
 }

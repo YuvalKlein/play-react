@@ -16,7 +16,7 @@ const input = (props) => {
 			<TextField
 				error={props.touched && !props.valid}
 				type={props.type}
-				id="standard-name"
+				// id="standard-name"
 				label={props.placeholder}
 				className={classes.textField}
 				value={props.value}
