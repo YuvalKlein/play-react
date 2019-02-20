@@ -116,7 +116,12 @@ class SessionList extends Component {
 				</div>
 			);
 		} else {
-			return <Spinner />;
+			return (
+				<div>
+					<Spinner />
+					<NewSession handleNewSession={this.handleAdd} user={this.props.user} auth={this.props.auth} />
+				</div>
+			);
 		}
 	}
 }
@@ -124,8 +129,9 @@ const mapStateToProps = (state) => {
 	for (const s of state.firestoreReducer.ordered.sessionList || []) {
 		if (s.id !== 'LHdfvYSGKNoIIhzt8Gk7') continue;
 	}
+	const sessionList = process.env.NODE_ENV === 'development' ? 'sessionList' : 'sessionList';
 	return {
-		sessionList: state.firestoreReducer.ordered.sessionList,
+		sessionList: state.firestoreReducer.ordered[sessionList],
 		user: state.firebaseReducer.profile,
 		auth: state.firebaseReducer.auth,
 		toggleEdit: state.sessionReducer.toggleEdit

@@ -95,6 +95,7 @@ class LogIn extends React.Component {
 				touched={formElement.value.length > 0}
 				changed={(event) => this.inputChangedHandler(event, formElement.id)}
 				placeholder={formElement.config.elementConfig.placeholder}
+				type={formElement.config.elementConfig.type}
 			/>
 		));
 

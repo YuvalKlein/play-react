@@ -53,7 +53,6 @@ class Register extends React.Component {
 
 	signUpHandler = (event) => {
 		event.preventDefault();
-
 		let user = {
 			email: this.state.controls.email.value,
 			password: this.state.controls.password.value,
@@ -66,9 +65,11 @@ class Register extends React.Component {
 				: 'https://firebasestorage.googleapis.com/v0/b/play-e37a6.appspot.com/o/profile%20pictures%2FNerd_with_Glasses_Emoji.png?alt=media&token=788fc5d7-e587-4f1d-8eea-a3d2b0c4605a',
 			phone: this.state.controls.phone.value,
 			birthDay: this.state.controls.birthDay.value,
-			gender: this.state.controls.gender.value,
+			gender: this.state.gender,
 			created: new Date()
 		};
+		console.log('signUpHandler', user);
+
 		this.props.signUp(user);
 	};
 
@@ -100,7 +101,7 @@ class Register extends React.Component {
 						invalid={!formElement.config.valid}
 						shouldValidate={formElement.config.validation}
 						touched={formElement.config.touched}
-						label={formElement.config.elementConfig.placeholder}
+						placeholder={formElement.config.elementConfig.placeholder}
 						changed={(event) => this.inputChangedHandler(event, formElement.id)}
 					/>
 				)
@@ -123,21 +124,28 @@ class Register extends React.Component {
 				<input type="file" onChange={this.fileSelecteHandler} />
 				<form onSubmit={this.signUpHandler}>
 					{form}
-					{/* <div>
-						<div>
-							<label>
-								<input type="radio" name="gender" value="male" onChange={this.setState({gender: value})} />
-								Male
-							</label>
-						</div>
 
-						<div className="form-check">
-							<label>
-								<input type="radio" name="gender" value="female" />
-								Female
-							</label>
-						</div>
-					</div> */}
+					<div className={classes.Gender}>
+						<label>
+							<input
+								type="radio"
+								name="gender"
+								value="male"
+								onChange={(e) => this.setState({ gender: e.target.value })}
+							/>
+							Male
+						</label>
+
+						<label>
+							<input
+								type="radio"
+								name="gender"
+								value="female"
+								onChange={(e) => this.setState({ gender: e.target.value })}
+							/>
+							Female
+						</label>
+					</div>
 					<div>
 						<Button btnType="Success">Sign up</Button>
 						<p>

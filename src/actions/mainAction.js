@@ -1,9 +1,13 @@
+const sessionList = process.env.NODE_ENV === 'development' ? 'sessionList' : 'sessionList';
+const users = process.env.NODE_ENV === 'development' ? 'users' : 'users';
+
 export const addNewSession = (session) => {
 	return (dispatch, getState, { getFirestore }) => {
 		// make async call to database
+		console.log('addNewSession', session);
 		const firestore = getFirestore();
 		firestore
-			.collection('sessionList')
+			.collection(sessionList)
 			.add(session)
 			.then((res) => {
 				console.log('RESS', res);
@@ -19,7 +23,7 @@ export const removeSession = (session) => {
 		// make async call to database
 		const firestore = getFirestore();
 		firestore
-			.collection('sessionList')
+			.collection(sessionList)
 			.doc(session.id)
 			.delete()
 			.then(() => {
@@ -36,7 +40,7 @@ export const signToSession = (session, players) => {
 		// make async call to database
 		const firestore = getFirestore();
 		firestore
-			.collection('sessionList')
+			.collection(sessionList)
 			.doc(session.id)
 			.set({ ...session, players: players })
 			.then(() => {
@@ -53,7 +57,7 @@ export const removeFromSession = (session, players) => {
 		// make async call to database
 		try {
 			const firestore = getFirestore();
-			await firestore.collection('sessionList').doc(session.id).update({ players: players });
+			await firestore.collection(sessionList).doc(session.id).update({ players: players });
 			console.log('Player successfully removed from class!');
 			dispatch({ type: 'REMOVE_PLAYER_FROM_SESSION', session: session });
 		} catch (err) {
@@ -67,7 +71,7 @@ export const editSession = (session) => {
 		// make async call to database
 		try {
 			const firestore = getFirestore();
-			await firestore.collection('sessionList').doc(session.id).update(session);
+			await firestore.collection(sessionList).doc(session.id).update(session);
 			console.log('Session successfully edited!');
 			dispatch({ type: 'EDIT_SESSION', session: session });
 		} catch (err) {
@@ -127,15 +131,17 @@ export const signUp = (newUser) => {
 
 		firebase
 			.auth()
-			.createUserWithEmailAndPassword(newUser.email, newUser.password, newUser.displayName, newUser.photoURL)
+			.createUserWithEmailAndPassword(newUser.email, newUser.password)
 			.then((resp) => {
-				return firestore.collection('users').doc(resp.user.uid).set({
+				console.log('resp', resp);
+				return firestore.collection(users).doc(resp.user.uid).set({
 					type: 'player',
 					firstName: newUser.firstName,
 					lastName: newUser.lastName,
 					phone: newUser.phone,
 					birthDay: newUser.birthDay,
-					photoURL: newUser.photoURL
+					photoURL: newUser.photoURL,
+					gender: newUser.gender
 				});
 			})
 			.then(() => {

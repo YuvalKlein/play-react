@@ -41,6 +41,7 @@
 		"jest": "23.6.0",
 		"jest-pnp-resolver": "1.0.1",
 		"jest-resolve": "23.6.0",
+		"latest": "^0.2.0",
 		"material-ui-pickers": "^2.1.2",
 		"mini-css-extract-plugin": "0.4.3",
 		"node-sass": "^4.11.0",
@@ -64,7 +65,7 @@
 		"reactstrap": "^6.5.0",
 		"redux": "^4.0.1",
 		"redux-devtools-extension": "^2.13.7",
-		"redux-firestore": "^0.6.1",
+		"redux-firestore": "^0.7.0",
 		"redux-thunk": "^2.3.0",
 		"resolve": "1.8.1",
 		"sass-loader": "^7.1.0",
@@ -85,11 +86,21 @@
 	"eslintConfig": {
 		"extends": "react-app"
 	},
-	"browserslist": [ ">0.2%", "not dead", "not ie <= 11", "not op_mini all" ],
+	"browserslist": [
+		">0.2%",
+		"not dead",
+		"not ie <= 11",
+		"not op_mini all"
+	],
 	"jest": {
-		"collectCoverageFrom": [ "src/**/*.{js,jsx,ts,tsx}", "!src/**/*.d.ts" ],
+		"collectCoverageFrom": [
+			"src/**/*.{js,jsx,ts,tsx}",
+			"!src/**/*.d.ts"
+		],
 		"resolver": "jest-pnp-resolver",
-		"setupFiles": [ "react-app-polyfill/jsdom" ],
+		"setupFiles": [
+			"react-app-polyfill/jsdom"
+		],
 		"testMatch": [
 			"<rootDir>/src/**/__tests__/**/*.{js,jsx,ts,tsx}",
 			"<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}"
@@ -109,10 +120,23 @@
 			"^react-native$": "react-native-web",
 			"^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
 		},
-		"moduleFileExtensions": [ "web.js", "js", "web.ts", "ts", "web.tsx", "tsx", "json", "web.jsx", "jsx", "node" ]
+		"moduleFileExtensions": [
+			"web.js",
+			"js",
+			"web.ts",
+			"ts",
+			"web.tsx",
+			"tsx",
+			"json",
+			"web.jsx",
+			"jsx",
+			"node"
+		]
 	},
 	"babel": {
-		"presets": [ "react-app" ]
+		"presets": [
+			"react-app"
+		]
 	},
 	"devDependencies": {
 		"express": "^4.16.4"

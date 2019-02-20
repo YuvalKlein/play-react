@@ -6,19 +6,18 @@ import TextField from '@material-ui/core/TextField';
 const input = (props) => {
 	let validationError = null;
 
-	if (!props.valid && props.touched) {
+	if (props.invalid && props.touched) {
 		validationError = <p className={classes.ValidationError}>Please enter a valid {props.valueType}</p>;
 	}
 
 	return (
-		<div className={classes.Input}>
-			<label className={classes.Label}>{props.label}</label>
+		<div className={classes.Input2}>
 			<TextField
-				error={props.touched && !props.valid}
+				error={props.touched && props.invalid}
 				type={props.type}
 				// id="standard-name"
 				label={props.placeholder}
-				className={classes.textField}
+				className={classes.textField + ' ' + classes.lableFix}
 				value={props.value}
 				multiline={props.multiline}
 				rows="2"
