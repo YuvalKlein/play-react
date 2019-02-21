@@ -1,5 +1,5 @@
-const sessionList = process.env.NODE_ENV === 'development' ? 'sessionList' : 'sessionList';
-const users = process.env.NODE_ENV === 'development' ? 'users' : 'users';
+const sessionList = process.env.NODE_ENV === 'development' ? 'sLD' : 'sessionList';
+const users = process.env.NODE_ENV === 'development' ? 'uD' : 'users';
 
 export const addNewSession = (session) => {
 	return (dispatch, getState, { getFirestore }) => {

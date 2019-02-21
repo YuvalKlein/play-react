@@ -1,5 +1,7 @@
 import React from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { format } from 'date-fns';
+
 import Map from '../../Map/Map';
 import classes from './SessionInfo.css';
 import Avatar from '../../UI/Avatar/avatat';
@@ -25,33 +27,41 @@ const SessionInfo = (props) => {
 				<Modal isOpen={props.openInfo} toggle={() => props.toggle('toggleInfo')}>
 					<ModalHeader toggle={() => props.toggle('toggleInfo')}>{session.title}</ModalHeader>
 					<ModalBody className={classes.SessionInfo}>
-						<p>
-							{session.date} from {session.time} until {session.endTime} at {session.location}
-						</p>
-						{/* <div className={classes.Map}>
+						<div className={classes.Modal}>
+							<h3>
+								{format(session.date, 'iiii')} {format(session.date, 'dd/MM/yyyy')}
+							</h3>
+							<h4>
+								{session.time} - {session.endTime}
+							</h4>
+							{/* <div className={classes.Map}>
 							<Map />
 						</div> */}
-						<p>Details: {session.details}</p>
-						<p>Players:</p>
-						<div className={classes.Players}>
-							{session.players.map((player, i) => (
-								<div key={i}>
-									<Avatar name={player.firstName} avatar={player.photoURL} />
-								</div>
-							))}
+							<h5>Details: </h5>
+							<p>{session.details}</p>
+							<h5>Players:</h5>
+							<div className={classes.Players}>
+								{session.players.map((player, i) => (
+									<div key={i}>
+										<Avatar name={player.firstName} avatar={player.photoURL} />
+									</div>
+								))}
+							</div>
+							<div>
+								<h6>Craeted By: </h6>
+								<Avatar name={session.createdBy.firstName} avatar={session.createdBy.photoURL} />
+							</div>
 						</div>
-						<div>
-							Craeted By:{' '}
-							<Avatar name={session.createdBy.firstName} avatar={session.createdBy.photoURL} />
-						</div>
+					</ModalBody>
+					<ModalFooter className={classes.Footer}>
 						<ShareButton
 							urll={'https:/playsport.co.il/' + session.id}
 							name={' invite you to play ' + session.title}
 							session={session}
 							clicked={() => {}}
+							size={35}
+							stylee={{ marginRight: '200px' }}
 						/>
-					</ModalBody>
-					<ModalFooter>
 						{editButton}
 						{/* {editButton} */}
 						{props.btnBook}

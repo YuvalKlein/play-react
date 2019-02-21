@@ -26,3 +26,36 @@
 	border-radius: 6px;
 	background-color: #393336;
 }
+
+.Modal {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	justify-content: space-between;
+}
+
+.ModalFull {
+	align-items: center;
+}
+
+h5 {
+	padding-top: 30px;
+}
+
+.Title {
+	margin-bottom: 30px;
+}
+
+.JoinButton {
+	margin-top: 50px;
+}
+
+.Book,
+.Cancel {
+	width: 81px;
+	color: white;
+	height: 32px;
+	border: 0;
+	border-radius: 6px;
+	background-color: #393336;
+}

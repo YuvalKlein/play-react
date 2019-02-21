@@ -89,24 +89,19 @@ class Register extends React.Component {
 		const responseGoogle = (response) => {
 			console.log(response);
 		};
-		let form = formElementsArray.map(
-			(formElement) => (
-				console.log('elementConfig', formElement.config),
-				(
-					<Input
-						key={formElement.id}
-						type={formElement.config.elementConfig.type}
-						elementConfig={formElement.config.elementConfig}
-						value={formElement.config.value}
-						invalid={!formElement.config.valid}
-						shouldValidate={formElement.config.validation}
-						touched={formElement.config.touched}
-						placeholder={formElement.config.elementConfig.placeholder}
-						changed={(event) => this.inputChangedHandler(event, formElement.id)}
-					/>
-				)
-			)
-		);
+		let form = formElementsArray.map((formElement) => (
+			<Input
+				key={formElement.id}
+				type={formElement.config.elementConfig.type}
+				elementConfig={formElement.config.elementConfig}
+				value={formElement.config.value}
+				invalid={!formElement.config.valid}
+				shouldValidate={formElement.config.validation}
+				touched={formElement.config.touched}
+				placeholder={formElement.config.elementConfig.placeholder}
+				changed={(event) => this.inputChangedHandler(event, formElement.id)}
+			/>
+		));
 
 		if (this.props.loading) {
 			form = <Spinner />;

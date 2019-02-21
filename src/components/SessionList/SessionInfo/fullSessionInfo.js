@@ -6,17 +6,20 @@ import { NavLink } from 'react-router-dom';
 
 import * as mainActions from '../../../actions/mainAction';
 import Spinner from '../../UI/Spinner/Spinner';
-// import BookButton from '../../UI/Button/bookButton';
+import BookButton from '../../UI/Button/bookButton';
 
 // import Map from '../../Map/Map';
 import classes from './SessionInfo.css';
+import { format } from 'date-fns';
+
+import Avatar from '../../UI/Avatar/avatat';
 
 const fullSessionInfo = (props) => {
 	// handelRemoveSession = (session) => {
 	// 	this.props.toggleSessiomInfo();
 	// 	this.props.removeSession(session);
 	// };
-
+	console.log('props', props);
 	if (!props.sessionList) {
 		return <Spinner />;
 	}
@@ -27,29 +30,36 @@ const fullSessionInfo = (props) => {
 	let curentSession = session[0].createdBy ? session[0] : { createdBy: {}, players: [] };
 	console.log('curentSession', curentSession);
 	return (
-		<div>
-			<h1>{curentSession.title}</h1>
-			<p>
-				Craeted By: {curentSession.createdBy.firstName + '  ' + curentSession.createdBy.lastName}{' '}
-				<img alt="" className={classes.FaceImg} src={curentSession.createdBy.photoURL} />
-			</p>
-
-			<p>on {curentSession.location}</p>
-			<p>
-				at {curentSession.time} until {curentSession.endTime}
-			</p>
+		<div className={classes.Modal + ' ' + classes.ModalFull}>
+			<h1 className={classes.Title}>{curentSession.title}</h1>
+			<h3>
+				{format(curentSession.date, 'iiii')} {format(curentSession.date, 'dd/MM/yyyy')}
+			</h3>
+			<h4>
+				{curentSession.time} - {curentSession.endTime}
+			</h4>
+			{/* <div className={classes.Map}>
+							<Map />
+						</div> */}
+			<h5>Details: </h5>
 			<p>{curentSession.details}</p>
+			<h5>Players:</h5>
 			<div className={classes.Players}>
 				{curentSession.players.map((player, i) => (
 					<div key={i}>
-						<img alt="" className={classes.FaceImg} src={player.photoURL} />
+						<Avatar name={player.firstName} avatar={player.photoURL} />
 					</div>
 				))}
 			</div>
-			{/* <Map/> */}
-			<NavLink to="register">
-				<button>Join</button>
-			</NavLink>
+			<div>
+				<h6>Craeted By: </h6>
+				<Avatar name={curentSession.createdBy.firstName} avatar={curentSession.createdBy.photoURL} />
+			</div>
+			<div className={classes.JoinButton}>
+				<NavLink to="register">
+					<BookButton clicked={() => {}} classN={classes.Book} title="JOIN" />
+				</NavLink>
+			</div>
 		</div>
 	);
 };

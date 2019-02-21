@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { bindActionCreators } from 'redux';
 import axios from '../../axios-sessions';
-import { format, formatDistance, formatRelative, subDays } from 'date-fns';
+import { format } from 'date-fns';
 
 import * as mainActions from '../../actions/mainAction';
 import Classes from './SessionList.css';
@@ -129,7 +129,7 @@ const mapStateToProps = (state) => {
 	for (const s of state.firestoreReducer.ordered.sessionList || []) {
 		if (s.id !== 'LHdfvYSGKNoIIhzt8Gk7') continue;
 	}
-	const sessionList = process.env.NODE_ENV === 'development' ? 'sessionList' : 'sessionList';
+	const sessionList = process.env.NODE_ENV === 'development' ? 'sLD' : 'sessionList';
 	return {
 		sessionList: state.firestoreReducer.ordered[sessionList],
 		user: state.firebaseReducer.profile,
@@ -142,5 +142,5 @@ function mapDispatchToProps(dispatch) {
 }
 export default compose(
 	connect(mapStateToProps, mapDispatchToProps),
-	firestoreConnect([ { collection: 'sessionList' } ])
+	firestoreConnect([ { collection: process.env.NODE_ENV === 'development' ? 'sLD' : 'sessionList' } ])
 )(SessionList, axios);
