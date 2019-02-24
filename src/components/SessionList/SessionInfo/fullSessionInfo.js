@@ -19,16 +19,13 @@ const fullSessionInfo = (props) => {
 	// 	this.props.toggleSessiomInfo();
 	// 	this.props.removeSession(session);
 	// };
-	console.log('props', props);
 	if (!props.sessionList) {
 		return <Spinner />;
 	}
 
 	const session = props.sessionList.filter((session) => session.id === props.match.params.id);
-	console.log('session', session);
 
 	let curentSession = session[0].createdBy ? session[0] : { createdBy: {}, players: [] };
-	console.log('curentSession', curentSession);
 	return (
 		<div className={classes.Modal + ' ' + classes.ModalFull}>
 			<h1 className={classes.Title}>{curentSession.title}</h1>
@@ -43,7 +40,9 @@ const fullSessionInfo = (props) => {
 						</div> */}
 			<h5>Details: </h5>
 			<p>{curentSession.details}</p>
-			<h5>Players:</h5>
+			<h5>
+				{curentSession.players.length}\{curentSession.maxPlayers} Players:
+			</h5>
 			<div className={classes.Players}>
 				{curentSession.players.map((player, i) => (
 					<div key={i}>
@@ -51,10 +50,10 @@ const fullSessionInfo = (props) => {
 					</div>
 				))}
 			</div>
-			<div>
+			{/* <div>
 				<h6>Craeted By: </h6>
 				<Avatar name={curentSession.createdBy.firstName} avatar={curentSession.createdBy.photoURL} />
-			</div>
+			</div> */}
 			<div className={classes.JoinButton}>
 				<NavLink to="register">
 					<BookButton clicked={() => {}} classN={classes.Book} title="JOIN" />
@@ -65,13 +64,8 @@ const fullSessionInfo = (props) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-	// const sessionList = state.firestoreReducer.data.sessionList;
-	// const id = ownProps.match.params.id;
-	// why I don't have params like in leacture 20 04:40
 	return {
 		sessionList: state.firestoreReducer.ordered.sessionList
-
-		// how the session working when it goes to the sessionReducer
 	};
 };
 

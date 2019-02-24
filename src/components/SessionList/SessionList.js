@@ -5,7 +5,7 @@ import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { bindActionCreators } from 'redux';
 import axios from '../../axios-sessions';
-import { format } from 'date-fns';
+import { format, isBefore } from 'date-fns';
 
 import * as mainActions from '../../actions/mainAction';
 import Classes from './SessionList.css';
@@ -49,8 +49,7 @@ class SessionList extends Component {
 				let nextDay = new Date(session.date).getDate();
 				if (i) {
 					let prevStep = sessionFiltred[i - 1];
-
-					if (new Date(prevStep.date).getDate() < nextDay) {
+					if (isBefore(new Date(prevStep.date), new Date(session.date))) {
 						devider = (
 							<h4 style={{ paddingLeft: '20px' }}>
 								{format(session.date, 'iiii')} {format(session.date, 'dd/MM/yyyy')}

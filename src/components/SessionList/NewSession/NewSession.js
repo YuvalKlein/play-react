@@ -126,20 +126,24 @@ class NewSession extends React.Component {
 							<Input
 								className={classes.NewSession}
 								value={this.state.title}
-								valid={checkValidity(this.state.title, {
-									required: true,
-									minLength: 2
-								})}
+								invalid={
+									!checkValidity(this.state.title, {
+										required: true,
+										minLength: 2
+									})
+								}
 								touched={this.state.titleTouch}
 								changed={(e) => this.handleChange('title', e)}
 								placeholder="Title"
 							/>
 							<Input
 								value={this.state.details}
-								valid={checkValidity(this.state.details, {
-									required: true,
-									minLength: 2
-								})}
+								invalid={
+									!checkValidity(this.state.details, {
+										required: true,
+										minLength: 2
+									})
+								}
 								multiline={true}
 								touched={this.state.detailsTouch}
 								changed={(e) => this.handleChange('details', e)}
@@ -147,10 +151,12 @@ class NewSession extends React.Component {
 							/>
 							<Input
 								value={this.state.location}
-								valid={checkValidity(this.state.location, {
-									required: true,
-									minLength: 2
-								})}
+								invalid={
+									!checkValidity(this.state.location, {
+										required: true,
+										minLength: 2
+									})
+								}
 								touched={this.state.locationTouch}
 								changed={(e) => this.handleChange('location', e)}
 								placeholder="Location"

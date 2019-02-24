@@ -34,5 +34,5 @@ function mapDispatchToProps(dispatch) {
 
 export default compose(
 	connect(mapStateToProps, mapDispatchToProps),
-	firestoreConnect([ { collection: 'sessionList' } ])
+	firestoreConnect([ { collection: process.env.NODE_ENV === 'development' ? 'sLD' : 'sessionList' } ])
 )(account);

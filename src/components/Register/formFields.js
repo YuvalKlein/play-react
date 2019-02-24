@@ -100,7 +100,7 @@ export const controls = {
 		elementType: 'input',
 		elementConfig: {
 			type: 'date',
-			label: 'BirthDay'
+			placeholder: 'BirthDay'
 		},
 		value: '',
 		validation: {

@@ -30,11 +30,14 @@ const mySessions = (props) => {
 	// 	return { sessions };
 };
 
-const mapStateToProps = (state) => ({
-	auth: state.firebaseReducer.auth,
-	user: state.firebaseReducer.profile,
-	sessionList: state.firestoreReducer.ordered.sessionList
-});
+const mapStateToProps = (state) => {
+	const sessionList = process.env.NODE_ENV === 'development' ? 'sLD' : 'sessionList';
+	return {
+		auth: state.firebaseReducer.auth,
+		user: state.firebaseReducer.profile,
+		sessionList: state.firestoreReducer.ordered[sessionList]
+	};
+};
 
 function mapDispatchToProps(dispatch) {
 	return { ...bindActionCreators(mainActions, dispatch) };
@@ -42,5 +45,5 @@ function mapDispatchToProps(dispatch) {
 
 export default compose(
 	connect(mapStateToProps, mapDispatchToProps),
-	firestoreConnect([ { collection: 'sessionList' } ])
+	firestoreConnect([ { collection: process.env.NODE_ENV === 'development' ? 'sLD' : 'sessionList' } ])
 )(mySessions);
