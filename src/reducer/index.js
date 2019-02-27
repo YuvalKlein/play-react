@@ -7,6 +7,7 @@ import fbConfig from '../config/fbConfig';
 
 import sessionReducer from './sessionReducer';
 import userReducer from './userReducer';
+
 const users = process.env.NODE_ENV === 'development' ? 'uD' : 'users';
 const store = createStore(
 	combineReducers({

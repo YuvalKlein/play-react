@@ -7,6 +7,7 @@ import { bindActionCreators } from 'redux';
 import axios from '../../axios-sessions';
 import { format, isBefore } from 'date-fns';
 
+import * as toMobxActions from '../../actions/toMobxActions';
 import * as mainActions from '../../actions/mainAction';
 import Classes from './SessionList.css';
 import SessionView from './SessionView/SessionView';
@@ -47,16 +48,16 @@ class SessionList extends Component {
 			const sessions = sessionFiltred.map((session, i) => {
 				let devider = null;
 				let nextDay = new Date(session.date).getDate();
-				if (i) {
-					let prevStep = sessionFiltred[i - 1];
-					if (isBefore(new Date(prevStep.date), new Date(session.date))) {
-						devider = (
-							<h4 style={{ paddingLeft: '20px' }}>
-								{format(session.date, 'iiii')} {format(session.date, 'dd/MM/yyyy')}
-							</h4>
-						);
-					}
-				}
+				// if (i) {
+				// 	let prevStep = sessionFiltred[i - 1];
+				// 	if (isBefore(new Date(prevStep.date), new Date(session.date))) {
+				// 		devider = (
+				// 			<h4 style={{ paddingLeft: '20px' }}>
+				// 				{format(session.date, 'iiii')} {format(session.date, 'dd/MM/yyyy')}
+				// 			</h4>
+				// 		);
+				// 	}
+				// }
 
 				let players = session.players;
 				let btnBook = false;
@@ -103,9 +104,9 @@ class SessionList extends Component {
 
 			return (
 				<div>
-					<h4 style={{ paddingLeft: '20px' }}>
+					{/* <h4 style={{ paddingLeft: '20px' }}>
 						{format(sessionFiltred[0].date, 'iiii')} {format(sessionFiltred[0].date, 'dd/MM/yyyy')}
-					</h4>
+					</h4> */}
 
 					{sessions}
 					<ShareDialog />

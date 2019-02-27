@@ -6,7 +6,8 @@ const initialState = {
 	inClass: false,
 	shareDialogOpen: false,
 	signOutDialogOpen: false,
-	toggleEdit: false
+	toggleEdit: false,
+	ticket: {}
 };
 
 const sessionReducer = (state = initialState, action) => {
@@ -43,6 +44,14 @@ const sessionReducer = (state = initialState, action) => {
 			return { ...state, inClass: !state.inClass };
 		case 'TOGGLE_EDIT':
 			return { ...state, toggleEdit: !state.toggleEdit, session: action.payload };
+		case 'ADD_NEW_TICKET':
+			console.log('ADD_NEW_TICKET', action.ticket);
+			return {
+				...state,
+				ticket: action.ticket
+			};
+		case 'ADD_NEW_TICKET_ERROR':
+			return { ...state, err: action.err };
 		default:
 			return state;
 	}

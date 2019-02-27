@@ -161,3 +161,21 @@ export const logout = () => {
 		});
 	};
 };
+
+export const addNewTicket = (ticket) => {
+	return (dispatch, getState, { getFirestore }) => {
+		// make async call to database
+		console.log('addNewTicket', ticket);
+		const firestore = getFirestore();
+		firestore
+			.collection('tickets')
+			.add(ticket)
+			.then((res) => {
+				console.log('RESS', res);
+				dispatch({ type: 'ADD_NEW_TICKET', ticket });
+			})
+			.catch((err) => {
+				dispatch({ type: 'ADD_NEW_TICKET_ERROR' }, err);
+			});
+	};
+};
