@@ -38,6 +38,9 @@ class SessionList extends Component {
 	};
 	render() {
 		const sessionLFB = this.props.sessionList;
+		const til = new Date();
+		console.log('til', til);
+		console.log('til type', typeof til);
 
 		if (sessionLFB) {
 			let sessionFiltred = sessionLFB.filter((session) => new Date(session.date) > new Date() - 86400000);
@@ -45,19 +48,22 @@ class SessionList extends Component {
 				return new Date(a.date) - new Date(b.date);
 			});
 
+			console.log('sessionFiltred[]', typeof sessionFiltred[0].date);
+			console.log('sessionFiltred', sessionFiltred);
+
 			const sessions = sessionFiltred.map((session, i) => {
 				let devider = null;
 				let nextDay = new Date(session.date).getDate();
-				// if (i) {
-				// 	let prevStep = sessionFiltred[i - 1];
-				// 	if (isBefore(new Date(prevStep.date), new Date(session.date))) {
-				// 		devider = (
-				// 			<h4 style={{ paddingLeft: '20px' }}>
-				// 				{format(session.date, 'iiii')} {format(session.date, 'dd/MM/yyyy')}
-				// 			</h4>
-				// 		);
-				// 	}
-				// }
+				if (i) {
+					let prevStep = sessionFiltred[i - 1];
+					if (isBefore(new Date(prevStep.date), new Date(session.date))) {
+						devider = (
+							<h4 style={{ paddingLeft: '20px' }}>
+								{format(new Date(session.date), 'iiii')} {format(new Date(session.date), 'dd/MM/yyyy')}
+							</h4>
+						);
+					}
+				}
 
 				let players = session.players;
 				let btnBook = false;
@@ -104,14 +110,14 @@ class SessionList extends Component {
 
 			return (
 				<div>
-					{/* <h4 style={{ paddingLeft: '20px' }}>
-						{format(sessionFiltred[0].date, 'iiii')} {format(sessionFiltred[0].date, 'dd/MM/yyyy')}
-					</h4> */}
+					<h4 style={{ paddingLeft: '20px' }}>
+						{format(new Date(sessionFiltred[0].date), 'iiii')}{' '}
+						{format(new Date(sessionFiltred[0].date), 'dd/MM/yyyy')}
+					</h4>
 
 					{sessions}
 					<ShareDialog />
 					<NewSession handleNewSession={this.handleAdd} user={this.props.user} auth={this.props.auth} />
-					{/* <NewSessions handleNewSession={this.handleAdd} user={this.props.user} auth={this.props.auth} /> */}
 					<SignOutDialog />
 				</div>
 			);

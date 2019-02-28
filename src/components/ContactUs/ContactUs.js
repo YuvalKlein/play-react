@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { NavLink } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import * as mainActions from '../../actions/mainAction';
 import './contactUs.css';
@@ -18,11 +18,12 @@ const contactUs = (props) => {
 	const handleAdd = () => {
 		let ticket = {};
 		ticket = {
-			fullName: props.profile ? props.user.firstName + ' ' + props.user.lastName : fullName,
+			fullName: props.user ? props.user.firstName + ' ' + props.user.lastName : fullName,
 			subject: subject,
 			email: props.auth.email ? props.auth.email : email,
 			message: message,
-			uid: props.auth.uid ? props.auth.uid : null
+			uid: props.auth.uid ? props.auth.uid : null,
+			created: new Date()
 		};
 		props.addNewTicket(ticket);
 		setOpenContactDialog(true);
@@ -46,6 +47,7 @@ const contactUs = (props) => {
 
 	const handleCloseDialog = () => {
 		setOpenContactDialog(false);
+		return <Redirect to="/" />;
 	};
 
 	let emailField = props.auth.email ? (

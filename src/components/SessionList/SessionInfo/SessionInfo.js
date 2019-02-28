@@ -29,7 +29,7 @@ const SessionInfo = (props) => {
 					<ModalBody className={classes.SessionInfo}>
 						<div className={classes.Modal}>
 							<h3>
-								{format(session.date, 'iiii')} {format(session.date, 'dd/MM/yyyy')}
+								{format(new Date(session.date), 'iiii')} {format(new Date(session.date), 'dd/MM/yyyy')}
 							</h3>
 							<h4>
 								{session.time} - {session.endTime}
