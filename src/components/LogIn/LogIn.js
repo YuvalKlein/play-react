@@ -119,12 +119,12 @@ class LogIn extends React.Component {
 							</p>
 						</div>
 					</form>
-					<GoogleLogin
+					{/* <GoogleLogin
 						clientId="203139564983-9gd9ebikj3pct8ptmkkt6r2atcf838qu.apps.googleusercontent.com"
 						buttonText="Login"
 						onSuccess={responseGoogle}
 						onFailure={responseGoogle}
-					/>
+					/> */}
 				</div>
 			);
 		}

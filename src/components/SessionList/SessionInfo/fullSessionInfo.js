@@ -30,7 +30,7 @@ const fullSessionInfo = (props) => {
 		<div className={classes.Modal + ' ' + classes.ModalFull}>
 			<h1 className={classes.Title}>{curentSession.title}</h1>
 			<h3>
-				{format(curentSession.date, 'iiii')} {format(curentSession.date, 'dd/MM/yyyy')}
+				{format(new Date(curentSession.date), 'iiii')} {format(new Date(curentSession.date), 'dd/MM/yyyy')}
 			</h3>
 			<h4>
 				{curentSession.time} - {curentSession.endTime}

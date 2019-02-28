@@ -38,9 +38,6 @@ class SessionList extends Component {
 	};
 	render() {
 		const sessionLFB = this.props.sessionList;
-		const til = new Date();
-		console.log('til', til);
-		console.log('til type', typeof til);
 
 		if (sessionLFB) {
 			let sessionFiltred = sessionLFB.filter((session) => new Date(session.date) > new Date() - 86400000);
@@ -48,12 +45,8 @@ class SessionList extends Component {
 				return new Date(a.date) - new Date(b.date);
 			});
 
-			console.log('sessionFiltred[]', typeof sessionFiltred[0].date);
-			console.log('sessionFiltred', sessionFiltred);
-
 			const sessions = sessionFiltred.map((session, i) => {
 				let devider = null;
-				let nextDay = new Date(session.date).getDate();
 				if (i) {
 					let prevStep = sessionFiltred[i - 1];
 					if (isBefore(new Date(prevStep.date), new Date(session.date))) {

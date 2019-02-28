@@ -73,6 +73,18 @@ h4 {
 	cursor: pointer;
 }
 
+button:disabled {
+	height: 4rem;
+	font-size: 1.5rem;
+	font-weight: bold;
+	background: #0090c0;
+	margin: 50px;
+	border-radius: 6px;
+	color: #c6ced6;
+	border-color: #c6ced6;
+	cursor: pointer;
+}
+
 /* ///// inputs /////*/
 
 /* input:focus ~ label,

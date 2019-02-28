@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router-dom';
@@ -7,12 +7,19 @@ import * as mainActions from '../../actions/mainAction';
 import './contactUs.css';
 import Classes from './contactUs.css';
 import ContactDialog from '../Dialogs/ContactDialog/ContactDialog';
+import { checkValidity } from '../LogIn/form/validation';
 
 const contactUs = (props) => {
+	const [ timeToGoBack, setTimeToGoBack ] = useState(false);
+	const [ formIsValid, setFormIsValid ] = useState(false);
 	const [ fullName, setFullName ] = useState('');
+	const [ fullNameIsValid, setFullNameIsValid ] = useState(false);
 	const [ subject, setSubject ] = useState('');
+	const [ subjectIsValid, setSubjectIsValid ] = useState(false);
 	const [ message, setMessage ] = useState('');
+	const [ messageIsValid, setMessageIsValid ] = useState(false);
 	const [ email, setEmail ] = useState('');
+	const [ emailIsValid, setEmailIsValid ] = useState(false);
 	const [ openContactDialog, setOpenContactDialog ] = useState(false);
 
 	const handleAdd = () => {
@@ -30,30 +37,68 @@ const contactUs = (props) => {
 	};
 
 	const handleFullNameChange = (event) => {
+		console.log('event.target.value', event.target.value);
 		setFullName(event.target.value);
+		let valid = checkValidity;
+		valid = valid(event.target.value, {
+			required: true,
+			minLength: 3
+		});
+		console.log('checkValidity', valid);
+
+		setFullNameIsValid(valid);
 	};
 
 	const handleSubjectChange = (event) => {
 		setSubject(event.target.value);
+		let valid = checkValidity;
+		valid = valid(event.target.value, {
+			required: true,
+			minLength: 3
+		});
+		setSubjectIsValid(valid);
 	};
 
 	const handleMessageChange = (event) => {
 		setMessage(event.target.value);
+		let valid = checkValidity;
+		valid = valid(event.target.value, {
+			required: true,
+			minLength: 3
+		});
+		setMessageIsValid(valid);
 	};
 
 	const handleEmailChange = (event) => {
 		setEmail(event.target.value);
+		let valid = checkValidity;
+		valid = valid(event.target.value, {
+			required: true,
+			isEmail: true
+		});
+		setEmailIsValid(valid);
 	};
 
 	const handleCloseDialog = () => {
 		setOpenContactDialog(false);
-		return <Redirect to="/" />;
+		setTimeToGoBack(true);
 	};
 
+	let goBack = null;
+
+	if (timeToGoBack) {
+		goBack = <Redirect to="/" />;
+	}
+
 	let emailField = props.auth.email ? (
-		<input type="email" className={Classes.Input} value={props.auth.email} disabled={true} />
+		<input type="email" className={Classes.Input} value={props.auth.email} placeholder="Email" disabled={true} />
 	) : (
-		<input type="email" className={Classes.Input} placeholder="Email" onChange={(e) => handleEmailChange(e)} />
+		<input
+			type="email"
+			className={Classes.Input}
+			placeholder="your@email.com"
+			onChange={(e) => handleEmailChange(e)}
+		/>
 	);
 
 	let hello = props.user.firstName ? (
@@ -78,6 +123,11 @@ const contactUs = (props) => {
 		/>
 	);
 
+	console.log('fullNameIsValid: ', fullNameIsValid);
+	console.log('messageIsValid: ', messageIsValid);
+	console.log('subjectIsValid: ', subjectIsValid);
+	console.log('emailIsValid: ', emailIsValid);
+
 	return (
 		<div className={Classes.Container}>
 			{hello}
@@ -90,10 +140,15 @@ const contactUs = (props) => {
 				placeholder="Subject"
 			/>
 			<textarea className={Classes.Erea} onChange={(e) => handleMessageChange(e)} placeholder="Message" />
-			<button className={Classes.Send} onClick={handleAdd}>
+			<button
+				className={Classes.Send}
+				onClick={handleAdd}
+				disabled={!(fullNameIsValid && messageIsValid && subjectIsValid && emailIsValid)}
+			>
 				Send
 			</button>
 			<ContactDialog open={openContactDialog} close={handleCloseDialog} />
+			{goBack}
 		</div>
 	);
 };

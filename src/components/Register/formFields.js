@@ -61,41 +61,12 @@ export const controls = {
 		},
 		value: '',
 		validation: {
-			required: true
+			required: true,
+			isNumeric: true
 		},
 		valid: false,
 		touched: false
 	},
-	// male: {
-	// 	elementType: 'input',
-	// 	elementConfig: {
-	// 		type: 'radio',
-	// 		name: 'gender',
-	// 		value: 'male',
-	// 		label: 'Male'
-	// 	},
-	// 	value: '',
-	// 	validation: {
-	// 		required: true
-	// 	},
-	// 	valid: true,
-	// 	touched: false
-	// },
-	// female: {
-	// 	elementType: 'input',
-	// 	elementConfig: {
-	// 		type: 'radio',
-	// 		name: 'gender',
-	// 		value: 'female',
-	// 		label: 'Female'
-	// 	},
-	// 	value: '',
-	// 	validation: {
-	// 		required: true
-	// 	},
-	// 	valid: false,
-	// 	touched: false
-	// },
 	birthDay: {
 		elementType: 'input',
 		elementConfig: {

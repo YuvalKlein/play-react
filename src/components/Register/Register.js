@@ -18,7 +18,8 @@ class Register extends React.Component {
 		alreadyUser: true,
 		selectedFile: null,
 		controls: controls,
-		gender: ''
+		gender: '',
+		formIsValid: false
 	};
 
 	fileSelecteHandler = (event) => {
@@ -32,6 +33,7 @@ class Register extends React.Component {
 			},
 			() => {
 				storage.ref('profile').child(image.name).getDownloadURL().then((url) => {
+					console.log('url', url);
 					this.setState({ selectedFile: url });
 				});
 			}
@@ -48,7 +50,11 @@ class Register extends React.Component {
 				touched: true
 			}
 		};
-		this.setState({ controls: updatedControls });
+		let formIsValid = true;
+		for (let inputIdentifier in updatedControls) {
+			formIsValid = updatedControls[inputIdentifier].valid && formIsValid && this.state.gender;
+		}
+		this.setState({ controls: updatedControls, formIsValid: formIsValid });
 	};
 
 	signUpHandler = (event) => {
@@ -78,6 +84,27 @@ class Register extends React.Component {
 	};
 
 	render() {
+		let imageUploder = (
+			<div>
+				<label htmlFor="file-input">
+					<img src="add-user-icon.jpg" alt="add-user-icon" />
+				</label>
+
+				<input id="file-input" onChange={this.fileSelecteHandler} type="file" style={{ display: 'none' }} />
+			</div>
+		);
+
+		if (this.state.selectedFile) {
+			imageUploder = (
+				<div>
+					<label htmlFor="file-input">
+						<img className={classes.Pic} src={this.state.selectedFile} alt="user-icon" />
+					</label>
+					<input id="file-input" onChange={this.fileSelecteHandler} type="file" style={{ display: 'none' }} />
+				</div>
+			);
+		}
+
 		let formElementsArray = [];
 		for (let key in this.state.controls) {
 			formElementsArray.push({
@@ -116,10 +143,8 @@ class Register extends React.Component {
 			<div className={classes.Login}>
 				{authRedirect}
 				<p>{this.props.authError}</p>
-				<input type="file" onChange={this.fileSelecteHandler} />
+				{imageUploder}
 				<form onSubmit={this.signUpHandler}>
-					{form}
-
 					<div className={classes.Gender}>
 						<label>
 							<input
@@ -141,19 +166,22 @@ class Register extends React.Component {
 							Female
 						</label>
 					</div>
+					{form}
 					<div>
-						<Button btnType="Success">Sign up</Button>
+						<Button btnType="Success" disabled={!this.state.formIsValid}>
+							Sign up
+						</Button>
 						<p>
 							Already PLAYer? <NavLink to="/login">Sign in</NavLink>
 						</p>
 					</div>
 				</form>
-				<GoogleLogin
+				{/* <GoogleLogin
 					clientId="203139564983-9gd9ebikj3pct8ptmkkt6r2atcf838qu.apps.googleusercontent.com"
 					buttonText="Register"
 					onSuccess={responseGoogle}
 					onFailure={responseGoogle}
-				/>
+				/> */}
 			</div>
 		);
 	}
