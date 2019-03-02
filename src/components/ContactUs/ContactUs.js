@@ -11,7 +11,6 @@ import { checkValidity } from '../LogIn/form/validation';
 
 const contactUs = (props) => {
 	const [ timeToGoBack, setTimeToGoBack ] = useState(false);
-	const [ formIsValid, setFormIsValid ] = useState(false);
 	const [ fullName, setFullName ] = useState('');
 	const [ fullNameIsValid, setFullNameIsValid ] = useState(false);
 	const [ subject, setSubject ] = useState('');
@@ -123,11 +122,6 @@ const contactUs = (props) => {
 		/>
 	);
 
-	console.log('fullNameIsValid: ', fullNameIsValid);
-	console.log('messageIsValid: ', messageIsValid);
-	console.log('subjectIsValid: ', subjectIsValid);
-	console.log('emailIsValid: ', emailIsValid);
-
 	return (
 		<div className={Classes.Container}>
 			{hello}
@@ -143,7 +137,13 @@ const contactUs = (props) => {
 			<button
 				className={Classes.Send}
 				onClick={handleAdd}
-				disabled={!(fullNameIsValid && messageIsValid && subjectIsValid && emailIsValid)}
+				disabled={
+					props.auth.email ? (
+						!(messageIsValid && subjectIsValid)
+					) : (
+						!(fullNameIsValid && messageIsValid && subjectIsValid && emailIsValid)
+					)
+				}
 			>
 				Send
 			</button>
