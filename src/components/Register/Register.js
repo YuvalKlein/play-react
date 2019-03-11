@@ -155,7 +155,7 @@ class Register extends React.Component {
 		const clientId =
 			process.env.NODE_ENV === 'development'
 				? '203139564983-m3ngreuimvo4gc5etbkaek62cjhgjrk4.apps.googleusercontent.com'
-				: '203139564983-9gd9ebikj3pct8ptmkkt6r2atcf838qu.apps.googleusercontent.com';
+				: '203139564983-2p44bgn0vpf9s8n0ocle9ndln5t1lmrr.apps.googleusercontent.com';
 
 		return (
 			<div className={classes.Login}>
