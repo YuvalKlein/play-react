@@ -128,12 +128,13 @@ export const signUp = (newUser) => {
 	return (dispatch, getState, { getFirebase, getFirestore }) => {
 		const firebase = getFirebase();
 		const firestore = getFirestore();
+		console.log('newUser', newUser);
 
 		firebase
 			.auth()
 			.createUserWithEmailAndPassword(newUser.email, newUser.password)
 			.then((resp) => {
-				console.log('resp', resp);
+				console.log('resp', resp.user);
 				return firestore.collection(users).doc(resp.user.uid).set({
 					type: 'player',
 					firstName: newUser.firstName,

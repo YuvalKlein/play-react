@@ -82,7 +82,17 @@ class LogIn extends React.Component {
 
 		const responseGoogle = (response) => {
 			console.log(response);
+			const creds = {
+				email: response.profileObj.email,
+				password: response.googleId
+			};
+			this.props.signIn(creds);
 		};
+
+		const clientId =
+			process.env.NODE_ENV === 'development'
+				? '203139564983-m3ngreuimvo4gc5etbkaek62cjhgjrk4.apps.googleusercontent.com'
+				: '203139564983-9gd9ebikj3pct8ptmkkt6r2atcf838qu.apps.googleusercontent.com';
 
 		let form = formElementsArray.map((formElement) => (
 			<Input
@@ -119,12 +129,13 @@ class LogIn extends React.Component {
 							</p>
 						</div>
 					</form>
-					{/* <GoogleLogin
-						clientId="203139564983-9gd9ebikj3pct8ptmkkt6r2atcf838qu.apps.googleusercontent.com"
+					<GoogleLogin
+						// clientId="203139564983-9gd9ebikj3pct8ptmkkt6r2atcf838qu.apps.googleusercontent.com" production
+						clientId={clientId}
 						buttonText="Login"
 						onSuccess={responseGoogle}
 						onFailure={responseGoogle}
-					/> */}
+					/>
 				</div>
 			);
 		}

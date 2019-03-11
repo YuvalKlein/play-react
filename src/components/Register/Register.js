@@ -115,6 +115,19 @@ class Register extends React.Component {
 
 		const responseGoogle = (response) => {
 			console.log(response);
+			const user = {
+				firstName: response.profileObj.givenName,
+				lastName: response.profileObj.familyName,
+				photoURL: response.profileObj.imageUrl,
+				email: response.profileObj.email,
+				type: 'player',
+				created: new Date(),
+				password: response.googleId,
+				phone: this.state.controls.phone.value,
+				birthDay: this.state.controls.birthDay.value,
+				gender: this.state.gender
+			};
+			this.props.signUp(user);
 		};
 		let form = formElementsArray.map((formElement) => (
 			<Input
@@ -138,6 +151,11 @@ class Register extends React.Component {
 		if (this.props.isAuthenticated) {
 			authRedirect = <Redirect to="/" />;
 		}
+
+		const clientId =
+			process.env.NODE_ENV === 'development'
+				? '203139564983-m3ngreuimvo4gc5etbkaek62cjhgjrk4.apps.googleusercontent.com'
+				: '203139564983-9gd9ebikj3pct8ptmkkt6r2atcf838qu.apps.googleusercontent.com';
 
 		return (
 			<div className={classes.Login}>
@@ -176,12 +194,13 @@ class Register extends React.Component {
 						</p>
 					</div>
 				</form>
-				{/* <GoogleLogin
-					clientId="203139564983-9gd9ebikj3pct8ptmkkt6r2atcf838qu.apps.googleusercontent.com"
+				<GoogleLogin
+					// clientId="203139564983-9gd9ebikj3pct8ptmkkt6r2atcf838qu.apps.googleusercontent.com"
+					clientId={clientId}
 					buttonText="Register"
 					onSuccess={responseGoogle}
 					onFailure={responseGoogle}
-				/> */}
+				/>
 			</div>
 		);
 	}
