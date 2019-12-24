@@ -20,7 +20,6 @@ export const addNewSession = session => {
     // make async call to database
     console.log("addNewSession", session);
     const sessionWithNulls = convertUndefinedToNull(session);
-    debugger;
     const firestore = getFirestore();
     firestore
       .collection(sessionList)

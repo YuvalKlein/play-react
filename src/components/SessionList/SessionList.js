@@ -110,7 +110,7 @@ class SessionList extends Component {
             </h4>
           )}
 
-          {sessions}
+          {sessions.length ? sessions : <div>There are no sessions available</div>}
           <ShareDialog />
           <NewSession
             handleNewSession={this.handleAdd}
