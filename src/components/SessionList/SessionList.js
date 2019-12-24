@@ -102,18 +102,24 @@ class SessionList extends Component {
 			});
 
 			return (
-				<div>
-					<h4 style={{ paddingLeft: '20px' }}>
-						{format(new Date(sessionFiltred[0].date), 'iiii')}{' '}
-						{format(new Date(sessionFiltred[0].date), 'dd/MM/yyyy')}
-					</h4>
+        <div>
+          {sessionFiltred && sessionFiltred[0] && sessionFiltred[0].date && (
+            <h4 style={{ paddingLeft: "20px" }}>
+              {format(new Date(sessionFiltred[0].date), "iiii")}{" "}
+              {format(new Date(sessionFiltred[0].date), "dd/MM/yyyy")}
+            </h4>
+          )}
 
-					{sessions}
-					<ShareDialog />
-					<NewSession handleNewSession={this.handleAdd} user={this.props.user} auth={this.props.auth} />
-					<SignOutDialog />
-				</div>
-			);
+          {sessions}
+          <ShareDialog />
+          <NewSession
+            handleNewSession={this.handleAdd}
+            user={this.props.user}
+            auth={this.props.auth}
+          />
+          <SignOutDialog />
+        </div>
+      );
 		} else {
 			return (
 				<div>
